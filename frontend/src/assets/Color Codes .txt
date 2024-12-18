@@ -1,0 +1,12 @@
+Background # F2EFFF
+Drop down # EFECFF
+Selected Color # E4DFFF
+Side bar Background and Table background # ffffff
+Seach bar Feild Color # F8FAFC
+Table Heading # 000929
+Table Data # 475569
+
+Switch Page in the bottom "
+Non Selected # EDE9FE
+Numers # 4759FF
+Seleted # 4759FF
