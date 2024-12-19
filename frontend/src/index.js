@@ -11,20 +11,11 @@ import CombinedLeaveDataTable from "./users/branch-admin/CombinedLeaveDataTable.
 import RejectedLeave from "./users/branch-admin/RejectedLeave";
 import ApprovedLeave from "./users/branch-admin/ApprovedLeave";
 import App from "./App";
-import SuperAdminLayout from "./SuperAdminLayout.jsx";
 import TeacherLayout from "./teacherLayout.jsx";
-import SuperAdminDashboard from "./users/super-admin/SuperAdminDashboard.jsx";
-import SuperAdminUser from "./users/super-admin/SuperAdminUser.jsx";
-import SuperAdminBatch from "./users/super-admin/SuperAdminBranch.jsx";
-import UpdateHolidayModal from "./users/super-admin/holiday/UpdateHolidayModal.jsx";
-import ViewHolidayModal from "./users/super-admin/holiday/ViewHolidayModal.jsx";
-import AddHolidayModal from "./users/super-admin/holiday/AddHolidayModal.jsx";
-import SuperAdminHoliday from "./users/super-admin/SuperAdminHoliday.jsx";
 import TeacherDashboard from "./users/teacher/TeacherDashboard.jsx";
 import BranchAdminLeaveDataTable from "./users/branch-admin/BranchAdminLeaveDataTable.jsx";
 import TeacherLeave from "./users/teacher/TeacherLeaveDataTable.jsx";
 import LoginForm from "./loginForm";
-import SuperAdminLeaveDataTable from "./users/super-admin/SuperAdminLeaveDataTable.jsx";
 import BranchClassDaysList from "./users/branch-admin/BranchClassDaysList.jsx";
 import BranchDailyTimeSlotsList from "./users/branch-admin/timeSlots/BranchDailyTimeSlotsList.jsx";
 import ClassSlotAssignmentsList from "./users/branch-admin/ClassSlotAssignmentsList.jsx";
@@ -55,11 +46,13 @@ import GuardianStudentAttendancePage from "./users/guardian/attendance/GuardianS
 import GuardianStudentsPageAttendanceSingle from "./users/guardian/attendanceSingle/GuardianStudentsPageAttendanceSingle.jsx";
 import GuardianStudentAttendancePageSingle from "./users/guardian/attendanceSingle/GuardianStudentAttendancePageSingle.jsx";
 import GuardianStudentDiaryPage from "./users/guardian/Diary/GuardianStudentDiaryPage.jsx";
+import SuperAdminBatch from "./users/branch-admin/SuperAdminBranch.jsx";
+import SuperAdminUser from "./users/branch-admin/SuperAdminUser.jsx";
+
 
 const adminName = localStorage.getItem("adminName");
 const userRole = "Super Admin";
 const adminEmail = localStorage.getItem("adminEmail");
-const username = localStorage.getItem("username");
 const dairy = localStorage.getItem("dairy");
 const machineAttendance = localStorage.getItem("machineAttendance");
 const branchTypeAdmin = localStorage.getItem("branchTypeAdmin");
@@ -71,7 +64,6 @@ export {
   userRole,
   adminName,
   adminEmail,
-  username,
   branchTypeAdmin,
   Dashboard,
   ClassSection,
@@ -86,21 +78,14 @@ export {
   AddStudent,
   ViewStudent,
   EditStudent,
-  SuperAdminLayout,
-  SuperAdminDashboard,
   SuperAdminBatch,
   SuperAdminUser,
-  SuperAdminHoliday,
-  AddHolidayModal,
-  ViewHolidayModal,
-  UpdateHolidayModal,
   TeacherDashboard,
   TeacherLeave,
   TeacherLayout,
   baseURLDoc,
   CombinedLeaveDataTable,
   BranchAdminLeaveDataTable,
-  SuperAdminLeaveDataTable,
   BranchClassDaysList,
   BranchDailyTimeSlotsList,
   TeacherAssign,

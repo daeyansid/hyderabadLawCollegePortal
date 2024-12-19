@@ -4,7 +4,6 @@ import { fetchTeacherById, updateTeacher } from '../../../../api/teacherApi';
 
 const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) => {
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
         fullName: '',
         cnicNumber: '',
@@ -33,7 +32,6 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
             try {
                 const teacherData = await fetchTeacherById(teacherId);
                 setFormData({
-                    username: teacherData.data.userId?.username || '',
                     email: teacherData.data.userId?.email || '',
                     fullName: teacherData.data.fullName || '',
                     cnicNumber: teacherData.data.cnicNumber || '',
@@ -181,19 +179,6 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                 <h2 className="text-2xl font-semibold text-indigo-900 mb-6">Edit Teacher Details</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4">
-                        {/* Username - Disabled */}
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                                disabled
-                            />
-                        </div>
-
                         {/* Email - Disabled */}
                         <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Email</label>

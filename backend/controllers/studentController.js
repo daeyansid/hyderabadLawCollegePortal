@@ -1,7 +1,6 @@
 // controllers/studentController.js
 
 const Student = require("../models/Student");
-const StudentOldAcademicInfo = require("../models/StudentOldAcademicInfo");
 const User = require("../models/User");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");

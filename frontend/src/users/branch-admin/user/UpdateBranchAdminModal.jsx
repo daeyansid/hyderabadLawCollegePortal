@@ -31,9 +31,7 @@ const UpdateBranchAdminModal = ({ showModal, setShowModal, admin, reloadData }) 
         cnicNumber: formatCnicNumber(admin.cnicNumber || ''),
         gender: admin.gender || '',
         address: admin.address || '',
-        salary: admin.salary || '',
         joinDate: admin.joinDate ? new Date(admin.joinDate).toISOString().split('T')[0] : '',
-        adminId: admin.adminId || '',
         photo: null,
         password: '',
     });
@@ -226,29 +224,6 @@ const UpdateBranchAdminModal = ({ showModal, setShowModal, admin, reloadData }) 
                                     onChange={handleInputChange}
                                     className="w-full p-2 border border-gray-300 rounded-md"
                                     required
-                                />
-                            </div>
-                            <div className="mb-4 col-span-2">
-                                <label className="block text-gray-700 font-semibold">Salary</label>
-                                <input
-                                    type="number"
-                                    name="salary"
-                                    value={formData.salary}
-                                    onChange={handleInputChange}
-                                    className="w-full p-2 border border-gray-300 rounded-md"
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4 col-span-2">
-                                <label className="block text-gray-700 font-semibold cursor-no-drop">Admin ID</label>
-                                <input
-                                    type="text"
-                                    name="adminId"
-                                    value={formData.adminId}
-                                    onChange={handleInputChange}
-                                    className="cursor-no-drop w-full p-2 border border-gray-300 rounded-md"
-                                    required
-                                    disabled
                                 />
                             </div>
                             <div className="mb-4 col-span-2">

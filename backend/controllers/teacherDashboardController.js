@@ -1,5 +1,4 @@
 // controllers/teacherDashboardController.js
-const TeacherLeave = require('../models/TeacherLeave');
 const ClassSlotAssignments = require('../models/ClassSlotAssignments');
 const mongoose = require('mongoose');
 

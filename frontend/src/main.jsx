@@ -9,7 +9,6 @@ import {
   Dashboard,
   UserManagementStaff,
   App,
-  SuperAdminLayout,
   LoginForm,
   UserManagementGuardian,
   UserManagementStudent,
@@ -17,16 +16,13 @@ import {
   ViewStudent,
   AddStudent,
   UserManagementTeacher,
-  SuperAdminDashboard,
   SuperAdminBatch,
   SuperAdminUser,
-  SuperAdminHoliday,
   TeacherDashboard,
   TeacherLeave,
   TeacherLayout,
   CombinedLeaveDataTable,
   BranchAdminLeaveDataTable,
-  SuperAdminLeaveDataTable,
   BranchClassDaysList,
   BranchDailyTimeSlotsList,
   TeacherAssign,
@@ -88,6 +84,10 @@ function MainApp() {
               />
             }
           >
+            <Route path="branch" element={<SuperAdminBatch />} />
+            <Route path="user" element={<SuperAdminUser />} />
+
+
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="class-section" element={<ClassSection />} />
             <Route path="user-management/teacher" element={<UserManagementTeacher />} />
@@ -107,7 +107,7 @@ function MainApp() {
           </Route>
 
           {/* Super Admin Routes */}
-          <Route
+          {/* <Route
             path="/super-admin/*"
             element={
               <PrivateRoute
@@ -121,7 +121,7 @@ function MainApp() {
             <Route path="user" element={<SuperAdminUser />} />
             <Route path="leave" element={<SuperAdminLeaveDataTable />} />
             <Route path="holiday" element={<SuperAdminHoliday />} />
-          </Route>
+          </Route> */}
 
           {/* Teacher Routes */}
           <Route

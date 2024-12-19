@@ -53,10 +53,6 @@ const ViewGuardianModal = ({ showModal, setShowModal, guardianId }) => {
                 <h2 className="text-2xl font-semibold text-indigo-900 mb-6">Guardian Details</h2>
                 <div className="grid grid-cols-3 gap-4">
                     <div className="mb-4">
-                        <label className="block text-gray-700 font-semibold">Username</label>
-                        <p className="text-gray-900">{guardianData.userId?.username || 'N/A'}</p>
-                    </div>
-                    <div className="mb-4">
                         <label className="block text-gray-700 font-semibold">Email</label>
                         <p className="text-gray-900">{guardianData.userId?.email || 'N/A'}</p>
                     </div>

@@ -23,23 +23,15 @@ const BranchAdminSchema = new Schema({
         type: String,
         required: [true, "Address is required"]
     },
-    salary: { 
-        type: Number,
-        required: [true, "Salary is required"] 
-    },
     joinDate: { 
         type: Date,
+        default: Date.now, // Set default to the current date and time
         required: [true, "Join Date is required"]
     },
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'user',
         required: [true, "User ID is required"]
-    },
-    adminId: {
-        type: String,
-        required: [true, "Admin ID is required"],
-        unique: true
     },
     photo: {
         type: String,

@@ -48,7 +48,7 @@ const ViewBranchModal = ({ showModal, setShowModal, branch }) => {
                         <p>{branch.branchSettings.machineAttendance ? "Enabled" : "Disabled"}</p>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-semibold">Dairy</label>
+                        <label className="block text-gray-700 font-semibold">Notice</label>
                         <p>{branch.branchSettings.dairy ? "Enabled" : "Disabled"}</p>
                     </div>
                     <div>

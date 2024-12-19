@@ -8,7 +8,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { validateRequiredFields } = require('../utils/validateRequiredFields');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
-const Guardian = require('../models/Guardian');
 const Section = require('../models/Section');
 const Class = require('../models/Class');
 require('dotenv').config();
@@ -187,110 +186,79 @@ exports.login = async (req, res) => {
                         responseData.branchAdmin = null;
                     }
                 }
-                else if (user.userRole === 'teacher') {
-                    // Find the BranchAdmin document
-                    const branchAdmin = await Teacher.findOne({ userId: user.id }).populate('userId');
-                    if (branchAdmin) {
-                        responseData.branchAdmin = branchAdmin;
+                // else if (user.userRole === 'teacher') {
+                //     // Find the BranchAdmin document
+                //     const branchAdmin = await Teacher.findOne({ userId: user.id }).populate('userId');
+                //     if (branchAdmin) {
+                //         responseData.branchAdmin = branchAdmin;
 
-                        // Find the Branch document using the assignedTo field
-                        const branch = await Branch.findOne({ _id: branchAdmin.branchId });
-                        if (branch) {
-                            responseData.branch = branch;
+                //         // Find the Branch document using the assignedTo field
+                //         const branch = await Branch.findOne({ _id: branchAdmin.branchId });
+                //         if (branch) {
+                //             responseData.branch = branch;
 
-                            // Find the BranchSetting document using the branchSettings field
-                            const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
-                            if (branchSetting) {
-                                responseData.branchSetting = branchSetting;
-                            }
+                //             // Find the BranchSetting document using the branchSettings field
+                //             const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
+                //             if (branchSetting) {
+                //                 responseData.branchSetting = branchSetting;
+                //             }
 
-                            // Add additional fields to response
-                            responseData.branchId = branch._id;
-                        } else {
-                            responseData.branchId = null;
-                        }
+                //             // Add additional fields to response
+                //             responseData.branchId = branch._id;
+                //         } else {
+                //             responseData.branchId = null;
+                //         }
 
-                        responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
-                        responseData.fullName = branchAdmin.fullName || null;
-                        responseData.sectionId =  null;
-                        responseData.classId =  null;
-                    } else {
-                        responseData.branchAdmin = null;
-                    }
-                }
-                else if (user.userRole === 'student') {
-                    // Find the BranchAdmin document
-                    const branchAdmin = await Student.findOne({ userId: user.id }).populate('userId');
-                    if (branchAdmin) {
-                        responseData.branchAdmin = branchAdmin;
+                //         responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
+                //         responseData.fullName = branchAdmin.fullName || null;
+                //         responseData.sectionId =  null;
+                //         responseData.classId =  null;
+                //     } else {
+                //         responseData.branchAdmin = null;
+                //     }
+                // }
+                // else if (user.userRole === 'student') {
+                //     // Find the BranchAdmin document
+                //     const branchAdmin = await Student.findOne({ userId: user.id }).populate('userId');
+                //     if (branchAdmin) {
+                //         responseData.branchAdmin = branchAdmin;
 
-                        // Find the Branch document using the assignedTo field
-                        const branch = await Branch.findOne({ _id: branchAdmin.branchId });
-                        if (branch) {
-                            responseData.branch = branch;
+                //         // Find the Branch document using the assignedTo field
+                //         const branch = await Branch.findOne({ _id: branchAdmin.branchId });
+                //         if (branch) {
+                //             responseData.branch = branch;
 
-                            // Find the BranchSetting document using the branchSettings field
-                            const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
-                            if (branchSetting) {
-                                responseData.branchSetting = branchSetting;
-                            }
+                //             // Find the BranchSetting document using the branchSettings field
+                //             const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
+                //             if (branchSetting) {
+                //                 responseData.branchSetting = branchSetting;
+                //             }
 
-                            // Find the sectionData
-                            const SectionData = await Section.findOne({ _id: branchAdmin.sectionId });
-                            if (SectionData) {
-                                responseData.SectionData = SectionData;
-                                responseData.sectionId = SectionData._id;
+                //             // Find the sectionData
+                //             const SectionData = await Section.findOne({ _id: branchAdmin.sectionId });
+                //             if (SectionData) {
+                //                 responseData.SectionData = SectionData;
+                //                 responseData.sectionId = SectionData._id;
 
-                                // Find the classData
-                                const classData = await Class.findOne({ _id: branchAdmin.classId });
-                                if (classData) {
-                                    responseData.classData = classData;
-                                    responseData.classId = classData._id;
-                                }
-                            }
+                //                 // Find the classData
+                //                 const classData = await Class.findOne({ _id: branchAdmin.classId });
+                //                 if (classData) {
+                //                     responseData.classData = classData;
+                //                     responseData.classId = classData._id;
+                //                 }
+                //             }
 
-                            responseData.branchId = branch._id;
-                        } else {
-                            responseData.branchId = null;
-                        }
+                //             responseData.branchId = branch._id;
+                //         } else {
+                //             responseData.branchId = null;
+                //         }
 
-                        responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
-                        responseData.fullName = branchAdmin.fullName || null;
-                    } else {
-                        responseData.branchAdmin = null;
-                    }
-                }
-                else if (user.userRole === 'guardian') {
-                    // Find the BranchAdmin document
-                    const branchAdmin = await Guardian.findOne({ userId: user.id }).populate('userId');
-                    if (branchAdmin) {
-                        responseData.branchAdmin = branchAdmin;
-
-                        // Find the Branch document using the assignedTo field
-                        const branch = await Branch.findOne({ _id: branchAdmin.branchId });
-                        if (branch) {
-                            responseData.branch = branch;
-
-                            // Find the BranchSetting document using the branchSettings field
-                            const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
-                            if (branchSetting) {
-                                responseData.branchSetting = branchSetting;
-                            }
-
-                            // Add additional fields to response
-                            responseData.branchId = branch._id;
-                            responseData.sectionId =  null;
-                            responseData.classId =  null;
-                        } else {
-                            responseData.branchId = null;
-                        }
-
-                        responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
-                        responseData.fullName = branchAdmin.fullName || null;
-                    } else {
-                        responseData.branchAdmin = null;
-                    }
-                }
+                //         responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
+                //         responseData.fullName = branchAdmin.fullName || null;
+                //     } else {
+                //         responseData.branchAdmin = null;
+                //     }
+                // }
 
                 // Send response with success
                 res.cookie('token', token, { httpOnly: true });
@@ -337,10 +305,10 @@ exports.registerSuperAdmin = async (req, res) => {
 
 // Register branchAdmin
 exports.registerBranchAdmin = async (req, res) => {
-    const { username, password, email, userRole, fullName, cnicNumber, phoneNumber, address, salary, gender } = req.body;
+    const { password, email, userRole, fullName, cnicNumber, phoneNumber, address, gender } = req.body;
 
     // Validate required fields
-    const missingFields = validateRequiredFields({ username, password, email, userRole, fullName, cnicNumber, phoneNumber, address, salary, gender });
+    const missingFields = validateRequiredFields({ password, email, userRole, fullName, cnicNumber, phoneNumber, address, gender });
     if (missingFields.length > 0) {
         return sendErrorResponse(res, 400, `Missing fields: ${missingFields.join(', ')}`);
     }
@@ -357,7 +325,6 @@ exports.registerBranchAdmin = async (req, res) => {
 
         // Create a new User entry
         const user = new User({
-            username,
             password: hashedPassword,
             email,
             userRole,
@@ -371,7 +338,6 @@ exports.registerBranchAdmin = async (req, res) => {
             cnicNumber,
             phoneNumber,
             address,
-            salary,
             gender,
             userId: savedUser._id
         });
@@ -398,104 +364,3 @@ exports.registerBranchAdmin = async (req, res) => {
         }
     }
 };
-// ==============
-
-// Reset Password
-// exports.resetPassword = async (req, res) => {
-//     const { token, newPassword } = req.body;
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//         const user = await User.findById(decoded.id);
-
-//         if (!user) {
-//             return sendErrorResponse(res, 400, 'Invalid or expired token');
-//         }
-
-//         // Check if the token is still valid
-//         if (user.token !== token) {
-//             return sendErrorResponse(res, 400, 'Invalid or expired token');
-//         }
-
-//         // Hash the new password and update the user's password
-//         user.password = await bcrypt.hash(newPassword, 10);
-//         user.token = null;  // Clear the token
-//         await user.save();
-
-//         sendSuccessResponse(res, 200, 'Password has been reset successfully');
-//     } catch (err) {
-//         console.error(err.message);
-//         sendErrorResponse(res, 500, 'Server error', err);
-//     }
-// };
-
-// // Switch session to a branch admin or back to super admin
-// exports.switchSession = async (req, res) => {
-//     const { branchAdminId } = req.body;
-
-//     try {
-//         let user;
-
-//         if (branchAdminId === 'Super Admin') {
-//             // Find the super admin by role
-//             user = await User.findOne({ userRole: 'Super Admin' });
-//         } else {
-//             user = await User.findById(branchAdminId);
-//             if (!user || user.userRole !== 'Branch Admin') {
-//                 return sendErrorResponse(res, 404, 'Branch admin not found');
-//             }
-//         }
-
-//         if (!user) {
-//             return sendErrorResponse(res, 404, 'User not found');
-//         }
-
-//         const token = jwt.sign(
-//             { id: user.id, role: user.userRole },
-//             process.env.JWT_SECRET,
-//             { expiresIn: '1h' }
-//         );
-
-//         res.cookie('token', token, { httpOnly: true });
-//         sendSuccessResponse(res, 200, 'Login successful', { token, user });
-//     } catch (err) {
-//         console.error(err.message);
-//         sendErrorResponse(res, 500, 'Server error', err);
-//     }
-// };
-
-// // Password Recovery
-// exports.forgotPassword = async (req, res) => {
-//     const { email } = req.body;
-
-//     try {
-//         const user = await User.findOne({ email });
-//         if (!user) {
-//             return sendErrorResponse(res, 400, 'User not found');
-//         }
-
-//         const token = jwt.sign(
-//             { id: user.id },
-//             process.env.JWT_SECRET,
-//             { expiresIn: '3h' }
-//         );
-
-//         const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
-
-//         await sendEmail({
-//             to: user.email,
-//             subject: 'Password Reset',
-//             text: `Click here to reset your password: ${resetUrl}`,
-//             html: `<p>Click <a href="${resetUrl}">here</a> to reset your password</p>`
-//         });
-
-//         user.token = token;
-//         await user.save();
-
-//         sendSuccessResponse(res, 200, 'Password reset link sent');
-//     } catch (err) {
-//         console.error(err.message);
-//         sendErrorResponse(res, 500, 'Server error', err);
-//     }
-// };
-// ==============

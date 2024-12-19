@@ -4,7 +4,6 @@ import { createTeacher } from '../../../../api/teacherApi';
 
 const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
     const [formData, setFormData] = useState({
-        username: '',
         password: '',
         email: '',
         userRole: 'teacher',
@@ -119,7 +118,6 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
     const handleCloseModal = () => {
         setShowModal(false);
         setFormData({
-            username: '',
             password: '',
             email: '',
             userRole: 'teacher',
@@ -145,16 +143,6 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                 <h2 className="text-2xl font-semibold text-indigo-900 mb-6">Add New Teacher</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4">
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                        </div>
                         <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Password</label>
                             <input

@@ -15,6 +15,7 @@ import { adminName, adminEmail, machineAttendance as importedMachineAttendance, 
 export default function Aside() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserManagementOpen, setIsUserManagementOpen] = useState(false);
+    const [IsBranchAdminManagementOpen, setIsBranchAdminManagementOpen] = useState(false);
     const [isClassSectionOpen, setIsClassSectionOpen] = useState(false);
     const [isLeaveManagementOpen, setIsLeaveManagementOpen] = useState(false);
     const [isAssignOpen, setIsAssignOpen] = useState(false);
@@ -77,6 +78,29 @@ export default function Aside() {
                         {/* User Management */}
                         <li>
                             <button
+                                onClick={() => toggleMenu(setIsBranchAdminManagementOpen)}
+                                className="whitespace-nowrap flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
+                            >
+                                <img src={userIcon} alt="User Management" />
+                                <span className="ms-3 text-custom-blue">Branch & Admin</span>
+                            </button>
+                            {IsBranchAdminManagementOpen && (
+                                <div className="flex flex-col items-start pl-6 md:pl-8">
+                                    <ul>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/branch">Branch</Link>
+                                        </li>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/user">Admin</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </li>
+
+                        {/* User Management */}
+                        <li>
+                            <button
                                 onClick={() => toggleMenu(setIsUserManagementOpen)}
                                 className="whitespace-nowrap flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
@@ -86,9 +110,6 @@ export default function Aside() {
                             {isUserManagementOpen && (
                                 <div className="flex flex-col items-start pl-6 md:pl-8">
                                     <ul>
-                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/staff">Admin Staff</Link>
-                                        </li>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
                                             <Link to="/branch-admin/user-management/teacher">Teacher</Link>
                                         </li>

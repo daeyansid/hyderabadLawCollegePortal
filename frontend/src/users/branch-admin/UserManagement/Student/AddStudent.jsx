@@ -14,7 +14,6 @@ import { getBranchById } from "../../../../api/branchApi";
 const AddStudent = () => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
-    username: "",
     password: "",
     email: "",
     fullName: "",
@@ -178,7 +177,6 @@ const AddStudent = () => {
     } else if (currentStep === 2) {
       if (!guardianCnic) newErrors.guardianCnic = "Guardian CNIC is required.";
     } else if (currentStep === 5) {
-      if (!formData.username) newErrors.username = "Username is required.";
       if (!formData.password) newErrors.password = "Password is required.";
       if (!formData.email) newErrors.email = "Email is required.";
     } else if (currentStep === 6) {
@@ -842,21 +840,6 @@ const AddStudent = () => {
 
         {step === 5 && (
           <>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-              {errors.username && (
-                <p className="text-red-600">{errors.username}</p>
-              )}
-            </div>
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold">
                 Password

@@ -2,18 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    username: { 
-        type: String, 
-        required: [true, "Username is required"] 
-    },
-    password: { 
-        type: String, 
-        required: [true, "Password is required"] 
-    },
     email: { 
         type: String, 
         required: [true, "Email is required"], 
         unique: true 
+    },
+    password: { 
+        type: String, 
+        required: [true, "Password is required"] 
     },
     userRole: {
         type: String,
@@ -26,7 +22,7 @@ const UserSchema = new Schema({
     },
     lastLogin: {
         type: Date,
-        default: null // Initially set to null; update on login
+        default: null
     },
 }, {
     timestamps: true,

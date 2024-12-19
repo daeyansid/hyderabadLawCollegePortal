@@ -69,7 +69,6 @@ export default function LoginForm() {
           token,
           userRole: role,
           userId: user._id,
-          username: user.username,
           adminSelfId: branchAdmin?._id || "",
           adminName: branchAdmin?.fullName || "",
           adminEmail: user.email,

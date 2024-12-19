@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import 'font-awesome/css/font-awesome.min.css';
 import { useNavigate } from 'react-router-dom';
-import { username } from '../../index';
 import userIcon from '../../assets/user.svg';
 import { useAuth } from '../../AuthProvider';
 
@@ -75,7 +74,7 @@ export default function Nav({ toggleSidebar }) {
                     {dropdownOpen && (
                         <div ref={dropdownRef} className="absolute right-0 top-14 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow-lg z-40">
                             <div className="px-4 py-3">
-                                <p className="text-sm text-gray-900">{username}</p>
+                                <p className="text-sm text-gray-900">Testnnkkkn</p>
                             </div>
                             <ul className="py-1">
                                 <li>

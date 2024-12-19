@@ -8,7 +8,6 @@ export function AuthProvider({ children }) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState(null);
     const [userInfo, setUserInfo] = useState({
-        username: '',
         adminName: '',
         adminEmail: '',
         branchTypeAdmin: '',
@@ -29,7 +28,6 @@ export function AuthProvider({ children }) {
             setIsAuthenticated(true);
             setUserRole(role);
             setUserInfo({
-                username: localStorage.getItem('username') || '',
                 adminName: localStorage.getItem('adminName') || '',
                 adminEmail: localStorage.getItem('adminEmail') || '',
                 branchTypeAdmin: localStorage.getItem('branchTypeAdmin') || '',
@@ -44,13 +42,12 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (data) => {
-        const { token, userRole, userId, username, adminName, adminEmail, branchId, branchTypeAdmin, adminSelfId, machineAttendance, dairy, sectionId, classId } = data;
+        const { token, userRole, userId, adminName, adminEmail, branchId, branchTypeAdmin, adminSelfId, machineAttendance, dairy, sectionId, classId } = data;
 
         // Update localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('userRole', userRole);
         localStorage.setItem('userId', userId);
-        localStorage.setItem('username', username);
         localStorage.setItem('adminName', adminName);
         localStorage.setItem('adminEmail', adminEmail);
         localStorage.setItem('branchId', branchId);
@@ -65,7 +62,6 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(true);
         setUserRole(userRole);
         setUserInfo({
-            username,
             adminName,
             adminEmail,
             branchTypeAdmin,
@@ -86,7 +82,6 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(false);
         setUserRole(null);
         setUserInfo({
-            username: '',
             adminName: '',
             adminEmail: '',
             branchTypeAdmin: '',

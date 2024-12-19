@@ -201,7 +201,7 @@ const CreateBranchModal = ({ showModal, setShowModal, reloadBranches }) => {
                                 onChange={handleCheckboxChange}
                                 className="h-5 w-5 custom-checkbox"
                             />
-                            <span className="block text-gray-700 font-semibold">Dairy</span>
+                            <span className="block text-gray-700 font-semibold">Notice</span>
                         </div>
                     </div>
                     <div className="flex justify-end space-x-4">

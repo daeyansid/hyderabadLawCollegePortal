@@ -1,5 +1,4 @@
 const ClassAttendance = require('../models/ClassAttendance');
-const Holiday = require('../models/Holiday');
 const Student = require('../models/Student');
 const moment = require('moment');
 const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');

@@ -229,9 +229,6 @@ const ViewStudent = () => {
         </h3>
         <div className="grid grid-cols-2 gap-4">
           <p>
-            <strong>Username:</strong> {studentData.userId.username}
-          </p>
-          <p>
             <strong>Email:</strong> {studentData.userId.email}
           </p>
         </div>

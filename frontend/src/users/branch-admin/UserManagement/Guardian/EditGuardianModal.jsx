@@ -4,7 +4,6 @@ import { fetchGuardianById, updateGuardian } from '../../../../api/guardianApi';
 
 const EditGuardianModal = ({ showModal, setShowModal, guardianId, reloadData }) => {
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
         fullName: '',
         relationship: '',
@@ -26,7 +25,6 @@ const EditGuardianModal = ({ showModal, setShowModal, guardianId, reloadData }) 
             try {
                 const guardianData = await fetchGuardianById(guardianId);
                 setFormData({
-                    username: guardianData.data.userId?.username || '',
                     email: guardianData.data.userId?.email || '',
                     fullName: guardianData.data.fullName || '',
                     relationship: guardianData.data.relationship || '',
@@ -156,17 +154,6 @@ const EditGuardianModal = ({ showModal, setShowModal, guardianId, reloadData }) 
                 <h2 className="text-2xl font-semibold text-indigo-900 mb-6">Edit Guardian Details</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-3 gap-4">
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                disabled
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                        </div>
                         <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Email</label>
                             <input

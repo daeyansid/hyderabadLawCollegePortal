@@ -53,10 +53,6 @@ const ViewBranchAdminModal = ({ showModal, setShowModal, admin }) => {
                         <p>{admin.fullName}</p>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-semibold">Username</label>
-                        <p>{admin.userId.username}</p>
-                    </div>
-                    <div>
                         <label className="block text-gray-700 font-semibold">Email</label>
                         <p>{admin.userId.email}</p>
                     </div>
@@ -77,16 +73,8 @@ const ViewBranchAdminModal = ({ showModal, setShowModal, admin }) => {
                         <p>{admin.address}</p>
                     </div>
                     <div>
-                        <label className="block text-gray-700 font-semibold">Salary</label>
-                        <p>{admin.salary}</p>
-                    </div>
-                    <div>
                         <label className="block text-gray-700 font-semibold">Join Date</label>
                         <p>{moment(admin.joinDate).format('YYYY-MM-DD')}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Admin ID</label>
-                        <p>{admin.adminId}</p>
                     </div>
                     <div className="col-span-2">
                         <label className="block text-gray-700 font-semibold">Photo</label>

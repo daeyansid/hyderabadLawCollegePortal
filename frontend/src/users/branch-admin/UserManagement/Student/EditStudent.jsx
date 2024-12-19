@@ -7,7 +7,6 @@ const EditStudent = () => {
     const { id } = useParams();
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
-        username: '',
         email: '',
         fullName: '',
         admissionClass: '',
@@ -61,7 +60,6 @@ const EditStudent = () => {
                 const studentData = response;
 
                 setFormData({
-                    username: studentData.userId.username,
                     email: studentData.userId.email,
                     fullName: studentData.fullName,
                     admissionClass: studentData.admissionClass,
@@ -158,7 +156,6 @@ const EditStudent = () => {
         } else if (currentStep === 2) {
             if (!guardianCnic) newErrors.guardianCnic = "Guardian CNIC is required.";
         } else if (currentStep === 5) {
-            if (!formData.username) newErrors.username = "Username is required.";
             if (!formData.email) newErrors.email = "Email is required.";
         } else if (currentStep === 6) {
             if (!formData.monthlyFees) newErrors.monthlyFees = "Monthly Fees is required.";
@@ -681,17 +678,6 @@ const EditStudent = () => {
 
                 {step === 5 && (
                     <>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Username</label>
-                            <input
-                                type="text"
-                                name="username"
-                                value={formData.username}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                            {errors.username && <p className="text-red-600">{errors.username}</p>}
-                        </div>
                         <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Password (Optional)</label>
                             <input
