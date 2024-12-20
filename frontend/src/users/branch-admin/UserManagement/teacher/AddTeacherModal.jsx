@@ -16,8 +16,8 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
         basicSalary: '',
         branchId: '',
         joinDate: '',
-        teacherId: '',
         photo: null,
+        natureOfAppointment: '',
     });
 
     useEffect(() => {
@@ -130,8 +130,8 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
             basicSalary: '',
             branchId: '',
             joinDate: '',
-            teacherId: '',
             photo: null,
+            natureOfAppointment: 'permanent', // Added new field
         });
     };
 
@@ -144,23 +144,27 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-2 gap-4">
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                className="w-full p-2 border border-gray-300 rounded-md"
-                            />
-                        </div>
-                        <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Email</label>
                             <input
                                 type="email"
                                 name="email"
+                                placeholder="Enter email address"
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-gray-700 font-semibold">Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="Enter password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4">
@@ -168,9 +172,11 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                             <input
                                 type="text"
                                 name="fullName"
+                                placeholder="Enter full name"
                                 value={formData.fullName}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4">
@@ -178,10 +184,12 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                             <input
                                 type="text"
                                 name="cnicNumber"
+                                placeholder="00000-0000000-0"
                                 value={formData.cnicNumber}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
                                 maxLength="15"
+                                required
                             />
                         </div>
                         <div className="mb-4">
@@ -189,10 +197,12 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                             <input
                                 type="text"
                                 name="phoneNumber"
+                                placeholder="0000-0000000"
                                 value={formData.phoneNumber}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
                                 maxLength="12"
+                                required
                             />
                         </div>
                         <div className="mb-4">
@@ -200,9 +210,11 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                             <input
                                 type="text"
                                 name="address"
+                                placeholder="Enter complete address"
                                 value={formData.address}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4">
@@ -212,6 +224,7 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                                 value={formData.gender}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             >
                                 <option value="">Select Gender</option>
                                 <option value="Male">Male</option>
@@ -223,30 +236,38 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                             <input
                                 type="text"
                                 name="cast"
+                                placeholder="Enter cast"
                                 value={formData.cast}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Basic Salary</label>
+                            <label className="block text-gray-700 font-semibold">Pay per Hr</label>
                             <input
                                 type="number"
                                 name="basicSalary"
+                                placeholder="Enter pay per hour"
                                 value={formData.basicSalary}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Teacher ID</label>
-                            <input
-                                type="text"
-                                name="teacherId"
-                                value={formData.teacherId}
+                            <label className="block text-gray-700 font-semibold">Nature of Appointment</label>
+                            <select
+                                name="natureOfAppointment"
+                                value={formData.natureOfAppointment}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
-                            />
+                                required
+                            >
+                                <option value="">Select Nature of Appointment</option>
+                                <option value="permanent">Permanent</option>
+                                <option value="visiting">Visiting</option>
+                            </select>
                         </div>
                         <div className="mb-4 col-span-2">
                             <label className="block text-gray-700 font-semibold">Join Date</label>
@@ -256,6 +277,7 @@ const AddTeacherModal = ({ showModal, setShowModal, reloadData }) => {
                                 value={formData.joinDate}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
                         <div className="mb-4 col-span-2">

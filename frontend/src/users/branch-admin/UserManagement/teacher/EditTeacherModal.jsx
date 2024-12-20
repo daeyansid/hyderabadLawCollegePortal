@@ -16,7 +16,8 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
         joinDate: '',
         teacherId: '',
         photo: null,
-        password: '', // Initialize password as empty
+        password: '',
+        natureOfAppointment: '', // Ensure it's initialized
     });
 
     useEffect(() => {
@@ -45,6 +46,7 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                     teacherId: teacherData.data.teacherId || '',
                     photo: null,
                     password: '', // Ensure password is blank on load
+                    natureOfAppointment: teacherData.data.natureOfAppointment || '', // Add this line
                 });
             } catch (error) {
                 Swal.fire({
@@ -198,10 +200,11 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                             <input
                                 type="password"
                                 name="password"
+                                placeholder="Enter new password (optional)"
                                 value={formData.password}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
-                                placeholder="Leave blank to keep current password"
+                                minLength="6"
                             />
                         </div>
 
@@ -223,10 +226,13 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                             <input
                                 type="text"
                                 name="cnicNumber"
+                                placeholder="XXXXX-XXXXXXX-X"
                                 value={formData.cnicNumber}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}"
                                 maxLength="15"
+                                required
                             />
                         </div>
 
@@ -234,12 +240,15 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                         <div className="mb-4">
                             <label className="block text-gray-700 font-semibold">Phone Number</label>
                             <input
-                                type="text"
+                                type="tel"
                                 name="phoneNumber"
+                                placeholder="03XX-XXXXXXX"
                                 value={formData.phoneNumber}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                pattern="[0-9]{4}-[0-9]{7}"
                                 maxLength="12"
+                                required
                             />
                         </div>
 
@@ -249,9 +258,11 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                             <input
                                 type="text"
                                 name="address"
+                                placeholder="Enter complete address"
                                 value={formData.address}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
 
@@ -263,6 +274,7 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                                 value={formData.gender}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             >
                                 <option value="">Select Gender</option>
                                 <option value="Male">Male</option>
@@ -276,9 +288,11 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                             <input
                                 type="text"
                                 name="cast"
+                                placeholder="Enter cast"
                                 value={formData.cast}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
 
@@ -288,22 +302,29 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                             <input
                                 type="number"
                                 name="basicSalary"
+                                placeholder="Enter pay per hour"
                                 value={formData.basicSalary}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                min="0"
+                                required
                             />
                         </div>
 
-                        {/* Teacher ID */}
+                        {/* Nature of Appointment */}
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Teacher ID</label>
-                            <input
-                                type="text"
-                                name="teacherId"
-                                value={formData.teacherId}
+                            <label className="block text-gray-700 font-semibold">Nature of Appointment</label>
+                            <select
+                                name="natureOfAppointment"
+                                value={formData.natureOfAppointment}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
-                            />
+                                required
+                            >
+                                <option value="">Select Nature of Appointment</option>
+                                <option value="permanent">Permanent</option>
+                                <option value="visiting">Visiting</option>
+                            </select>
                         </div>
 
                         {/* Join Date */}
@@ -315,6 +336,7 @@ const EditTeacherModal = ({ showModal, setShowModal, teacherId, reloadData }) =>
                                 value={formData.joinDate}
                                 onChange={handleInputChange}
                                 className="w-full p-2 border border-gray-300 rounded-md"
+                                required
                             />
                         </div>
 

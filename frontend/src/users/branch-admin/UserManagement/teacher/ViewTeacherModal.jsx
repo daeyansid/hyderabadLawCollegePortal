@@ -72,82 +72,99 @@ const ViewTeacherModal = ({ showModal, setShowModal, teacherId }) => {
             onClick={handleOverlayClick}
         >
             <div
-                className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full max-h-full overflow-y-auto"
+                className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto m-4"
                 onClick={(e) => e.stopPropagation()}
             >
-                <h2 className="text-2xl font-semibold text-indigo-900 mb-4">Teacher Details</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Email</label>
-                        <p>{teacherData.userId.email}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Full Name</label>
-                        <p>{teacherData.fullName}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">CNIC Number</label>
-                        <p>{formatCnicNumber(teacherData.cnicNumber)}</p>
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Phone Number</label>
-                        <p>{formatPhoneNumber(teacherData.phoneNumber)}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Address</label>
-                        <p>{teacherData.address}</p>
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Gender</label>
-                        <p>{teacherData.gender}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Cast</label>
-                        <p>{teacherData.cast}</p>
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Basic Salary</label>
-                        <p>{teacherData.basicSalary}</p>
-                    </div>
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Join Date</label>
-                        <p>{moment(teacherData.joinDate).format('YYYY-MM-DD')}</p>
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-700 font-semibold">Teacher ID</label>
-                        <p>{teacherData.teacherId}</p>
-                    </div>
-
-                    <div className="col-span-2">
-                        <label className="block text-gray-700 font-semibold">Branch</label>
-                        <p>{teacherData.branchId ? teacherData.branchId.branchName : 'N/A'}</p>
-                    </div>
-
-                    <div className="col-span-2">
-                        <label className="block text-gray-700 font-semibold">Photo</label>
-                        {imageUrl ? (
-                            <img
-                                src={imageUrl}
-                                alt="Teacher"
-                                className="w-32 h-32 object-cover rounded-md"
-                            />
-                        ) : (
-                            <p>No photo available</p>
-                        )}
-                    </div>
-                </div>
-                <div className="flex justify-end space-x-4 mt-6">
+                {/* Header Section */}
+                <div className="relative bg-indigo-600 text-white p-6 rounded-t-xl">
                     <button
-                        type="button"
                         onClick={handleCloseModal}
-                        className="bg-gray-300 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-400"
+                        className="absolute top-4 right-4 text-white hover:text-gray-200"
                     >
-                        Close
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                     </button>
+                    <h2 className="text-2xl font-bold">Teacher Profile</h2>
+                </div>
+
+                {/* Profile Section */}
+                <div className="p-6">
+                    <div className="flex flex-col md:flex-row gap-6 mb-6">
+                        {/* Photo Section */}
+                        <div className="w-full md:w-1/3 flex flex-col items-center">
+                            <div className="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-indigo-100">
+                                {teacherData.photo ? (
+                                    <img 
+                                        src={imageUrl} 
+                                        alt={teacherData.fullName}
+                                        className="w-full h-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full bg-indigo-100 flex items-center justify-center">
+                                        <svg className="w-20 h-20 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
+                            <h3 className="text-xl font-semibold text-center">{teacherData.fullName}</h3>
+                            <p className="text-gray-500 text-center">{teacherData.userId.email}</p>
+                        </div>
+
+                        {/* Details Section */}
+                        <div className="w-full md:w-2/3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Personal Information */}
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <h4 className="font-semibold text-indigo-600 mb-3">Personal Information</h4>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <label className="text-sm text-gray-500">CNIC Number</label>
+                                            <p className="font-medium">{formatCnicNumber(teacherData.cnicNumber)}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500">Phone Number</label>
+                                            <p className="font-medium">{teacherData.phoneNumber}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500">Gender</label>
+                                            <p className="font-medium">{teacherData.gender}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500">Cast</label>
+                                            <p className="font-medium">{teacherData.cast}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Employment Details */}
+                                <div className="bg-gray-50 p-4 rounded-lg">
+                                    <h4 className="font-semibold text-indigo-600 mb-3">Employment Details</h4>
+                                    <div className="space-y-2">
+                                        <div>
+                                            <label className="text-sm text-gray-500">Basic Salary</label>
+                                            <p className="font-medium">Rs. {teacherData.basicSalary}/hr</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500">Join Date</label>
+                                            <p className="font-medium">{moment(teacherData.joinDate).format('YYYY-MM-DD')}</p>
+                                        </div>
+                                        <div>
+                                            <label className="text-sm text-gray-500">Nature of Appointment</label>
+                                            <p className="font-medium capitalize">{teacherData.natureOfAppointment}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Address Section */}
+                            <div className="bg-gray-50 p-4 rounded-lg mt-4">
+                                <h4 className="font-semibold text-indigo-600 mb-3">Address</h4>
+                                <p className="text-gray-700">{teacherData.address}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

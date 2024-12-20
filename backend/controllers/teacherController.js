@@ -13,7 +13,6 @@ exports.registerTeacher = (req, res) => {
         }
 
         const {
-            username,
             password,
             email,
             userRole,
@@ -26,13 +25,12 @@ exports.registerTeacher = (req, res) => {
             basicSalary,
             branchId,
             joinDate,
-            teacherId,
+            natureOfAppointment,
         } = req.body;
 
         const photo = req.file ? req.file.filename : null;
 
         const missingFields = validateRequiredFields({
-            username,
             password,
             email,
             userRole,
@@ -45,7 +43,7 @@ exports.registerTeacher = (req, res) => {
             basicSalary,
             branchId,
             joinDate,
-            teacherId,
+            natureOfAppointment,
         });
 
         if (missingFields.length > 0) {
@@ -63,18 +61,11 @@ exports.registerTeacher = (req, res) => {
                 return sendErrorResponse(res, 400, 'Email already exists');
             }
 
-            // Check if teacherId already exists
-            const existingTeacher = await Teacher.findOne({ teacherId });
-            if (existingTeacher) {
-                return sendErrorResponse(res, 400, 'Teacher ID already exists');
-            }
-
             // Hash the password
             const hashedPassword = await bcrypt.hash(password, 10);
 
             // Create and save new user
             const user = new User({
-                username,
                 password: hashedPassword,
                 email,
                 userRole
@@ -94,7 +85,7 @@ exports.registerTeacher = (req, res) => {
                 userId: savedUser._id,
                 branchId,
                 joinDate: new Date(joinDate),
-                teacherId,
+                natureOfAppointment,
                 photo
             });
 
@@ -139,7 +130,7 @@ exports.updateTeacher = (req, res) => {
             basicSalary,
             branchId,
             joinDate,
-            teacherId,
+            natureOfAppointment,
             password, // Extract password from request body
         } = req.body;
 
@@ -157,7 +148,7 @@ exports.updateTeacher = (req, res) => {
                 basicSalary,
                 branchId,
                 joinDate: joinDate ? new Date(joinDate) : undefined,
-                teacherId,
+                natureOfAppointment,
                 ...(photo && { photo }) 
             };
 
