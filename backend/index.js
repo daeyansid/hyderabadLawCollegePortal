@@ -10,7 +10,6 @@ const branchAdminRoutes = require("./routes/branchAdmin.js");
 const branchTypeRoutes = require("./routes/branchTypeRoutes.js");
 
 const classRoutes = require("./routes/classRoutes.js");
-const sectionRoutes = require("./routes/sectionRoutes.js");
 const subjectRoutes = require("./routes/subjectRoutes.js");
 
 const teacherRoutes = require("./routes/teacherRoutes.js");
@@ -75,7 +74,6 @@ app.use("/api/branch-type", branchTypeRoutes);
 
 
 app.use("/api/class", classRoutes);
-app.use("/api/section", sectionRoutes);
 app.use("/api/subject", subjectRoutes);
 
 

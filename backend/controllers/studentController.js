@@ -36,7 +36,6 @@ exports.registerStudent = async (req, res) => {
       permanentAddress,
       emergencyContactPerson,
       emergencyPhoneNumber,
-      guardianId,
       studentOldAcademicInfo = "[]", // Default to empty array if not present
       photocopiesCnic,
       birthCertificate,
@@ -50,20 +49,6 @@ exports.registerStudent = async (req, res) => {
       sectionId,
       batchYear,
     } = req.body;
-
-    // Attempt to parse studentOldAcademicInfo
-    let academicInfoArray = [];
-    try {
-      academicInfoArray = JSON.parse(studentOldAcademicInfo);
-      if (!Array.isArray(academicInfoArray)) {
-        throw new Error("studentOldAcademicInfo must be an array");
-      }
-    } catch (parseError) {
-      console.error("Error parsing studentOldAcademicInfo:", parseError);
-      return res
-        .status(400)
-        .json({ message: "Invalid format for studentOldAcademicInfo" });
-    }
 
     // Validate required fields
     const requiredFields = [
@@ -81,7 +66,6 @@ exports.registerStudent = async (req, res) => {
       "permanentAddress",
       "emergencyContactPerson",
       "emergencyPhoneNumber",
-      "guardianId",
       "monthlyFees",
       "branchId",
       "classId",
@@ -140,6 +124,7 @@ exports.registerStudent = async (req, res) => {
       }
 
       const rollNumberNumericPart = await initializeRollNumberCounter();
+
       // 3. Generate Roll Number
       // Fetch the current number of students in the specified batch year
       // const studentsInBatch = await Student.countDocuments({ batchYear });
@@ -167,7 +152,6 @@ exports.registerStudent = async (req, res) => {
         permanentAddress,
         emergencyContactPerson,
         emergencyPhoneNumber,
-        guardianId,
         userId: savedUser._id, // Link to the User document
         photocopiesCnic: photocopiesCnic === "true", // Convert to boolean
         birthCertificate: birthCertificate === "true",
@@ -185,33 +169,6 @@ exports.registerStudent = async (req, res) => {
       });
 
       const savedStudent = await student.save();
-
-      // 6. Add Old Academic Information
-      const academicInfoPromises = academicInfoArray.map(async (info) => {
-        // Validate each academic info object
-        const { instituteName, location, from, to, upToClass } = info;
-        // if (!instituteName || !location || !from || !to || !upToClass) {
-        //     throw new Error("Incomplete academic information provided");
-        // }
-
-        const academicInfo = new StudentOldAcademicInfo({
-          studentId: savedStudent._id,
-          instituteName,
-          location,
-          from,
-          to,
-          upToClass,
-        });
-
-        const savedAcademicInfo = await academicInfo.save();
-        return savedAcademicInfo._id;
-      });
-
-      const academicInfoIds = await Promise.all(academicInfoPromises);
-
-      // 7. Update the Student with Academic Info IDs
-      savedStudent.studentOldAcademicInfoId = academicInfoIds;
-      await savedStudent.save();
 
       // 8. Respond with Success
       res.status(201).json({
@@ -256,7 +213,6 @@ exports.updateStudent = async (req, res) => {
       permanentAddress,
       emergencyContactPerson,
       emergencyPhoneNumber,
-      guardianId,
       studentOldAcademicInfo = "[]", // Default to empty array if not present
       photocopiesCnic,
       birthCertificate,
@@ -307,7 +263,6 @@ exports.updateStudent = async (req, res) => {
       student.permanentAddress = permanentAddress;
       student.emergencyContactPerson = emergencyContactPerson;
       student.emergencyPhoneNumber = emergencyPhoneNumber;
-      student.guardianId = guardianId;
       student.photocopiesCnic = photocopiesCnic;
       student.birthCertificate = birthCertificate;
       student.leavingCertificate = leavingCertificate;
@@ -373,7 +328,6 @@ exports.getAllStudent = async (req, res) => {
   try {
     const students = await Student.find({ branchId })
       .populate("userId")
-      .populate("guardianId")
       .populate("studentOldAcademicInfoId")
       .populate("branchId")
       .populate("classId")
@@ -392,7 +346,6 @@ exports.getStudentById = async (req, res) => {
   try {
     const student = await Student.findById(id)
       .populate("userId")
-      .populate("guardianId")
       .populate("studentOldAcademicInfoId")
       .populate("branchId")
       .populate("classId")

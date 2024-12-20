@@ -45,11 +45,11 @@ export const createClass = async (classData) => {
         Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Class created successfully!',
+            text: 'Semester created successfully!',
         });
         return response.data; // Handle the newly created class
     } catch (error) {
-        console.error('Error creating class:', error);
+        console.error('Error creating Semester:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -66,11 +66,11 @@ export const updateClass = async (id, classData) => {
         Swal.fire({
             icon: 'success',
             title: 'Success',
-            text: 'Class updated successfully!',
+            text: 'Semester updated successfully!',
         });
         return response.data; // Handle the updated class
     } catch (error) {
-        console.error('Error updating class:', error);
+        console.error('Error updating Semester:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error',

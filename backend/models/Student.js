@@ -62,42 +62,6 @@ const studentSchema = new Schema({
         required: true,
     },
 
-    // step - 2 (Guardian)
-    guardianId: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'guardian', 
-        required: true 
-    },
-
-    // step - 3 (student Old Academic information)
-    studentOldAcademicInfoId: [{ 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'studentOldAcademicInfo'
-    }],
-    
-    // step - 4 (Submitted Documents)
-    // booleans values
-    photocopiesCnic: { 
-        type: Boolean, 
-        default: false 
-    },
-    birthCertificate: { 
-        type: Boolean, 
-        default: false 
-    },
-    leavingCertificate: { 
-        type: Boolean, 
-        default: false 
-    },
-    schoolReport: { 
-        type: Boolean, 
-        default: false 
-    },
-    passportPhotos: { 
-        type: Boolean, 
-        default: false 
-    },
-
     // sec-5 (Student User Info)
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 

@@ -28,12 +28,6 @@ const AddStudent = () => {
     emergencyContactPerson: "",
     emergencyPhoneNumber: "",
     guardianId: "",
-    studentOldAcademicInfo: [],
-    photocopiesCnic: false,
-    birthCertificate: false,
-    leavingCertificate: false,
-    schoolReport: false,
-    passportPhotos: false,
     monthlyFees: "",
     admissionFees: "",
     branchId: localStorage.getItem("branchId") || "",
@@ -43,20 +37,15 @@ const AddStudent = () => {
     rollNumber: "",
     photo: null,
   });
-  const [guardianDetails, setGuardianDetails] = useState(null);
   const [errors, setErrors] = useState({});
-  const [guardianCnic, setGuardianCnic] = useState("");
   const [classes, setClasses] = useState([]);
   const [sections, setSections] = useState([]);
   const navigate = useNavigate();
 
   const stepIndicators = [
     { step: 1, label: "Personal Info" },
-    { step: 2, label: "Guardian Info" },
-    { step: 3, label: "Schooling Details" },
-    { step: 4, label: "Documents" },
-    { step: 5, label: "User Info" },
-    { step: 6, label: "Fees & Registration" },
+    { step: 2, label: "User Info" },
+    { step: 3, label: "Fees & Registration" },
   ];
 
   useEffect(() => {
@@ -108,17 +97,6 @@ const AddStudent = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  };
-
-  const handleCheckBoxChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.checked,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    setFormData({ ...formData, photo: e.target.files[0] });
   };
 
   const validateCnic = (cnic) => {
@@ -175,11 +153,9 @@ const AddStudent = () => {
       //   if (!formData.rollNumber)
       //     newErrors.rollNumber = "Roll Number is required.";
     } else if (currentStep === 2) {
-      if (!guardianCnic) newErrors.guardianCnic = "Guardian CNIC is required.";
-    } else if (currentStep === 5) {
       if (!formData.password) newErrors.password = "Password is required.";
       if (!formData.email) newErrors.email = "Email is required.";
-    } else if (currentStep === 6) {
+    } else if (currentStep === 3) {
       if (!formData.monthlyFees)
         newErrors.monthlyFees = "Monthly Fees is required.";
       if (!formData.classId) newErrors.classId = "Class is required.";
@@ -194,63 +170,6 @@ const AddStudent = () => {
     if (validateStep(step)) {
       setStep(newStep);
     }
-  };
-
-  const findGuardian = async () => {
-    if (!validateCnic(guardianCnic)) {
-      setErrors({
-        guardianCnic: "CNIC must be in the format 00000-0000000-0.",
-      });
-      return;
-    }
-    setErrors({}); // Clear any previous errors
-    try {
-      // Send the CNIC without hyphens in the API call
-      const guardianData = await fetchGuardianByCnic(guardianCnic);
-      if (guardianData) {
-        const guardian = guardianData.data;
-        setGuardianDetails(guardian);
-        setFormData((prevState) => ({
-          ...prevState,
-          guardianId: guardian._id,
-        }));
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Not Found",
-          text: "No guardian found with this CNIC.",
-        });
-      }
-    } catch (error) {
-      console.error("Error fetching guardian by CNIC:", error);
-    }
-  };
-
-  const handleAcademicInfoChange = (index, e) => {
-    const updatedAcademicInfo = formData.studentOldAcademicInfo.map((info, i) =>
-      i === index ? { ...info, [e.target.name]: e.target.value } : info
-    );
-    setFormData({
-      ...formData,
-      studentOldAcademicInfo: updatedAcademicInfo,
-    });
-  };
-
-  const addAcademicInfoRow = () => {
-    setFormData({
-      ...formData,
-      studentOldAcademicInfo: [...formData.studentOldAcademicInfo, {}],
-    });
-  };
-
-  const removeAcademicInfoRow = (index) => {
-    const updatedAcademicInfo = formData.studentOldAcademicInfo.filter(
-      (_, i) => i !== index
-    );
-    setFormData({
-      ...formData,
-      studentOldAcademicInfo: updatedAcademicInfo,
-    });
   };
 
   const handleSubmit = async (e) => {
@@ -298,17 +217,15 @@ const AddStudent = () => {
         {stepIndicators.map((indicator, index) => (
           <div key={index} className="flex items-center">
             <div
-              className={`h-8 w-8 rounded-full flex items-center justify-center text-white ${
-                step >= indicator.step ? "bg-indigo-600" : "bg-gray-300"
-              }`}
+              className={`h-8 w-8 rounded-full flex items-center justify-center text-white ${step >= indicator.step ? "bg-indigo-600" : "bg-gray-300"
+                }`}
             >
               {indicator.step}
             </div>
             {index < stepIndicators.length - 1 && (
               <div
-                className={`flex-1 h-1 ${
-                  step > indicator.step ? "bg-indigo-600" : "bg-gray-300"
-                }`}
+                className={`flex-1 h-1 ${step > indicator.step ? "bg-indigo-600" : "bg-gray-300"
+                  }`}
               ></div>
             )}
           </div>
@@ -556,290 +473,17 @@ const AddStudent = () => {
 
         {step === 2 && (
           <>
-            <div className="mb-6">
-              <label className="block text-gray-700 font-semibold">
-                Guardian CNIC
-              </label>
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  name="guardianCnic"
-                  value={guardianCnic}
-                  onChange={handleGuardianCnicChange}
-                  className="flex-grow p-2 border border-gray-300 rounded-md mr-2"
-                  placeholder="Enter Guardian CNIC"
-                  maxLength={15} // Restrict input length to format 00000-0000000-0
-                />
-                <button
-                  type="button"
-                  onClick={findGuardian}
-                  className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                >
-                  Find
-                </button>
-              </div>
-              {errors.guardianCnic && (
-                <p className="text-red-600 mt-2">{errors.guardianCnic}</p>
-              )}
-            </div>
-
-            {guardianDetails && (
-              <div className="bg-gray-100 p-4 rounded-md shadow-md">
-                <h3 className="text-lg font-semibold text-indigo-800 mb-4">
-                  Guardian Information
-                </h3>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold">
-                    Full Name
-                  </label>
-                  <p className="text-gray-900">{guardianDetails.fullName}</p>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold">
-                    Relationship
-                  </label>
-                  <p className="text-gray-900">
-                    {guardianDetails.relationship}
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold">
-                    Mother's Name
-                  </label>
-                  <p className="text-gray-900">
-                    {guardianDetails.studentMotherName}
-                  </p>
-                </div>
-                <div className="mb-4">
-                  <label className="block text-gray-700 font-semibold">
-                    Mother's CNIC
-                  </label>
-                  <p className="text-gray-900">
-                    {guardianDetails.motherCnicNumber}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={() => handleStepChange(1)}
-                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  if (guardianDetails) {
-                    handleStepChange(3);
-                  } else {
-                    Swal.fire({
-                      icon: "warning",
-                      title: "Incomplete Guardian Information",
-                      text: "Please find a guardian using the CNIC before proceeding.",
-                    });
-                  }
-                }}
-                className={`py-2 px-4 rounded-md text-white ${
-                  guardianDetails
-                    ? "bg-indigo-600 hover:bg-indigo-700"
-                    : "bg-gray-400 cursor-not-allowed"
-                }`}
-                disabled={!guardianDetails}
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 3 && (
-          <>
             <div className="mb-4">
-              <label className="block text-gray-700 font-semibold">
-                Previous Schooling Details
-              </label>
-              {formData.studentOldAcademicInfo.map((info, index) => (
-                <div key={index} className="mb-4 grid grid-cols-6 gap-4">
-                  <input
-                    type="text"
-                    name="instituteName"
-                    placeholder="Institute Name"
-                    value={info.instituteName || ""}
-                    onChange={(e) => handleAcademicInfoChange(index, e)}
-                    className="p-2 border border-gray-300 rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="location"
-                    placeholder="Location"
-                    value={info.location || ""}
-                    onChange={(e) => handleAcademicInfoChange(index, e)}
-                    className="p-2 border border-gray-300 rounded-md"
-                  />
-                  <input
-                    type="date"
-                    name="from"
-                    placeholder="From"
-                    value={info.from || ""}
-                    onChange={(e) => handleAcademicInfoChange(index, e)}
-                    className="p-2 border border-gray-300 rounded-md"
-                  />
-                  <input
-                    type="date"
-                    name="to"
-                    placeholder="To"
-                    value={info.to || ""}
-                    onChange={(e) => handleAcademicInfoChange(index, e)}
-                    className="p-2 border border-gray-300 rounded-md"
-                  />
-                  <input
-                    type="text"
-                    name="upToClass"
-                    placeholder="Up to Class"
-                    value={info.upToClass || ""}
-                    onChange={(e) => handleAcademicInfoChange(index, e)}
-                    className="p-2 border border-gray-300 rounded-md"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeAcademicInfoRow(index)}
-                    className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                onClick={addAcademicInfoRow}
-                className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Add Row
-              </button>
+              <label className="block text-gray-700 font-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+              {errors.email && <p className="text-red-600">{errors.email}</p>}
             </div>
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={() => handleStepChange(2)}
-                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={() => handleStepChange(4)}
-                className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 4 && (
-          <>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold">
-                Submitted Documents
-              </label>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="photocopiesCnic"
-                  checked={formData.photocopiesCnic}
-                  onChange={handleCheckBoxChange}
-                  className="mr-2"
-                />
-                <label className="text-gray-700">
-                  Photocopies of CNIC Cards of both the parents
-                </label>
-              </div>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="birthCertificate"
-                  checked={formData.birthCertificate}
-                  onChange={handleCheckBoxChange}
-                  className="mr-2"
-                />
-                <label className="text-gray-700">
-                  Photocopies of the child's birth certificate
-                </label>
-              </div>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="leavingCertificate"
-                  checked={formData.leavingCertificate}
-                  onChange={handleCheckBoxChange}
-                  className="mr-2"
-                />
-                <label className="text-gray-700">
-                  Original Leaving / Transfer certificate from the last school
-                  attended
-                </label>
-              </div>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="schoolReport"
-                  checked={formData.schoolReport}
-                  onChange={handleCheckBoxChange}
-                  className="mr-2"
-                />
-                <label className="text-gray-700">
-                  Photocopies of the child's last school report
-                </label>
-              </div>
-              <div className="flex items-center mb-4">
-                <input
-                  type="checkbox"
-                  name="passportPhotos"
-                  checked={formData.passportPhotos}
-                  onChange={handleCheckBoxChange}
-                  className="mr-2"
-                />
-                <label className="text-gray-700">
-                  Two passport size photographs of the child
-                </label>
-              </div>
-              <div className="mb-4">
-                <label className="block text-gray-700 font-semibold">
-                  Photo
-                </label>
-                <input
-                  type="file"
-                  name="photo"
-                  onChange={handleFileChange}
-                  className="w-full p-2 border border-gray-300 rounded-md"
-                  accept="image/*"
-                />
-              </div>
-            </div>
-            <div className="flex justify-between mt-6">
-              <button
-                type="button"
-                onClick={() => handleStepChange(3)}
-                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={() => handleStepChange(5)}
-                className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
-                Next
-              </button>
-            </div>
-          </>
-        )}
-
-        {step === 5 && (
-          <>
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold">
                 Password
@@ -854,17 +498,6 @@ const AddStudent = () => {
               {errors.password && (
                 <p className="text-red-600">{errors.password}</p>
               )}
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 font-semibold">Email</label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-              {errors.email && <p className="text-red-600">{errors.email}</p>}
             </div>
             <div className="flex justify-between mt-6">
               <button
@@ -885,7 +518,7 @@ const AddStudent = () => {
           </>
         )}
 
-        {step === 6 && (
+        {step === 3 && (
           <>
             <div className="mb-4">
               <label className="block text-gray-700 font-semibold">
