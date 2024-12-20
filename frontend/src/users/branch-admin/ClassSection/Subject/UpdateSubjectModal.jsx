@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchSubjectById, updateSubject } from '../../../../api/subjectApi';
-import { fetchSections } from '../../../../api/sectionApi';
+import { fetchClasses } from '../../../../api/classApi'; // Updated import
 import Swal from 'sweetalert2';
 import Select from 'react-select';
 
 const UpdateSubjectModal = ({ id, onClose, reloadData }) => {
     const [subjectName, setSubjectName] = useState('');
-    const [sectionId, setSectionId] = useState(null); // Changed to hold the entire option object
-    const [sections, setSections] = useState([]);
+    const [classId, setClassId] = useState(null); // Changed to hold the entire option object
+    const [classes, setClasses] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
@@ -16,19 +16,20 @@ const UpdateSubjectModal = ({ id, onClose, reloadData }) => {
                 setLoading(true); // Start loading
                 // Fetch subject details
                 const subjectResponse = await fetchSubjectById(id);
+                console.log('subjectResponse => :', subjectResponse.data);
                 setSubjectName(subjectResponse.data.subjectName);
-                setSectionId({
-                    value: subjectResponse.data.sectionId._id,
-                    label: `${subjectResponse.data.sectionId.sectionName}`,
+                setClassId({
+                    value: subjectResponse.data.classId._id,
+                    label: `${subjectResponse.data.classId.className}`,
                 });
 
-                // Fetch sections and transform for React Select
-                const sectionsResponse = await fetchSections();
-                const transformedSections = sectionsResponse.data.map(section => ({
-                    value: section._id,
-                    label: `${section.sectionName} - Of Class - ${section.classId.className}`,
+                // Fetch classes and transform for React Select
+                const classesResponse = await fetchClasses();
+                const transformedClasses = classesResponse.data.map(cls => ({
+                    value: cls._id,
+                    label: cls.className,
                 }));
-                setSections(transformedSections);
+                setClasses(transformedClasses);
             } catch (error) {
                 console.error('Error fetching data:', error);
                 Swal.fire({
@@ -48,17 +49,17 @@ const UpdateSubjectModal = ({ id, onClose, reloadData }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!sectionId) {
+        if (!classId) {
             Swal.fire({
                 icon: 'error',
                 title: 'Validation Error',
-                text: 'Please select a section.',
+                text: 'Please select a class.',
             });
             return;
         }
 
         try {
-            await updateSubject(id, { subjectName, sectionId: sectionId.value });
+            await updateSubject(id, { subjectName, classId: classId.value });
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
@@ -116,14 +117,14 @@ const UpdateSubjectModal = ({ id, onClose, reloadData }) => {
                         </div>
 
                         <div className="mb-6">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Section</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
                             <Select
-                                options={sections}
-                                value={sectionId}
-                                onChange={setSectionId}
+                                options={classes}
+                                value={classId}
+                                onChange={setClassId}
                                 className="react-select-container"
                                 classNamePrefix="react-select"
-                                placeholder="Select a section"
+                                placeholder="Select a class"
                                 isClearable
                                 styles={customStyles}
                                 required

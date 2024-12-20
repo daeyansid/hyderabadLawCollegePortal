@@ -54,6 +54,7 @@ const ClassSection = () => {
         try {
             const subjectData = await fetchSubjectsNew();
             if (subjectData) {
+                console.log('Subjects:', subjectData.data);
                 setSubjects(subjectData.data);
             }
         } catch (error) {
@@ -212,7 +213,7 @@ const handleClassDelete = async (id) => {
             sortable: true,
         },
         {
-            name: 'Class Name',
+            name: 'Semester Name',
             selector: (row) => row.className,
             sortable: true,
         },

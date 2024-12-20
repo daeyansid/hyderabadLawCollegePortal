@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subjectSchema = new Schema({
-    sectionId: { 
+    classId: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'section', 
+        ref: 'Class', 
         required: true 
     },
     subjectName: { 
