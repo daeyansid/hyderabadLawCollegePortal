@@ -17,15 +17,15 @@ router.get('/get-by-id/:id', authMiddleware, studentController.getStudentById);
 router.put('/update/:studentId', authMiddleware, upload.single('photo'), studentController.updateStudent);
 
 // Delete student
-// router.delete('/delete/:id', authMiddleware, studentController.deleteStudent);
 router.delete('/delete/:studentId', authMiddleware, studentController.deleteStudent);
 
+// get students by class
+router.post('/class/:classId', authMiddleware, studentController.getStudentsByClass);
 
 
 // router.get('/fetch-by-batch-year', studentController.getStudentsByBatchYearAndBranch);
 // router.get('/fetch-by-batch-year', studentController.getStudentsByBatchYear);
 
 
-// router.get('/class/:classId/section/:sectionId', authMiddleware, studentController.getStudentsByClassAndSection);
 
 module.exports = router;

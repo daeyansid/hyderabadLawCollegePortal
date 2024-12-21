@@ -75,7 +75,7 @@ export default function Aside() {
                             </Link>
                         </li>
 
-                        {/* User Management */}
+                        {/* Branch and Admin */}
                         <li>
                             <button
                                 onClick={() => toggleMenu(setIsBranchAdminManagementOpen)}
@@ -154,35 +154,13 @@ export default function Aside() {
 
                         {/* Leave Management */}
                         <li>
-                            <button
-                                onClick={() => toggleMenu(setIsLeaveManagementOpen)}
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
+                            <Link
+                                to="/branch-admin/notice"
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={umbrella} alt="Leave Management" />
-                                <span className="ms-3 text-custom-blue">Leave Management</span>
-                            </button>
-                            {isLeaveManagementOpen && (
-                                <div className="flex flex-col items-start pl-6 md:pl-8">
-                                    <ul>
-                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/view-leave-request">View Leaves Requests</Link>
-                                        </li>
-                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/apply-leave-request">Apply For Leave</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            )}
-                        </li>
-
-                        {/* Payroll */}
-                        <li>
-                            <div
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-no-drop"
-                            >
-                                <img src={dollarSign} alt="Payroll Management" />
-                                <span className="ms-3 text-custom-blue">Payroll Management</span>
-                            </div>
+                                <img src={umbrella} alt="Overview" />
+                                <span className="ms-3 text-custom-blue">Notice</span>
+                            </Link>
                         </li>
 
                         {/* Attendance Management */}

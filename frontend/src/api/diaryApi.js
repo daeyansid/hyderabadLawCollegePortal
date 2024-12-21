@@ -23,10 +23,10 @@ export const getSectionsByClass = async (classId) => {
     }
 };
 
-// Fetch subjects by sectionId
-export const getSubjectsBySection = async (sectionId) => {
+// Fetch subjects by classId
+export const getSubjectsByClass = async (classId) => {
     try {
-        const response = await axiosInstance.get(`/subject/section/${sectionId}`);
+        const response = await axiosInstance.post(`/subject/get-all-by-class?classId=${classId}`);
         return response.data.data;
     } catch (error) {
         console.error('Error fetching subjects:', error);
@@ -34,10 +34,9 @@ export const getSubjectsBySection = async (sectionId) => {
     }
 };
 
-// Fetch students by classId and sectionId
-export const getStudentsByClassAndSection = async (classId, sectionId) => {
+export const getStudentsByClass = async (classId, sectionId) => {
     try {
-        const response = await axiosInstance.get(`/student/class/${classId}/section/${sectionId}`);
+        const response = await axiosInstance.post(`/student/class/${classId}`);
         return response.data.data;
     } catch (error) {
         console.error('Error fetching students:', error);
@@ -97,27 +96,5 @@ export const deleteDiary = async (diaryId) => {
     } catch (error) {
         console.error('Error deleting diary entry:', error);
         throw error;
-    }
-};
-
-// get by teacherId
-export const getTeacherAssignments = async () => {
-    try {
-        const teacherId = localStorage.getItem('adminSelfId');
-
-        if (!teacherId) {
-            throw new Error('Teacher ID not found in localStorage.');
-        }
-
-        const response = await axiosInstance.get('/class-slot-assignments/get-assignments', {
-            params: {
-                teacherId,
-            },
-        });
-
-        return response.data.data;
-    } catch (error) {
-        console.error('Error fetching teacher assignments:', error);
-        throw error.response?.data || { message: 'An error occurred while fetching teacher assignments.' };
     }
 };

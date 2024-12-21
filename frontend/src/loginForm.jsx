@@ -154,7 +154,7 @@ export default function LoginForm() {
             alt="Logo"
           />
           <h1 className="text-2xl sm:text-3xl font-bold text-hover-color mt-4">
-            BLUE JAYS SCHOOL SYSTEM
+            Hyderabad Law College
           </h1>
           <p className="text-custom-shadow text-xl sm:text-2xl font-bold">
             Education is our passion

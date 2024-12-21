@@ -17,10 +17,7 @@ import {
   SuperAdminBatch,
   SuperAdminUser,
   TeacherDashboard,
-  TeacherLeave,
   TeacherLayout,
-  CombinedLeaveDataTable,
-  BranchAdminLeaveDataTable,
   BranchClassDaysList,
   BranchDailyTimeSlotsList,
   TeacherAssign,
@@ -82,24 +79,28 @@ function MainApp() {
               />
             }
           >
-            <Route path="branch" element={<SuperAdminBatch />} />
-            <Route path="user" element={<SuperAdminUser />} />
-
-
             <Route path="dashboard" element={<Dashboard />} />
+            {/* branch */}
+            <Route path="branch" element={<SuperAdminBatch />} />
+            {/* Admin */}
+            <Route path="user" element={<SuperAdminUser />} />
+            {/* Semester and Subject */}
             <Route path="class-section" element={<ClassSection />} />
+            {/* teacher */}
             <Route path="user-management/teacher" element={<UserManagementTeacher />} />
             <Route path="user-management/student" element={<UserManagementStudent />} />
+            {/* student */}
             <Route path="user-management/student-add" element={<AddStudent />} />
             <Route path="user-management/student-view/:id" element={<ViewStudent />} />
-            <Route path="user-management/student-edit/:id" element={<EditStudent />} />
-            <Route path="user-management/view-leave-request/" element={<CombinedLeaveDataTable />} />
-            <Route path="user-management/apply-leave-request/" element={<BranchAdminLeaveDataTable />} />
+            <Route path="user-management/student-edit/:id" element={<EditStudent />} />  
+            {/* teacher */}
             <Route path="scheduleAndAssign/teacherAssign" element={<TeacherAssign />} />
             <Route path="scheduleAndAssign/day" element={<BranchClassDaysList />} />
             <Route path="scheduleAndAssign/timeSlot/:branchClassDaysId" element={<BranchDailyTimeSlotsList />} />
             <Route path="scheduleAndAssign/SectionSelectionList/:branchClassDayIdParam" element={<SelectSectionClass />} />
             <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:classIdParam" element={<ClassSlotAssignmentsList />} />
+            {/* notice */}
+            <Route path="notice" element={<DiaryDataTable />} />
           </Route>
 
           {/* Teacher Routes */}
@@ -113,10 +114,6 @@ function MainApp() {
             }
           >
             <Route path="dashboard" element={<TeacherDashboard />} />
-            <Route path="leave" element={<TeacherLeave />} />
-            {/* <Route path="branch" element={<TeacherLeave />} /> */}
-            {/* <Route path="user" element={<TeacherLeave />} /> */}
-            {/* <Route path="holiday" element={<TeacherLeave />} /> */}
             <Route path="dairy" element={<DiaryDataTable />} />
             <Route path="assigned-classes" element={<TeacherAssignClassDays />} />
             <Route path="assigned-classes/slots/:branchDayId" element={<AssignedClassesSlotsPage />} />
@@ -150,7 +147,7 @@ function MainApp() {
             <Route path="view-attendance/:subjectId" element={<StudentAttendancePage />} />
             {/* for attendance for Single wise*/}
             <Route path="view-attendance-single" element={<StudentAttendanceSinglePage />} />
-              
+
           </Route>
 
           {/* Guardian Routes */}
