@@ -70,15 +70,14 @@ const UserManagementStudent = () => {
     // Filter students based on search input
     const filteredData = Array.isArray(students)
         ? students.filter((student) => {
-              const searchText = filterText.toLowerCase();
-              return (
-                  student.fullName.toLowerCase().includes(searchText) ||
-                  student.castSurname.toLowerCase().includes(searchText) ||
-                  student.gender.toLowerCase().includes(searchText) ||
-                  (student.classId?.className?.toLowerCase() || '').includes(searchText) ||
-                  (student.sectionId?.sectionName?.toLowerCase() || '').includes(searchText)
-              );
-          })
+            const searchText = filterText.toLowerCase();
+            return (
+                student.fullName.toLowerCase().includes(searchText) ||
+                student.castSurname.toLowerCase().includes(searchText) ||
+                student.gender.toLowerCase().includes(searchText) ||
+                (student.classId?.className?.toLowerCase() || '').includes(searchText)
+            );
+        })
         : [];
 
     // Define table columns
@@ -110,12 +109,6 @@ const UserManagementStudent = () => {
         {
             name: 'Class',
             selector: (row) => row.classId?.className || 'N/A',
-            sortable: true,
-            center: true,
-        },
-        {
-            name: 'Section',
-            selector: (row) => row.sectionId?.sectionName || 'N/A',
             sortable: true,
             center: true,
         },
@@ -207,7 +200,7 @@ const UserManagementStudent = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search by name, caste, gender, class, or section..."
+                    placeholder="Search by name, caste, gender, Semester"
                     className="p-3 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
                     value={filterText}
                     onChange={(e) => setFilterText(e.target.value)}

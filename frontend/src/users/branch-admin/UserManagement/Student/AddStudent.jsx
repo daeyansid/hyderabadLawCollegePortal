@@ -70,22 +70,22 @@ const AddStudent = () => {
     const batchYear = e.target.value;
     setFormData({ ...formData, batchYear });
 
-    if (batchYear) {
-      try {
-        const studentsInBatch = await fetchStudentsByBatchYear(batchYear);
-        const rollNumber = `${batchYear}/${studentsInBatch.length + 1}`;
-        setFormData((prev) => ({ ...prev, rollNumber }));
-      } catch (error) {
-        console.error("Error calculating roll number:", error);
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Unable to calculate roll number. Please try again later.",
-        });
-      }
-    } else {
-      setFormData((prev) => ({ ...prev, rollNumber: "" }));
-    }
+    // if (batchYear) {
+    //   try {
+    //     const studentsInBatch = await fetchStudentsByBatchYear(batchYear);
+    //     const rollNumber = `${batchYear}/${studentsInBatch.length + 1}`;
+    //     setFormData((prev) => ({ ...prev, rollNumber }));
+    //   } catch (error) {
+    //     console.error("Error calculating roll number:", error);
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Error",
+    //       text: "Unable to calculate roll number. Please try again later.",
+    //     });
+    //   }
+    // } else {
+    //   setFormData((prev) => ({ ...prev, rollNumber: "" }));
+    // }
   };
 
   const handleInputChange = (e) => {
@@ -663,7 +663,7 @@ const AddStudent = () => {
                 value={formData.rollNumber}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded-md"
-                readOnly
+                placeholder="Enter roll number"
               />
               {errors.rollNumber && (
                 <p className="text-red-600">{errors.rollNumber}</p>
