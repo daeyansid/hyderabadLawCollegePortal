@@ -134,7 +134,6 @@ exports.updateClassSlotAssignment = async (req, res) => {
             .populate('branchClassDaysId')
             .populate('branchDailyTimeSlotsId')
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId');
 
@@ -185,7 +184,7 @@ exports.getAllSlotsForDay = async (req, res) => {
 
     // Validate inputs
     if (!branchClassDaysId || !branchId) {
-        return sendErrorResponse(res, 400, 'Branch Class Days ID, Section ID, and Branch ID are required.');
+        return sendErrorResponse(res, 400, 'Branch Class Days ID, and Branch ID are required.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchClassDaysId)) {
