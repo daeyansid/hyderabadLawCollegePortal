@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const studentController = require('../controllers/studentController');
 const authMiddleware = require('../middleware/authMiddleware');
+const upload = require('../middleware/uploadStudent');
 
 // Register student
-router.post('/create', authMiddleware, studentController.registerStudent);
+// router.post('/create', authMiddleware, studentController.registerStudent);
+router.post('/create', authMiddleware, upload.single('photo'), studentController.createStudent);
 
 // Get All students
 router.get('/get-all', authMiddleware, studentController.getAllStudent);

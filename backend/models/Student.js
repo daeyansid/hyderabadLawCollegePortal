@@ -7,9 +7,13 @@ const studentSchema = new Schema({
         type: String, 
         required: [true, 'Full Name is required.'] 
     },
-    admissionClass: { 
+    fatherName: { 
         type: String, 
-        required: [true, 'Admission sought to class is required.'] 
+        required: [true, 'Father Name is required.'] 
+    },
+    cnic: { 
+        type: String, 
+        required: [true, 'CNIC is required.'] 
     },
     castSurname: { 
         type: String, 
@@ -52,32 +56,15 @@ const studentSchema = new Schema({
         type: String,
         required: false,
     },
-    rollNumber: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    batchYear: {
-        type: Number,
-        required: true,
-    },
 
-    // sec-5 (Student User Info)
+    // sec-2 (Student User Info)
     userId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'user', 
         required: true 
     },
 
-    // sec-6 (fee and class)
-    monthlyFees: { 
-        type: Number, 
-        required: [true, 'Monthly Fees is required.'] 
-    },
-    admissionFees: { 
-        type: Number, 
-        default: null 
-    },
+    // sec-3 (class)
     branchId: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Branch', 
@@ -88,10 +75,18 @@ const studentSchema = new Schema({
         ref: 'Class', 
         required: true 
     },
-    sectionId: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'section', 
-        required: true 
+    latMarks: { 
+        type: String, 
+        required: [true, 'Lat Marks is required.'] 
+    },
+    rollNumber: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+    batchYear: {
+        type: Number,
+        required: true,
     },
 }, {
     timestamps: true,

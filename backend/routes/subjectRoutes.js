@@ -18,12 +18,10 @@ router.get('/get-by-id/:id', authMiddleware, subjectController.getSubjectById);
 // // Update Subject
 router.put('/update/:id', authMiddleware, subjectController.updateSubject);
 
-// // Delete Subject
-// router.delete('/delete/:id', authMiddleware, subjectController.deleteSubject);
+// Delete Subject
+router.delete('/delete/:id', authMiddleware, subjectController.deleteSubject);
 
-// // Fetch all Subjects by Section ID
-// router.get('/get-all-by-section', authMiddleware, subjectController.getAllSubjectsBySectionId);
-
-// router.get('/section/:sectionId', authMiddleware, subjectController.getSubjectsBySection);
+// Fetch all Subjects by batch ID and class ID
+router.post('/get-all-subject-by-class-batch', authMiddleware, subjectController.fetchSubjectByClassAndBranch);
 
 module.exports = router;

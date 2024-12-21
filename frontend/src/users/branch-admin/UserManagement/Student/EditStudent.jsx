@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { fetchStudentById, updateStudent, fetchGuardianByCnic, fetchClasses, fetchSectionsByClassAndBranch } from '../../../../api/studentApi';
+import { fetchStudentById, updateStudent, fetchGuardianByCnic, fetchClasses, fetchSubjectByClassAndBranch } from '../../../../api/studentApi';
 
 const EditStudent = () => {
     const { id } = useParams();
@@ -96,7 +96,7 @@ const EditStudent = () => {
                 setClasses(classData.data);
 
                 if (studentData.classId?._id) {
-                    const sectionData = await fetchSectionsByClassAndBranch(studentData.classId._id, studentData.branchId?._id);
+                    const sectionData = await fetchSubjectByClassAndBranch(studentData.classId._id, studentData.branchId?._id);
                     setSections(sectionData.data);
                 }
             } catch (error) {
@@ -112,7 +112,7 @@ const EditStudent = () => {
         setFormData({ ...formData, classId: selectedClassId });
 
         try {
-            const sectionData = await fetchSectionsByClassAndBranch(selectedClassId, formData.branchId);
+            const sectionData = await fetchSubjectByClassAndBranch(selectedClassId, formData.branchId);
             setSections(sectionData.data);
         } catch (error) {
             console.error('Error fetching sections:', error);

@@ -135,17 +135,16 @@ export const fetchClasses = async (branchId) => {
     }
 };
 
-// Fetch sections by classId and branchId
-export const fetchSectionsByClassAndBranch = async (classId, branchId) => {
+// Fetch subject by classId and branchId
+export const fetchSubjectByClassAndBranch = async (classId, branchId) => {
     try {
-        const response = await axiosInstance.get(`/section/sections?classId=${classId}&branchId=${branchId}`);
+        const response = await axiosInstance.get(`/subject/get-all-subject-by-class-batch?classId=${classId}&branchId=${branchId}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching sections:', error);
         throw error;
     }
 };
-
 
 export const fetchStudentsByBatchYear = async (batchYear) => {
     try {

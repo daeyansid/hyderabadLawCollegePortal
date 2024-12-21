@@ -1,5 +1,6 @@
 const Subject = require('../models/Subject');
 const Class = require('../models/Class');
+const Branch = require('../models/Branch');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 const { validateRequiredFields } = require('../utils/validateRequiredFields');
 
@@ -167,51 +168,98 @@ exports.updateSubject = async (req, res) => {
     }
 };
 
-// // Delete a subject by ID
-// exports.deleteSubject = async (req, res) => {
-//     const { id } = req.params;
+// Delete a subject by ID
+exports.deleteSubject = async (req, res) => {
+    const { id } = req.params;
 
-//     try {
-//         const deletedSubject = await Subject.findByIdAndDelete(id);
-//         if (!deletedSubject) {
-//             return sendErrorResponse(res, 404, 'Subject not found');
-//         }
-//         sendSuccessResponse(res, 200, 'Subject deleted successfully', deletedSubject);
-//     } catch (err) {
-//         console.error(err.message);
-//         sendErrorResponse(res, 500, 'Server error', err);
-//     }
-// };
+    try {
+        const deletedSubject = await Subject.findByIdAndDelete(id);
+        if (!deletedSubject) {
+            return sendErrorResponse(res, 404, 'Subject not found');
+        }
+        sendSuccessResponse(res, 200, 'Subject deleted successfully', deletedSubject);
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};
 
-// // Fetch all Subjects by Section ID
-// exports.getAllSubjectsBySectionId = async (req, res) => {
-//     const { sectionId } = req.query;
+exports.fetchSubjectByClassAndBranch = async (req, res) => {
+    const { classId, branchId } = req.query;
 
-//     if (!sectionId) {
-//         return sendErrorResponse(res, 400, 'Section ID is required.');
-//     }
+    try {
+        // Validate presence of classId and branchId
+        const missingFields = [];
+        if (!classId) missingFields.push('classId');
+        if (!branchId) missingFields.push('branchId');
 
-//     try {
-//         const subjects = await Subject.find({ sectionId }).populate('sectionId');
+        if (missingFields.length > 0) {
+            return sendErrorResponse(
+                res,
+                400,
+                `Missing query parameter(s): ${missingFields.join(', ')}`
+            );
+        }
 
-//         if (!subjects || subjects.length === 0) {
-//             return sendErrorResponse(res, 404, 'No subjects found for the provided Section ID.');
-//         }
+        // Validate that classId and branchId are valid ObjectIds
+        if (
+            !mongoose.Types.ObjectId.isValid(classId) ||
+            !mongoose.Types.ObjectId.isValid(branchId)
+        ) {
+            return sendErrorResponse(
+                res,
+                400,
+                'Invalid classId or branchId format.'
+            );
+        }
 
-//         sendSuccessResponse(res, 200, 'Subjects retrieved successfully', { subjects });
-//     } catch (error) {
-//         console.error('Error fetching Subjects:', error);
-//         sendErrorResponse(res, 500, 'An error occurred while fetching subjects', error);
-//     }
-// };
+        // Check if Class exists
+        const cls = await Class.findById(classId);
+        if (!cls) {
+            return sendErrorResponse(res, 404, 'Class not found.');
+        }
 
-// exports.getSubjectsBySection = async (req, res) => {
-//     const { sectionId } = req.params;
-//     try {
-//         const subjects = await Subject.find({ sectionId });
-//         sendSuccessResponse(res, 200, 'Subjects fetched successfully', subjects);
-//     } catch (error) {
-//         console.error(error);
-//         sendErrorResponse(res, 500, 'Server error', error);
-//     }
-// };
+        // Check if Branch exists
+        const branch = await Branch.findById(branchId);
+        if (!branch) {
+            return sendErrorResponse(res, 404, 'Branch not found.');
+        }
+
+        // Fetch Subjects based on classId and branchId
+        const subjects = await Subject.find({
+            classId: classId,
+            branchId: branchId,
+        })
+            .populate({
+                path: 'classId',
+                select: 'className description branchId',
+                populate: {
+                    path: 'branchId',
+                    select: 'name',
+                },
+            })
+            .populate({
+                path: 'branchId',
+                select: 'name address',
+            })
+            .exec();
+
+        if (subjects.length === 0) {
+            return sendErrorResponse(
+                res,
+                404,
+                'No subjects found for the provided class and branch.'
+            );
+        }
+
+        return sendSuccessResponse(
+            res,
+            200,
+            'Subjects retrieved successfully.',
+            subjects
+        );
+    } catch (error) {
+        console.error('Error fetching subjects:', error);
+        return sendErrorResponse(res, 500, 'Server error.', error);
+    }
+};
