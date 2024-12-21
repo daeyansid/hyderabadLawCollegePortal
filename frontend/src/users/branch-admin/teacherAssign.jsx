@@ -101,7 +101,7 @@ const TeacherAssign = () => {
                                     className="flex items-center text-indigo-600 hover:text-indigo-800"
                                     title="Assign Teacher"
                                 >
-                                    <span className="mr-2">Select Class</span>
+                                    <span className="mr-2">Select Semester</span>
                                     <AiOutlineArrowRight size={24} />
                                 </button>
                             </div>

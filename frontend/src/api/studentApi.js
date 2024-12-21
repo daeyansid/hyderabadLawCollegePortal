@@ -87,41 +87,11 @@ export const updateStudent = async (id, studentData) => {
     }
 };
 
-// Delete a student by ID
-// export const deleteStudent = async (id) => {
-//     try {
-//         const response = await axiosInstance.delete(`/student/delete/${id}`);
-//         Swal.fire({
-//             icon: 'success',
-//             title: 'Success',
-//             text: 'Student deleted successfully!',
-//         });
-//         return response.data; // Handle the deleted student
-//     } catch (error) {
-//         console.error('Error deleting student:', error);
-//         Swal.fire({
-//             icon: 'error',
-//             title: 'Error',
-//             text: error.response.data.message,
-//         });
-//         throw error;
-//     }
-// };
-
-
 export const deleteStudent = async (studentId) => {
     try {
 
             // Make the DELETE request to the backend
             const response = await axiosInstance.delete(`/student/delete/${studentId}`);
-
-            // Show success message
-            await Swal.fire({
-                icon: 'success',
-                title: 'Deleted!',
-                text: 'Student has been deleted successfully.',
-            });
-
             return response.data;
 
     } catch (error) {
