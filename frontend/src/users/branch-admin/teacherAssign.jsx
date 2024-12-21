@@ -52,7 +52,6 @@ const TeacherAssign = () => {
     // Navigate to the next step (Assign)
     const handleNextStep = (dayId) => {
         navigate(`/branch-admin/scheduleAndAssign/SectionSelectionList/${dayId}`);
-        // navigate(`/branch-admin/scheduleAndAssign/ClassSlotAssignmentsList/${dayId}`);
     };
 
     // Navigate to view day details

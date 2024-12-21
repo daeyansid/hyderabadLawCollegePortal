@@ -25,15 +25,14 @@ export const fetchClasses = async () => {
 export const fetchClassById = async (id) => {
     try {
         const response = await axiosInstance.get(`/class/get-by-id/${id}`);
-        return response.data; // Handle the fetched class
+        return response.data;
     } catch (error) {
-        // console.error('Error fetching class by ID:', error);
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Unable to fetch class details. Please try again later.',
         });
-        throw error; // Handle or propagate error
+        throw error;
     }
 };
 

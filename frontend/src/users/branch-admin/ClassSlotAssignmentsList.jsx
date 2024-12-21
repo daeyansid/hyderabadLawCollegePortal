@@ -227,7 +227,7 @@ const ClassSlotAssignmentsList = () => {
                         className="flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                     >
                         <AiOutlinePlus className="mr-2" size={20} />
-                        Assign Class
+                        Assign Class
                     </button>
                 </div>
             </div>

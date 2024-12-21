@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getDayById } from '../../../api/branchClassDaysApi';
 import { getBranchDailyTimeSlotsByDayBranch } from '../../../api/branchDailyTimeSlotsApi';
-import { fetchClasses } from '../../../api/classApi';
-import { getSectionsByClassAndBranchId } from '../../../api/sectionApi';
+import { fetchClassById } from '../../../api/classApi';
 import { getAllSubjectsBySectionId } from '../../../api/subjectApi';
 import { getAvailableTeachersByBranchVerification } from '../../../api/teacherApi';
 import { createClassSlotAssignment, getAllClassSlotAssignments } from '../../../api/classSlotAssignmentsApi';
@@ -11,10 +10,9 @@ import Swal from 'sweetalert2';
 
 const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignments }) => {
     const [branchClassDays, setBranchClassDays] = useState({});
-    const { branchClassDaysIdParam, sectionIdParam } = useParams();
+    const { branchClassDaysIdParam, classIdParam } = useParams();
     const [timeSlots, setTimeSlots] = useState([]);
     const [classes, setClasses] = useState([]);
-    const [sections, setSections] = useState([]);
     const [subjects, setSubjects] = useState([]);
     const [teachers, setTeachers] = useState([]);
     const [existingAssignments, setExistingAssignments] = useState([]);
@@ -22,7 +20,6 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         day: branchClassDaysIdParam || '',
         timeSlot: '',
         classId: '',
-        sectionId: '',
         subjectId: '',
         teacherId: '',
         classType: '',
@@ -40,25 +37,26 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         try {
             const dayData = await getDayById(branchClassDaysIdParam);
             setBranchClassDays(dayData);
-
+            console.log("dayData", dayData);
+            
             // Fetch sections using existing API function
-            const sectionsData = await getSectionsByClassAndBranchId(sectionIdParam, branchId);
-            const selectedSection = sectionsData.find(section => section._id === sectionIdParam);
+            const classData = await fetchClassById(classIdParam);
+            console.log("classData", classData.data);
 
+            setClasses(classData.data);
+            
+            
             if (!selectedSection) {
                 throw new Error('Section not found');
             }
-
-            setSections([selectedSection]); // Set sections state with the selected section
-            setClasses([selectedSection.classId]); // Set classes state with the class from the section
-
+            
+            
             // Set the form fields for classId and sectionId
             setForm(prevForm => ({
                 ...prevForm,
-                classId: selectedSection.classId._id,
-                sectionId: selectedSection._id,
+                classId: classIdParam,
             }));
-
+        
             // Fetch time slots after setting the day
             await fetchTimeSlots();
 
@@ -104,8 +102,8 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         // Rule 1: Do not enter the same slot again on the same day for the same class.
         const sameSlotInClassExists = existingAssignments.some(
             assignment => assignment.branchDailyTimeSlotsId._id === timeSlot &&
-                          assignment.classId._id === classId &&
-                          assignment.sectionId._id === sectionId
+                assignment.classId._id === classId &&
+                assignment.sectionId._id === sectionId
         );
         if (sameSlotInClassExists) {
             Swal.fire('Error', 'This slot is already assigned on the same day for the same class and section.', 'error');
@@ -115,8 +113,8 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         // Rule 3: Do not assign the same teacher to the same slot on the same day for the same class.
         const sameTeacherInSlotForClass = existingAssignments.some(
             assignment => assignment.branchDailyTimeSlotsId._id === timeSlot &&
-                          assignment.classId._id === classId &&
-                          assignment.teacherId._id === teacherId
+                assignment.classId._id === classId &&
+                assignment.teacherId._id === teacherId
         );
         if (sameTeacherInSlotForClass) {
             Swal.fire('Error', 'This teacher is already assigned to this slot on the same day for the same class.', 'error');
@@ -126,7 +124,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         // New Rule: The same teacher cannot teach in different classes or sections at the same slot on the same day.
         const teacherAssignedInSlot = existingAssignments.some(
             assignment => assignment.branchDailyTimeSlotsId._id === timeSlot &&
-                          assignment.teacherId._id === teacherId
+                assignment.teacherId._id === teacherId
         );
         if (teacherAssignedInSlot) {
             Swal.fire('Error', 'This teacher is already assigned to this slot for a different class or section.', 'error');
@@ -180,7 +178,6 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
                 branchClassDaysId: form.day,
                 branchDailyTimeSlotsId: form.timeSlot,
                 classId: form.classId,
-                sectionId: form.sectionId,
                 subjectId: form.subjectId,
                 teacherId: form.teacherId,
                 classType: form.classType,
@@ -239,30 +236,9 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
                                     required
                                     disabled
                                 >
-                                    {classes.map(cls => (
-                                        <option key={cls._id} value={cls._id}>
-                                            {cls.className}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-
-                            {/* Section Field */}
-                            <div>
-                                <label className="block mb-1 font-medium">Section</label>
-                                <select
-                                    name="sectionId"
-                                    value={form.sectionId}
-                                    onChange={handleInputChange}
-                                    className="w-full p-2 border rounded-md bg-gray-100 cursor-not-allowed"
-                                    required
-                                    disabled
-                                >
-                                    {sections.map(section => (
-                                        <option key={section._id} value={section._id}>
-                                            {section.sectionName}
-                                        </option>
-                                    ))}
+                                    <option key={classes._id} value={classes._id}>
+                                        {classes.className}
+                                    </option>
                                 </select>
                             </div>
 
