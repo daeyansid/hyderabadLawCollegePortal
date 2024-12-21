@@ -33,8 +33,7 @@ export const getBranchDailyTimeSlotsByDayBranch = async (branchClassDaysId) => {
         }
 
         // Make a GET request with branchId as a query parameter
-        const response = await axiosInstance.get(
-            `/branch-daily-time-slots/by-branch-class-days/${branchClassDaysId}`,
+        const response = await axiosInstance.get(`/branch-daily-time-slots/by-branch-class-days/${branchClassDaysId}`,
             {
                 params: {
                     branchId,

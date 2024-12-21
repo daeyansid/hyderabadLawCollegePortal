@@ -92,11 +92,23 @@ export const getAllSubjects = async (branchId) => {
     }
 };
 
-// Fetch all Subjects for a specific branch
+// Fetch all Subjects for a specific branch {{{{{{TO REMOVE}}}}}}
 export const getAllSubjectsBySectionId = async (sectionId) => {
     try {
         const response = await axiosInstance.get(`/subject/get-all-by-section?sectionId=${sectionId}`);
         return response.data.data.subjects;
+    } catch (error) {
+        console.error('Error fetching Subjects:', error);
+        throw error.response?.data || { message: 'An error occurred while fetching Subjects.' };
+    }
+};
+
+
+
+export const getAllSubjectsByClassId = async (classId) => {
+    try {
+        const response = await axiosInstance.post(`/subject/get-all-by-class?classId=${classId}`);
+        return response.data.data;
     } catch (error) {
         console.error('Error fetching Subjects:', error);
         throw error.response?.data || { message: 'An error occurred while fetching Subjects.' };

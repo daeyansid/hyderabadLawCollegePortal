@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { getDayById } from '../../../api/branchClassDaysApi';
 import { getBranchDailyTimeSlotsByDayBranch } from '../../../api/branchDailyTimeSlotsApi';
 import { fetchClassById } from '../../../api/classApi';
-import { getAllSubjectsBySectionId } from '../../../api/subjectApi';
+import { getAllSubjectsByClassId } from '../../../api/subjectApi';
 import { getAvailableTeachersByBranchVerification } from '../../../api/teacherApi';
 import { createClassSlotAssignment, getAllClassSlotAssignments } from '../../../api/classSlotAssignmentsApi';
 import Swal from 'sweetalert2';
@@ -22,7 +22,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         classId: '',
         subjectId: '',
         teacherId: '',
-        classType: '',
+        classType: 'Main Class',
     });
 
     const branchId = localStorage.getItem('branchId');
@@ -35,52 +35,67 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
 
     const fetchInitialData = async () => {
         try {
+            // Fetch day data
             const dayData = await getDayById(branchClassDaysIdParam);
             setBranchClassDays(dayData);
-            console.log("dayData", dayData);
-            
-            // Fetch sections using existing API function
-            const classData = await fetchClassById(classIdParam);
-            console.log("classData", classData.data);
+        } catch (error) {
+            Swal.fire('Error fetching day data', error.message, 'error');
+            return; // Exit early if this fails
+        }
 
+        try {
+            // Fetch class data
+            const classData = await fetchClassById(classIdParam);
             setClasses(classData.data);
-            
-            
-            if (!selectedSection) {
-                throw new Error('Section not found');
-            }
-            
-            
+        } catch (error) {
+            Swal.fire('Error fetching class data', error.message, 'error');
+            return; // Exit early if this fails
+        }
+
+        try {
             // Set the form fields for classId and sectionId
             setForm(prevForm => ({
                 ...prevForm,
                 classId: classIdParam,
             }));
-        
-            // Fetch time slots after setting the day
-            await fetchTimeSlots();
+        } catch (error) {
+            Swal.fire('Error validating section', error.message, 'error');
+            return; // Exit early if this fails
+        }
 
-            // Fetch existing assignments for validation
+        try {
+            // Fetch time slots
+            await fetchTimeSlots();
+        } catch (error) {
+            Swal.fire('Error fetching time slots', error.message, 'error');
+            return; // Exit early if this fails
+        }
+
+        try {
             const assignments = await getAllClassSlotAssignments(branchClassDaysIdParam);
             setExistingAssignments(assignments);
         } catch (error) {
-            // Swal.fire('Error', error.message, 'error');
+            // Swal.fire('Error 1 fetching assignments', error.message, 'error');
+            return;
         }
     };
+
 
     const fetchTimeSlots = async () => {
         try {
             const slotsData = await getBranchDailyTimeSlotsByDayBranch(branchClassDaysIdParam);
             const classSlots = slotsData.filter(slot => slot.slotType === 'Class Slot');
+            console.log("classSlots", classSlots);
             setTimeSlots(classSlots);
         } catch (error) {
-            // Swal.fire('Error', 'Failed to load time slots.', 'error');
+            // Swal.fire('Error 2', 'Failed to load time slots.', 'error');
         }
     };
 
     const fetchSubjects = async () => {
         try {
-            const subjectsData = await getAllSubjectsBySectionId(form.sectionId);
+            const subjectsData = await getAllSubjectsByClassId(form.classId);
+            console.log("subjectsData",subjectsData);
             setSubjects(subjectsData);
         } catch (error) {
             Swal.fire('Error', error.message, 'error');
@@ -97,16 +112,15 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
     };
 
     const validateSlot = () => {
-        const { timeSlot, teacherId, classId, sectionId } = form;
+        const { timeSlot, teacherId, classId } = form;
 
         // Rule 1: Do not enter the same slot again on the same day for the same class.
         const sameSlotInClassExists = existingAssignments.some(
             assignment => assignment.branchDailyTimeSlotsId._id === timeSlot &&
-                assignment.classId._id === classId &&
-                assignment.sectionId._id === sectionId
+                assignment.classId._id === classId
         );
         if (sameSlotInClassExists) {
-            Swal.fire('Error', 'This slot is already assigned on the same day for the same class and section.', 'error');
+            Swal.fire('Error', 'This slot is already assigned on the same day for the same class', 'error');
             return false;
         }
 
@@ -121,13 +135,13 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
             return false;
         }
 
-        // New Rule: The same teacher cannot teach in different classes or sections at the same slot on the same day.
+        // New Rule: The same teacher cannot teach in different classes at the same slot on the same day.
         const teacherAssignedInSlot = existingAssignments.some(
             assignment => assignment.branchDailyTimeSlotsId._id === timeSlot &&
                 assignment.teacherId._id === teacherId
         );
         if (teacherAssignedInSlot) {
-            Swal.fire('Error', 'This teacher is already assigned to this slot for a different class or section.', 'error');
+            Swal.fire('Error', 'This teacher is already assigned to this slot for a different class', 'error');
             return false;
         }
 
@@ -172,7 +186,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!validateSlot()) return;
-
+    
         try {
             const assignmentData = {
                 branchClassDaysId: form.day,
@@ -183,6 +197,10 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
                 classType: form.classType,
                 slotType: 'Class Slot',
             };
+    
+            // Log the assignment data before making the API call
+            console.log('Assignment Data:', assignmentData);
+    
             await createClassSlotAssignment(assignmentData);
             Swal.fire('Success', 'Class Slot Assignment created successfully.', 'success');
             setShowModal(false);
@@ -227,7 +245,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
 
                             {/* Class Field */}
                             <div>
-                                <label className="block mb-1 font-medium">Class</label>
+                                <label className="block mb-1 font-medium">Semester</label>
                                 <select
                                     name="classId"
                                     value={form.classId}
@@ -301,7 +319,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
                                 </select>
                             </div>
 
-                            {/* Class Type Field */}
+                            {/* Class Type Field
                             <div>
                                 <label className="block mb-1 font-medium">Select Class Type</label>
                                 <select
@@ -310,13 +328,11 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
                                     onChange={handleInputChange}
                                     className="w-full p-2 border rounded-md"
                                     required
-                                    disabled={!form.teacherId}
+                                    disabled
                                 >
-                                    <option value="">-- Select Class Type --</option>
                                     <option value="Main Class">Main Class</option>
-                                    <option value="Subject Class">Subject Class</option>
                                 </select>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className="mt-6 flex justify-end">

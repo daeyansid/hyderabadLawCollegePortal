@@ -26,11 +26,6 @@ const classSlotAssignmentsSchema = new Schema(
             ref: 'Class',
             required: [true, 'Class ID is required.'],
         },
-        sectionId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'section',
-            required: [true, 'Section ID is required.'],
-        },
         subjectId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'subject',
@@ -45,7 +40,7 @@ const classSlotAssignmentsSchema = new Schema(
             type: String,
             enum: {
                 values: CLASS_TYPES,
-                message: 'Class Type must be either "Main Class" or "Subject Class".',
+                message: 'Class Type must be "Main Class"',
             },
             required: [true, 'Class Type is required.'],
         },

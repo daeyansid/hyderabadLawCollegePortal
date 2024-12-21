@@ -69,7 +69,6 @@ const ClassSlotAssignmentsList = () => {
             const slot = assignment.slot?.toLowerCase() || '';
             const slotType = assignment.slotType?.toLowerCase() || '';
             const className = assignment.classId?.className?.toLowerCase() || '';
-            const sectionName = assignment.sectionId?.sectionName?.toLowerCase() || '';
             const subjectName = assignment.subjectId?.subjectName?.toLowerCase() || '';
             const teacherName = assignment.teacherId?.fullName?.toLowerCase() || '';
             const classType = assignment.classType?.toLowerCase() || '';
@@ -78,7 +77,6 @@ const ClassSlotAssignmentsList = () => {
                 slot.includes(value) ||
                 slotType.includes(value) ||
                 className.includes(value) ||
-                sectionName.includes(value) ||
                 subjectName.includes(value) ||
                 teacherName.includes(value) ||
                 classType.includes(value)
@@ -140,9 +138,9 @@ const ClassSlotAssignmentsList = () => {
             ),
         },
         {
-            name: 'Class / Section',
+            name: 'Semester',
             selector: (row) =>
-                row.classId ? `${row.classId?.className || 'N/A'} - ${row.sectionId?.sectionName || 'N/A'}` : 'N/A',
+                row.classId ? `${row.classId?.className || 'N/A'}` : 'N/A',
             sortable: true,
             wrap: true,
         },
@@ -236,7 +234,7 @@ const ClassSlotAssignmentsList = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search by slot, class, section, subject, teacher, etc..."
+                    placeholder="Search by slot, semester, subject, teacher, etc..."
                     value={searchText}
                     onChange={handleSearch}
                     className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
