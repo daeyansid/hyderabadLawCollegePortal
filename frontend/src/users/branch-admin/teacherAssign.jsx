@@ -52,7 +52,6 @@ const TeacherAssign = () => {
     // Navigate to the next step (Assign)
     const handleNextStep = (dayId) => {
         navigate(`/branch-admin/scheduleAndAssign/SectionSelectionList/${dayId}`);
-        // navigate(`/branch-admin/scheduleAndAssign/ClassSlotAssignmentsList/${dayId}`);
     };
 
     // Navigate to view day details
@@ -101,7 +100,7 @@ const TeacherAssign = () => {
                                     className="flex items-center text-indigo-600 hover:text-indigo-800"
                                     title="Assign Teacher"
                                 >
-                                    <span className="mr-2">Select Class</span>
+                                    <span className="mr-2">Select Semester</span>
                                     <AiOutlineArrowRight size={24} />
                                 </button>
                             </div>

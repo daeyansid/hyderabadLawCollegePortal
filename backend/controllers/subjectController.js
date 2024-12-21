@@ -263,3 +263,30 @@ exports.fetchSubjectByClassAndBranch = async (req, res) => {
         return sendErrorResponse(res, 500, 'Server error.', error);
     }
 };
+
+exports.fetchSubjectByClass = async (req, res) => {
+
+    const { classId } = req.query;
+    try {
+        if (!classId) {
+            return sendErrorResponse(res, 400, 'Class ID is required');
+        }
+
+        const subjects = await Subject.find({ classId })
+            .populate({
+                path: 'classId',
+                select: 'className description'
+            });
+
+        console.log("subjects", subjects);
+
+        if (!subjects || subjects.length === 0) {
+            return sendErrorResponse(res, 404, 'No subjects found for this class');
+        }
+
+        sendSuccessResponse(res, 200, 'Subjects retrieved successfully', subjects);
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};

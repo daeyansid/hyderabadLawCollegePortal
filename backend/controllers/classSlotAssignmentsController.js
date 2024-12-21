@@ -14,25 +14,21 @@ exports.createClassSlotAssignment = async (req, res) => {
         branchClassDaysId,
         branchDailyTimeSlotsId,
         classId,
-        sectionId,
-        subjectId,
         teacherId,
         classType,
         slotType,
+        subjectId
     } = req.body;
 
     try {
-        // Optional: Add any business logic validations here (e.g., prevent overlapping assignments)
-
         const newAssignment = new ClassSlotAssignments({
             branchClassDaysId,
             branchDailyTimeSlotsId,
             classId,
-            sectionId,
-            subjectId,
             teacherId,
             classType,
             slotType,
+            subjectId
         });
 
         const savedAssignment = await newAssignment.save();
@@ -71,7 +67,6 @@ exports.getAllClassSlotAssignments = async (req, res) => {
             .populate('branchClassDaysId')
             .populate('branchDailyTimeSlotsId')
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId')
             .sort({ createdAt: -1 });
@@ -139,7 +134,6 @@ exports.updateClassSlotAssignment = async (req, res) => {
             .populate('branchClassDaysId')
             .populate('branchDailyTimeSlotsId')
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId');
 
@@ -186,19 +180,15 @@ exports.deleteClassSlotAssignment = async (req, res) => {
 
 
 exports.getAllSlotsForDay = async (req, res) => {
-    const { branchClassDaysId, sectionId, branchId } = req.query;
+    const { branchClassDaysId, branchId } = req.query;
 
     // Validate inputs
-    if (!branchClassDaysId || !sectionId || !branchId) {
-        return sendErrorResponse(res, 400, 'Branch Class Days ID, Section ID, and Branch ID are required.');
+    if (!branchClassDaysId || !branchId) {
+        return sendErrorResponse(res, 400, 'Branch Class Days ID, and Branch ID are required.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchClassDaysId)) {
         return sendErrorResponse(res, 400, 'Invalid Branch Class Days ID format.');
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(sectionId)) {
-        return sendErrorResponse(res, 400, 'Invalid Section ID format.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchId)) {
@@ -217,17 +207,15 @@ exports.getAllSlotsForDay = async (req, res) => {
             return sendErrorResponse(res, 400, 'Branch Class Day does not belong to the specified Branch.');
         }
 
-        // Fetch Class Slot Assignments filtered by branchClassDaysId and sectionId
+        // Fetch Class Slot Assignments filtered by branchClassDaysId
         const assignments = await ClassSlotAssignments.find({
             branchClassDaysId: branchClassDaysId,
-            sectionId: sectionId,
         })
             .populate({
                 path: 'branchDailyTimeSlotsId',
                 select: 'slot slotType',
             })
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId');
 
@@ -246,7 +234,6 @@ exports.getAllSlotsForDay = async (req, res) => {
             slotType: assignment.slotType, // 'Class Slot'
             slot: assignment.branchDailyTimeSlotsId?.slot,
             classId: assignment.classId,
-            sectionId: assignment.sectionId,
             subjectId: assignment.subjectId,
             teacherId: assignment.teacherId,
             classType: assignment.classType,
@@ -260,7 +247,6 @@ exports.getAllSlotsForDay = async (req, res) => {
             slotType: slot.slotType, // 'Break Slot'
             slot: slot.slot,
             classId: null,
-            sectionId: null,
             subjectId: null,
             teacherId: null,
             classType: null,

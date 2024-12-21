@@ -99,25 +99,8 @@ function MainApp() {
             <Route path="scheduleAndAssign/day" element={<BranchClassDaysList />} />
             <Route path="scheduleAndAssign/timeSlot/:branchClassDaysId" element={<BranchDailyTimeSlotsList />} />
             <Route path="scheduleAndAssign/SectionSelectionList/:branchClassDayIdParam" element={<SelectSectionClass />} />
-            <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:sectionIdParam" element={<ClassSlotAssignmentsList />} />
+            <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:classIdParam" element={<ClassSlotAssignmentsList />} />
           </Route>
-
-          {/* Super Admin Routes */}
-          {/* <Route
-            path="/super-admin/*"
-            element={
-              <PrivateRoute
-                isAuthenticated={isAuthenticated}
-                element={<SuperAdminLayout />}
-              />
-            }
-          >
-            <Route path="dashboard" element={<SuperAdminDashboard />} />
-            <Route path="branch" element={<SuperAdminBatch />} />
-            <Route path="user" element={<SuperAdminUser />} />
-            <Route path="leave" element={<SuperAdminLeaveDataTable />} />
-            <Route path="holiday" element={<SuperAdminHoliday />} />
-          </Route> */}
 
           {/* Teacher Routes */}
           <Route

@@ -511,6 +511,7 @@ const EditStudent = () => {
                             <input
                                 type="email"
                                 name="email"
+                                disabled
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 placeholder="Enter email address"

@@ -17,7 +17,7 @@ export const getAllClassSlotAssignments = async (branchClassDaysId) => {
 export const createClassSlotAssignment = async (assignmentData) => {
     try {
         const response = await axiosInstance.post('/class-slot-assignments/create', assignmentData);
-        return response.data.data; // Assuming response.data.data contains the created assignment
+        return response.data.data;
     } catch (error) {
         console.error('Error creating Class Slot Assignment:', error);
         throw error.response?.data || { message: 'An error occurred while creating the Class Slot Assignment.' };

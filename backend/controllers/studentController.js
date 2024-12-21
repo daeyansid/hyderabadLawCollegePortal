@@ -99,7 +99,8 @@ exports.createStudent = async (req, res) => {
     // **7. Handle Photo Upload**
     let photoPath = '';
     if (req.file) {
-      photoPath = req.file.path; // Save the file path
+      // Save only the file name
+      photoPath = path.basename(req.file.path);
     } else {
       photoPath = ''; // Or set a default image path if necessary
     }

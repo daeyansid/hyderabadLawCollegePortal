@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getAllSlotsForDay, deleteClassSlotAssignment } from '../../api/classSlotAssignmentsApi';
+import { getDayById } from '../../api/branchClassDaysApi';
+import { fetchClassById } from '../../api/classApi';
 import Swal from 'sweetalert2';
 import { AiOutlineReload, AiOutlinePlus, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import AddClassSlotAssignmentModal from './scheduleAndAssign/AddClassSlotAssignmentModal';
@@ -9,22 +11,50 @@ import EditClassSlotAssignmentModal from './scheduleAndAssign/EditClassSlotAssig
 
 const ClassSlotAssignmentsList = () => {
     const { branchClassDaysIdParam } = useParams();
-    const { sectionIdParam } = useParams();
+    const { classIdParam } = useParams();
     const [assignments, setAssignments] = useState([]);
     const [filteredAssignments, setFilteredAssignments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
+    const [dayData, setDayData] = useState('');
+    const [classNameData, setClassNameData] = useState('');
     const [error, setError] = useState(null);
     const [showAddModal, setShowAddModal] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [dataFetched, setDataFetched] = useState(false);
+    const navigate = useNavigate();
 
     // Fetch all Slots (Class Slot Assignments and Break Slots)
     const fetchAssignments = async () => {
         setLoading(true);
+
+        // for Day name
         try {
-            const data = await getAllSlotsForDay(branchClassDaysIdParam, sectionIdParam);
+            const dayData = await getDayById(branchClassDaysIdParam);
+            console.log("dayData", dayData);
+            setDayData(dayData.day);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to Day Name.');
+        } finally {
+            setLoading(false);
+        }
+
+        // for Class name
+        try {
+            const classNameData = await fetchClassById(classIdParam);
+            console.log("class Data", classNameData);
+            setClassNameData(classNameData.data.className);
+        } catch (err) {
+            console.error(err);
+            setError('Failed to fetch Class Name.');
+        } finally {
+            setLoading(false);
+        }
+
+        try {
+            const data = await getAllSlotsForDay(branchClassDaysIdParam, classIdParam);
 
             // Sort the data in ascending order based on slot times
             const parseSlotTime = (slotStr) => {
@@ -47,8 +77,9 @@ const ClassSlotAssignmentsList = () => {
 
             setAssignments(sortedData);
             setFilteredAssignments(sortedData);
+            console.log(sortedData);
             setError(null);
-            setDataFetched(true); // Set data fetched to true after fetching
+            setDataFetched(true);
         } catch (err) {
             console.error(err);
             setError(err.message || 'Failed to fetch Slots.');
@@ -69,7 +100,6 @@ const ClassSlotAssignmentsList = () => {
             const slot = assignment.slot?.toLowerCase() || '';
             const slotType = assignment.slotType?.toLowerCase() || '';
             const className = assignment.classId?.className?.toLowerCase() || '';
-            const sectionName = assignment.sectionId?.sectionName?.toLowerCase() || '';
             const subjectName = assignment.subjectId?.subjectName?.toLowerCase() || '';
             const teacherName = assignment.teacherId?.fullName?.toLowerCase() || '';
             const classType = assignment.classType?.toLowerCase() || '';
@@ -78,7 +108,6 @@ const ClassSlotAssignmentsList = () => {
                 slot.includes(value) ||
                 slotType.includes(value) ||
                 className.includes(value) ||
-                sectionName.includes(value) ||
                 subjectName.includes(value) ||
                 teacherName.includes(value) ||
                 classType.includes(value)
@@ -110,6 +139,10 @@ const ClassSlotAssignmentsList = () => {
         });
     };
 
+    const handleBackClick = () => {
+        navigate(-1); // This will navigate back to the previous page
+    };
+
     // Handle Edit
     const handleEdit = (assignment) => {
         setSelectedAssignment(assignment);
@@ -131,18 +164,17 @@ const ClassSlotAssignmentsList = () => {
             wrap: true,
             cell: (row) => (
                 <span
-                    className={`px-2 py-1 rounded-full ${
-                        row.slotType === 'Class Slot' ? 'bg-purple-500 text-white' : 'bg-gray-500 text-white'
-                    }`}
+                    className={`px-2 py-1 rounded-full ${row.slotType === 'Class Slot' ? 'bg-purple-500 text-white' : 'bg-gray-500 text-white'
+                        }`}
                 >
                     {row.slotType}
                 </span>
             ),
         },
         {
-            name: 'Class / Section',
+            name: 'Semester',
             selector: (row) =>
-                row.classId ? `${row.classId?.className || 'N/A'} - ${row.sectionId?.sectionName || 'N/A'}` : 'N/A',
+                row.classId ? `${row.classId?.className || 'N/A'}` : 'N/A',
             sortable: true,
             wrap: true,
         },
@@ -220,15 +252,22 @@ const ClassSlotAssignmentsList = () => {
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-semibold text-indigo-700">Class Timetable</h2>
+                <h2 className="text-2xl font-semibold text-indigo-700">Class Timetable for {dayData || 'N/A'} of {classNameData || 'N/A'} Semester </h2>
                 <div className="flex space-x-4">
+                    <button
+                        onClick={handleBackClick}
+                        className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-gray-400"
+                    >
+                        Back
+                    </button>
                     <button
                         onClick={() => setShowAddModal(true)}
                         className="flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
                     >
                         <AiOutlinePlus className="mr-2" size={20} />
-                        Assign Class
+                        Assign Class
                     </button>
+
                 </div>
             </div>
 
@@ -236,7 +275,7 @@ const ClassSlotAssignmentsList = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search by slot, class, section, subject, teacher, etc..."
+                    placeholder="Search by slot, semester, subject, teacher, etc..."
                     value={searchText}
                     onChange={handleSearch}
                     className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
