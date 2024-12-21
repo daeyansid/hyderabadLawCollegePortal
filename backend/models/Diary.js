@@ -26,11 +26,6 @@ const DiarySchema = new Schema({
         ref: 'Class',
         required: true,
     },
-    section: {
-        type: Schema.Types.ObjectId,
-        ref: 'section',
-        required: true,
-    },
     assignedStudents: {
         type: [Schema.Types.ObjectId],
         ref: 'Student',

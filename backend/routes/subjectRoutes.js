@@ -24,7 +24,7 @@ router.delete('/delete/:id', authMiddleware, subjectController.deleteSubject);
 // Fetch all Subjects by batch ID and class ID
 router.post('/get-all-subject-by-class-batch', authMiddleware, subjectController.fetchSubjectByClassAndBranch);
 
-// Fetch all Subjects by batch ID and class ID
+// Fetch all Subjects by class ID
 router.post('/get-all-by-class', authMiddleware, subjectController.fetchSubjectByClass);
 
 module.exports = router;

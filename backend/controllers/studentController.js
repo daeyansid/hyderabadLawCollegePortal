@@ -392,35 +392,6 @@ exports.updateStudent = async (req, res) => {
 };
 
 // Delete Student
-// exports.deleteStudent = async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     // Find the student by ID
-//     const student = await Student.findById(id);
-
-//     if (!student) {
-//       return res.status(404).json({ message: "Student not found" });
-//     }
-
-//     // Delete the associated user
-//     await User.findByIdAndDelete(student.userId);
-
-//     // Delete associated old academic info
-//     await StudentOldAcademicInfo.deleteMany({ studentId: id });
-
-//     // Delete the student
-//     await Student.findByIdAndDelete(id);
-
-//     res.status(200).json({ message: "Student deleted successfully" });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Server error", error: err.message });
-//   }
-// };
-
-
-// Delete Student
 exports.deleteStudent = async (req, res) => {
   console.log("deleteStudent In");
 
@@ -479,6 +450,17 @@ exports.deleteStudent = async (req, res) => {
   }
 };
 
+// Fetch students by class ID and section ID
+exports.getStudentsByClass = async (req, res) => {
+  const { classId } = req.params;
+  try {
+    const students = await Student.find({ classId });
+    sendSuccessResponse(res, 200, "Students fetched successfully", students);
+  } catch (error) {
+    console.error(error);
+    sendErrorResponse(res, 500, "Server error", error);
+  }
+};
 
 
 // Fetch students by batch year
@@ -498,17 +480,7 @@ exports.deleteStudent = async (req, res) => {
 //     res.status(500).json({ message: "Server error", error: err.message });
 //   }
 // };
-// // Fetch students by class ID and section ID
-// exports.getStudentsByClassAndSection = async (req, res) => {
-//   const { classId, sectionId } = req.params;
-//   try {
-//     const students = await Student.find({ classId, sectionId });
-//     sendSuccessResponse(res, 200, "Students fetched successfully", students);
-//   } catch (error) {
-//     console.error(error);
-//     sendErrorResponse(res, 500, "Server error", error);
-//   }
-// };
+
 
 // Fetch students by batch year and branchId
 // exports.getStudentsByBatchYearAndBranch = async (req, res) => {

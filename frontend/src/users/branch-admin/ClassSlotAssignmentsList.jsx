@@ -53,6 +53,7 @@ const ClassSlotAssignmentsList = () => {
             setLoading(false);
         }
 
+        
         try {
             const data = await getAllSlotsForDay(branchClassDaysIdParam, classIdParam);
 
@@ -256,7 +257,7 @@ const ClassSlotAssignmentsList = () => {
                 <div className="flex space-x-4">
                     <button
                         onClick={handleBackClick}
-                        className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-gray-400"
+                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
                     >
                         Back
                     </button>

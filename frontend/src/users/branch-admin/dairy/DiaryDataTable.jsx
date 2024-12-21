@@ -23,7 +23,7 @@ const DiaryDataTable = () => {
             setDiaries(diaryData);
             setLoading(false);
         } catch (error) {
-            console.error('Unable to fetch diary data.', error);
+            console.error('Unable to fetch notice data.', error);
             setLoading(false);
         }
     };
@@ -56,12 +56,12 @@ const DiaryDataTable = () => {
         if (confirmDelete.isConfirmed) {
             try {
                 await deleteDiary(diaryId);
-                Swal.fire('Deleted!', 'The diary entry has been deleted.', 'success');
+                Swal.fire('Deleted!', 'The notice entry has been deleted.', 'success');
                 
                 // Update the diary list by removing the deleted entry
                 setDiaries((prevDiaries) => prevDiaries.filter((diary) => diary._id !== diaryId));
             } catch (error) {
-                Swal.fire('Error!', 'Failed to delete the diary entry. Please try again later.', 'error');
+                Swal.fire('Error!', 'Failed to delete the notice entry. Please try again later.', 'error');
             }
         }
     };
@@ -106,13 +106,8 @@ const DiaryDataTable = () => {
             sortable: true,
         },
         {
-            name: 'Class',
+            name: 'Semester',
             selector: (row) => (row.class ? row.class.className : 'N/A'),
-            sortable: true,
-        },
-        {
-            name: 'Section',
-            selector: (row) => (row.section ? row.section.sectionName : 'N/A'),
             sortable: true,
         },
         {
@@ -127,17 +122,17 @@ const DiaryDataTable = () => {
                     <AiFillEye
                         className="text-blue-500 cursor-pointer"
                         onClick={() => handleViewClick(row._id)}
-                        title="View Diary"
+                        title="View Notice"
                     />
                     <AiFillEdit
                         className="text-green-500 cursor-pointer"
                         onClick={() => handleEditClick(row._id)}
-                        title="Edit Diary"
+                        title="Edit Notice"
                     />
                     <AiFillDelete
                         className="text-red-500 cursor-pointer"
                         onClick={() => handleDeleteClick(row._id)}
-                        title="Delete Diary"
+                        title="Delete Niary"
                     />
                 </div>
             ),
@@ -150,16 +145,16 @@ const DiaryDataTable = () => {
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
             <div className="flex justify-between mb-4">
-                <h2 className="text-2xl font-semibold text-indigo-700">Diary Records</h2>
+                <h2 className="text-2xl font-semibold text-indigo-700">Notice Records</h2>
                 <button
                     onClick={() => setShowAddModal(true)}
                     className="bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
                 >
-                    Add Diary
+                    Add Notice
                 </button>
             </div>
             {loading ? (
-                <p>Loading diary data...</p>
+                <p>Loading Notice data...</p>
             ) : (
                 <DataTable
                     columns={columns}

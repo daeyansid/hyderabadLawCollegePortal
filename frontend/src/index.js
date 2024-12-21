@@ -5,14 +5,9 @@ import UserManagementTeacher from "./users/branch-admin/UserManagement/UserManag
 import AddStudent from "./users/branch-admin/UserManagement/Student/AddStudent.jsx";
 import EditStudent from "./users/branch-admin/UserManagement/Student/EditStudent.jsx";
 import ViewStudent from "./users/branch-admin/UserManagement/Student/ViewStudent.jsx";
-import CombinedLeaveDataTable from "./users/branch-admin/CombinedLeaveDataTable.jsx";
-import RejectedLeave from "./users/branch-admin/RejectedLeave";
-import ApprovedLeave from "./users/branch-admin/ApprovedLeave";
 import App from "./App";
 import TeacherLayout from "./teacherLayout.jsx";
 import TeacherDashboard from "./users/teacher/TeacherDashboard.jsx";
-import BranchAdminLeaveDataTable from "./users/branch-admin/BranchAdminLeaveDataTable.jsx";
-import TeacherLeave from "./users/teacher/TeacherLeaveDataTable.jsx";
 import LoginForm from "./loginForm";
 import BranchClassDaysList from "./users/branch-admin/BranchClassDaysList.jsx";
 import BranchDailyTimeSlotsList from "./users/branch-admin/timeSlots/BranchDailyTimeSlotsList.jsx";
@@ -27,7 +22,7 @@ import TakeViewAttendance from "./users/teacher/attendance/TakeViewAttendance.js
 import ViewDayAttendanceSingle from "./users/teacher/attendanceSingle/ViewDayAttendanceSingle.jsx";
 import ViewSlotsAttendanceSingle from "./users/teacher/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
 import TakeViewAttendanceSingle from "./users/teacher/attendanceSingle/TakeViewAttendanceSingle.jsx";
-import DiaryDataTable from "./users/teacher/dairy/DiaryDataTable.jsx";
+import DiaryDataTable from "./users/branch-admin/dairy/DiaryDataTable.jsx";
 import StudentLayout from "./studentLayout.jsx";
 import StudentDashboard from "./users/student/StudentDashboard.jsx";
 import GuardianDashboard from "./users/guardian/GuardianDashboard.jsx";
@@ -69,19 +64,14 @@ export {
   UserManagementTeacher,
   App,
   LoginForm,
-  ApprovedLeave,
-  RejectedLeave,
   AddStudent,
   ViewStudent,
   EditStudent,
   SuperAdminBatch,
   SuperAdminUser,
   TeacherDashboard,
-  TeacherLeave,
   TeacherLayout,
   baseURLDoc,
-  CombinedLeaveDataTable,
-  BranchAdminLeaveDataTable,
   BranchClassDaysList,
   BranchDailyTimeSlotsList,
   TeacherAssign,

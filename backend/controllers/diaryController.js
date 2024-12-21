@@ -9,7 +9,7 @@ const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
 // Create a new diary entry
 exports.createDiary = async (req, res) => {
-    const { date, remarks, subject, description, class: classId, section: sectionId, assignedStudents, assignToAll } = req.body;
+    const { date, remarks, subjectId, description, classId, assignedStudents, assignToAll } = req.body;
 
     try {
         // Validate Class
@@ -18,14 +18,8 @@ exports.createDiary = async (req, res) => {
             return sendErrorResponse(res, 400, 'Invalid Class ID');
         }
 
-        // Validate Section
-        const sectionExists = await Section.findById(sectionId);
-        if (!sectionExists) {
-            return sendErrorResponse(res, 400, 'Invalid Section ID');
-        }
-
         // Validate Subject
-        const subjectExists = await Subject.findById(subject);
+        const subjectExists = await Subject.findById(subjectId);
         if (!subjectExists) {
             return sendErrorResponse(res, 400, 'Invalid Subject ID');
         }
@@ -48,10 +42,9 @@ exports.createDiary = async (req, res) => {
         const diary = new Diary({
             date,
             remarks,
-            subject,
+            subject: subjectId,
             description,
             class: classId,
-            section: sectionId,
             assignedStudents: assignToAll ? [] : assignedStudents,
             assignToAll: assignToAll || false,
         });
@@ -70,7 +63,6 @@ exports.getAllDiaries = async (req, res) => {
         const diaries = await Diary.find()
             .populate('assignedStudents', 'fullName rollNumber') // Adjust fields as per your Student model
             .populate('class', 'className') // Populate Class details
-            .populate('section', 'sectionName') // Populate Section details
             .populate('subject', 'subjectName'); // Populate Subject details
 
         if (!diaries.length) {
@@ -92,7 +84,6 @@ exports.getDiaryById = async (req, res) => {
         const diary = await Diary.findById(id)
             .populate('assignedStudents', 'fullName rollNumber') // Adjust fields as per your Student model
             .populate('class', 'className') // Populate Class details
-            .populate('section', 'sectionName') // Populate Section details
             .populate('subject', 'subjectName'); // Populate Subject details
 
         if (!diary) return sendErrorResponse(res, 404, 'Diary entry not found');
@@ -107,7 +98,7 @@ exports.getDiaryById = async (req, res) => {
 // Update a diary entry
 exports.updateDiary = async (req, res) => {
     const { id } = req.params;
-    const { date, remarks, subject, description, class: classId, section: sectionId, assignedStudents, assignToAll } = req.body;
+    const { date, remarks, subjectId, description, classId, assignedStudents, assignToAll } = req.body;
 
     try {
         const diary = await Diary.findById(id);
@@ -122,22 +113,13 @@ exports.updateDiary = async (req, res) => {
             diary.class = classId;
         }
 
-        // Validate and update Section if provided
-        if (sectionId) {
-            const sectionExists = await Section.findById(sectionId);
-            if (!sectionExists) {
-                return sendErrorResponse(res, 400, 'Invalid Section ID');
-            }
-            diary.section = sectionId;
-        }
-
         // Validate and update Subject if provided
-        if (subject) {
-            const subjectExists = await Subject.findById(subject);
+        if (subjectId) {
+            const subjectExists = await Subject.findById(subjectId);
             if (!subjectExists) {
                 return sendErrorResponse(res, 400, 'Invalid Subject ID');
             }
-            diary.subject = subject;
+            diary.subject = subjectId;
         }
 
         // Update other fields
@@ -149,7 +131,7 @@ exports.updateDiary = async (req, res) => {
         // Handle assignedStudents
         if (assignToAll) {
             diary.assignedStudents = [];
-        } else if (assignedStudents) {
+        } else if (assignedStudents && Array.isArray(assignedStudents)) {
             // Validate each student
             for (let studentId of assignedStudents) {
                 const studentExists = await Student.findById(studentId);

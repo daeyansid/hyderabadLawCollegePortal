@@ -139,13 +139,17 @@ const SelectSection = () => {
 
     return (
         <div className="p-6 bg-white rounded-lg shadow-md">
+            
+            <div className='flex just'>
+                <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Available Classes for {dayData || 'N/A'}</h2>
             <button
                 onClick={handleBackClick}
-                className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-gray-400"
+                className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
             >
                 Back
             </button>
-            <h2 className="text-2xl font-semibold text-indigo-700 mb-6">Available Classes for {dayData || 'N/A'}</h2>
+
+            </div>
             {loading ? (
                 <div className="flex justify-center items-center h-64">
                     <svg
