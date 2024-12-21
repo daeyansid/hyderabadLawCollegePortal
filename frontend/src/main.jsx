@@ -7,10 +7,8 @@ import RefrshHandler from './RefrshHandler';
 import {
   ClassSection,
   Dashboard,
-  UserManagementStaff,
   App,
   LoginForm,
-  UserManagementGuardian,
   UserManagementStudent,
   EditStudent,
   ViewStudent,
@@ -91,8 +89,6 @@ function MainApp() {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="class-section" element={<ClassSection />} />
             <Route path="user-management/teacher" element={<UserManagementTeacher />} />
-            <Route path="user-management/staff" element={<UserManagementStaff />} />
-            <Route path="user-management/guardian" element={<UserManagementGuardian />} />
             <Route path="user-management/student" element={<UserManagementStudent />} />
             <Route path="user-management/student-add" element={<AddStudent />} />
             <Route path="user-management/student-view/:id" element={<ViewStudent />} />

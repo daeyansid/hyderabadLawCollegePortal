@@ -114,9 +114,6 @@ export default function Aside() {
                                             <Link to="/branch-admin/user-management/teacher">Teacher</Link>
                                         </li>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/guardian">Guardian</Link>
-                                        </li>
-                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
                                             <Link to="/branch-admin/user-management/student">Student</Link>
                                         </li>
                                     </ul>

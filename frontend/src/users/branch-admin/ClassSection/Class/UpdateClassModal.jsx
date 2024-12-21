@@ -18,7 +18,7 @@ const UpdateClassModal = ({ id, onClose, reloadData }) => {
                     description: data.data.description,
                 });
             } catch (err) {
-                setError('Unable to fetch class data. Please try again later.');
+                setError('Unable to fetch Semester data. Please try again later.');
             }
         };
         fetchData();
@@ -39,12 +39,12 @@ const UpdateClassModal = ({ id, onClose, reloadData }) => {
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
-                text: 'Class updated successfully!',
+                text: 'Semester updated successfully!',
             });
             reloadData(); // Re-fetch data after updating
             onClose(); // Close modal after updating
         } catch (err) {
-            setError('Unable to update class. Please try again later.');
+            setError('Unable to update Semester. Please try again later.');
         }
     };
 
@@ -52,14 +52,14 @@ const UpdateClassModal = ({ id, onClose, reloadData }) => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-2xl">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-semibold text-indigo-900">Update Class</h2>
+                    <h2 className="text-2xl font-semibold text-indigo-900">Update Semester</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">×</button>
                 </div>
                 {error && <div className="text-red-500 mb-4">{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 gap-6">
                         <div className="mb-4">
-                            <label className="block text-gray-700 font-semibold">Class Name</label>
+                            <label className="block text-gray-700 font-semibold">Semester Name</label>
                             <input
                                 type="text"
                                 name="className"
@@ -85,7 +85,7 @@ const UpdateClassModal = ({ id, onClose, reloadData }) => {
                         type="submit"
                         className="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-4"
                     >
-                        Update Class
+                        Update Semester
                     </button>
                 </form>
             </div>

@@ -10,7 +10,8 @@ const ViewSubjectModal = ({ id, onClose }) => {
             try {
                 const response = await fetchSubjectById(id);
                 if (response) {
-                    setSubject(response.data);
+                    console.log(response);
+                    setSubject(response);
                 }
             } catch (error) {
                 Swal.fire({
@@ -52,19 +53,13 @@ const ViewSubjectModal = ({ id, onClose }) => {
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-lg font-semibold">✖</button>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="bg-gray-50 p-6 rounded-md shadow-sm">
-                        <h3 className="text-lg font-medium text-gray-800">Subject Information</h3>
-                        <div className="mt-4">
-                            <span className="font-medium text-gray-600">Subject Name:</span>
-                            <p className="text-gray-900 mt-1">{subject.subjectName || 'N/A'}</p>
-                        </div>
+                    <div className="mt-4">
+                        <span className="font-medium text-gray-600">Semester Name:</span>
+                        <p className="text-gray-900 mt-1 font-bold">{subject.data.subjectName || 'N/A'}</p>
                     </div>
-                    <div className="bg-gray-50 p-6 rounded-md shadow-sm">
-                        <h3 className="text-lg font-medium text-gray-800">Section Information</h3>
-                        <div className="mt-4">
-                            <span className="font-medium text-gray-600">Section Name:</span>
-                            <p className="text-gray-900 mt-1">{subject.sectionId ? subject.sectionId.sectionName : 'N/A'}</p>
-                        </div>
+                    <div className="mt-4">
+                        <span className="font-medium text-gray-600">Subject Name:</span>
+                        <p className="text-gray-900 mt-1 font-bold">{subject.data.classId.className || 'N/A'}</p>
                     </div>
                 </div>
                 <div className="flex justify-end mt-8">

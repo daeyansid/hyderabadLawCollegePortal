@@ -13,6 +13,7 @@ const ViewStudent = () => {
     const loadStudentData = async () => {
       try {
         const response = await fetchStudentById(id);
+        console.log(response);
         setStudentData(response);
       } catch (error) {
         console.error("Error fetching student data:", error);
@@ -51,7 +52,7 @@ const ViewStudent = () => {
         )}
       </div>
 
-      {/* Section 1: Personal Information */}
+      {/* Personal Information */}
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">
           Personal Information
@@ -61,7 +62,7 @@ const ViewStudent = () => {
             <strong>Full Name:</strong> {studentData.fullName}
           </p>
           <p>
-            <strong>Admission Class:</strong> {studentData.admissionClass}
+            <strong>Father Name:</strong> {studentData.fatherName}
           </p>
           <p>
             <strong>Cast/Surname:</strong> {studentData.castSurname}
@@ -83,6 +84,9 @@ const ViewStudent = () => {
             <strong>Gender:</strong> {studentData.gender}
           </p>
           <p>
+            <strong>CNIC:</strong> {studentData.cnic}
+          </p>
+          <p>
             <strong>Permanent Address:</strong> {studentData.permanentAddress}
           </p>
           <p>
@@ -96,136 +100,10 @@ const ViewStudent = () => {
         </div>
       </div>
 
-      {/* Section 2: Guardian Information */}
+      {/* User Information */}
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          Guardian Information
-        </h3>
-        {studentData.guardianId ? (
-          <div className="grid grid-cols-2 gap-4">
-            <p>
-              <strong>Full Name:</strong> {studentData.guardianId.fullName}
-            </p>
-            <p>
-              <strong>Relationship:</strong>{" "}
-              {studentData.guardianId.relationship}
-            </p>
-            <p>
-              <strong>Work Organization:</strong>{" "}
-              {studentData.guardianId.workOrganisation}
-            </p>
-            <p>
-              <strong>Occupation:</strong> {studentData.guardianId.workStatus}
-            </p>
-            <p>
-              <strong>CNIC Number:</strong> {studentData.guardianId.cnicNumber}
-            </p>
-            <p>
-              <strong>Mother's Name:</strong>{" "}
-              {studentData.guardianId.studentMotherName}
-            </p>
-            <p>
-              <strong>Mother's CNIC:</strong>{" "}
-              {studentData.guardianId.motherCnicNumber}
-            </p>
-            <p>
-              <strong>Mother's Occupation:</strong>{" "}
-              {studentData.guardianId.motherOccupation}
-            </p>
-            <p>
-              <strong>Guardian Phone Number:</strong>{" "}
-              {studentData.guardianId.guardianPhoneNumber}
-            </p>
-            <p>
-              <strong>Residential Address:</strong>{" "}
-              {studentData.guardianId.residentialAddress}
-            </p>
-            <p>
-              <strong>Work Address:</strong>{" "}
-              {studentData.guardianId.workAddress}
-            </p>
-          </div>
-        ) : (
-          <p className="text-gray-600">No Guardian information available.</p>
-        )}
-      </div>
-
-      {/* Section 3: Previous Schooling Details */}
-      <div className="mb-8">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          Previous Schooling Details
-        </h3>
-        {studentData.studentOldAcademicInfoId &&
-        studentData.studentOldAcademicInfoId.length > 0 ? (
-          <table className="min-w-full bg-white border border-gray-200 rounded-lg">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="py-2 px-4 border-b text-left">Institute Name</th>
-                <th className="py-2 px-4 border-b text-left">Location</th>
-                <th className="py-2 px-4 border-b text-left">From</th>
-                <th className="py-2 px-4 border-b text-left">To</th>
-                <th className="py-2 px-4 border-b text-left">Up to Class</th>
-              </tr>
-            </thead>
-            <tbody>
-              {studentData.studentOldAcademicInfoId.map((info, index) => (
-                <tr key={index} className="hover:bg-gray-50">
-                  <td className="py-2 px-4 border-b">{info.instituteName}</td>
-                  <td className="py-2 px-4 border-b">{info.location}</td>
-                  <td className="py-2 px-4 border-b">
-                    {info.from
-                      ? moment(info.from).format("YYYY-MM-DD")
-                      : "Not Set"}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {info.to ? moment(info.to).format("YYYY-MM-DD") : "Not Set"}
-                  </td>
-
-                  <td className="py-2 px-4 border-b">{info.upToClass}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
-          <p className="text-gray-600">
-            No previous schooling details available.
-          </p>
-        )}
-      </div>
-
-      {/* Section 4: Submitted Documents */}
-      <div className="mb-8">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          Submitted Documents
-        </h3>
-        <div className="grid grid-cols-2 gap-4">
-          <p>
-            <strong>Photocopies of CNIC Cards:</strong>{" "}
-            {studentData.photocopiesCnic ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Photocopies of Birth Certificate:</strong>{" "}
-            {studentData.birthCertificate ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Original Leaving/Transfer Certificate:</strong>{" "}
-            {studentData.leavingCertificate ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Photocopies of School Report:</strong>{" "}
-            {studentData.schoolReport ? "Yes" : "No"}
-          </p>
-          <p>
-            <strong>Two Passport Size Photographs:</strong>{" "}
-            {studentData.passportPhotos ? "Yes" : "No"}
-          </p>
-        </div>
-      </div>
-
-      {/* Section 5: Student User Information */}
-      <div className="mb-8">
-        <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          Student User Information
+          User Information
         </h3>
         <div className="grid grid-cols-2 gap-4">
           <p>
@@ -234,29 +112,23 @@ const ViewStudent = () => {
         </div>
       </div>
 
-      {/* Section 6: Registration and Fees */}
+      {/* Registration Information */}
       <div className="mb-8">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-          Registration and Fees
+          Registration Details
         </h3>
         <div className="grid grid-cols-2 gap-4">
           <p>
-            <strong>Monthly Fees:</strong> {studentData.monthlyFees}
-          </p>
-          <p>
-            <strong>Admission Fees:</strong> {studentData.admissionFees}
-          </p>
-          <p>
-            <strong>Class:</strong> {studentData.classId.className}
-          </p>
-          <p>
-            <strong>Section:</strong> {studentData.sectionId.sectionName}
+            <strong>Semester:</strong> {studentData.classId.className}
           </p>
           <p>
             <strong>Batch Year:</strong> {studentData.batchYear}
           </p>
           <p>
             <strong>Roll Number:</strong> {studentData.rollNumber}
+          </p>
+          <p>
+            <strong>LAT Marks:</strong> {studentData.latMarks}
           </p>
         </div>
       </div>

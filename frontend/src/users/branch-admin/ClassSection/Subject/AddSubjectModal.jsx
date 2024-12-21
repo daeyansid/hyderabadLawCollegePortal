@@ -1,52 +1,51 @@
 import React, { useState, useEffect } from 'react';
 import { createSubject } from '../../../../api/subjectApi';
-import { fetchSections } from '../../../../api/sectionApi';
+import { fetchClasses } from '../../../../api/classApi';
 import Swal from 'sweetalert2';
 
 const AddSubjectModal = ({ onClose, reloadData }) => {
     const [subjectName, setSubjectName] = useState('');
-    const [sectionId, setSectionId] = useState('');
-    const [sections, setSections] = useState([]);
+    const [classId, setClassId] = useState('');
+    const [classes, setClasses] = useState([]);
 
     useEffect(() => {
-        const loadSections = async () => {
+        const loadclasses = async () => {
             try {
-                const response = await fetchSections();
+                const response = await fetchClasses();
                 if (response) {
-                    // Optional: Sort sections by className and then by sectionName
-                    const sortedSections = response.data.sort((a, b) => {
-                        if (a.classId.className < b.classId.className) return -1;
-                        if (a.classId.className > b.classId.className) return 1;
-                        if (a.sectionName < b.sectionName) return -1;
-                        if (a.sectionName > b.sectionName) return 1;
+                    // Sort classes by className
+                    const sortedClasses = response.data.sort((a, b) => {
+                        if (a.className < b.className) return -1;
+                        if (a.className > b.className) return 1;
                         return 0;
                     });
-                    setSections(sortedSections);
+                    setClasses(sortedClasses);
                 }
             } catch (error) {
-                console.error('Error fetching sections:', error);
+                console.error('Error fetching classes:', error);
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Failed to load sections. Please try again later.',
+                    text: 'Failed to load classes. Please try again later.',
                 });
             }
         };
 
-        loadSections();
+        loadclasses();
     }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await createSubject({ subjectName, sectionId });
+            let classIdGet = classId;
+            await createSubject({ subjectName, classIdGet });
             Swal.fire({
                 icon: 'success',
                 title: 'Success',
                 text: 'Subject added successfully!',
             });
-            reloadData(); // Reload data after adding
-            onClose(); // Close modal after adding
+            reloadData();
+            onClose();
         } catch (error) {
             console.error('Error adding subject:', error);
             Swal.fire({
@@ -77,17 +76,17 @@ const AddSubjectModal = ({ onClose, reloadData }) => {
                         />
                     </div>
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">Section</label>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">Class</label>
                         <select
-                            value={sectionId}
-                            onChange={(e) => setSectionId(e.target.value)}
+                            value={classId}
+                            onChange={(e) => setClassId(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             required
                         >
-                            <option value="" disabled>Select a section</option>
-                            {sections.map(section => (
-                                <option key={section._id} value={section._id}>
-                                    {`${section.sectionName} - Of Class - ${section.classId.className}`}
+                            <option value="" disabled>Select a Class</option>
+                            {classes.map(classes => (
+                                <option key={classes._id} value={classes._id}>
+                                    {`${classes.className}`}
                                 </option>
                             ))}
                         </select>

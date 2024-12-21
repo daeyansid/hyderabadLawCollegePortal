@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ClassSchema = new Schema({
     className: { 
         type: String, 
-        required: [true, 'Class Name is required.'] 
+        required: [true, 'Semester Name is required.'] 
     },
     description: { 
         type: String, 

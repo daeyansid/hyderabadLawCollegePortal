@@ -1,8 +1,6 @@
 import Dashboard from "./users/branch-admin/Dashboard";
 import ClassSection from "./users/branch-admin/ClassSection/ClassSection";
-import UserManagementStaff from "./users/branch-admin/UserManagement/UserManagementStaff";
 import UserManagementStudent from "./users/branch-admin/UserManagement/UserManagementStudent.jsx";
-import UserManagementGuardian from "./users/branch-admin/UserManagement/UserManagementGuardian.jsx";
 import UserManagementTeacher from "./users/branch-admin/UserManagement/UserManagementTeacher.jsx";
 import AddStudent from "./users/branch-admin/UserManagement/Student/AddStudent.jsx";
 import EditStudent from "./users/branch-admin/UserManagement/Student/EditStudent.jsx";
@@ -67,8 +65,6 @@ export {
   branchTypeAdmin,
   Dashboard,
   ClassSection,
-  UserManagementStaff,
-  UserManagementGuardian,
   UserManagementStudent,
   UserManagementTeacher,
   App,

@@ -15,7 +15,7 @@ const ViewClassModal = ({ id, onClose }) => {
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Unable to fetch class data. Please try again later.',
+                    text: 'Unable to fetch Semester data. Please try again later.',
                 });
                 onClose(); // Close modal on error
             }
@@ -28,7 +28,7 @@ const ViewClassModal = ({ id, onClose }) => {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="text-center text-gray-600 bg-white p-8 rounded-lg shadow-lg">
-                    No class data available.
+                    No Semester data available.
                 </div>
             </div>
         );
@@ -38,12 +38,12 @@ const ViewClassModal = ({ id, onClose }) => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="bg-white p-10 rounded-lg shadow-lg w-full max-w-2xl">
                 <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-semibold text-indigo-900">Class Details</h2>
+                    <h2 className="text-2xl font-semibold text-indigo-900">Semester Details</h2>
                     <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-xl">×</button>
                 </div>
                 <div className="grid grid-cols-1 gap-6 mb-6">
                     <div>
-                        <label className="block text-gray-700 font-semibold">Class Name</label>
+                        <label className="block text-gray-700 font-semibold">Semester Name</label>
                         <p className="text-gray-900 border border-gray-300 p-3 rounded-md">
                             {classData.className || 'N/A'}
                         </p>

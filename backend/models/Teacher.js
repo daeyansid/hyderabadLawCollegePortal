@@ -30,7 +30,7 @@ const teacherSchema = new Schema({
     },
     basicSalary: {
         type: String,
-        required: [true, 'Basic Salary is required.']
+        required: [true, 'Pay Per Hour is required.']
     },
     joinDate: {
         type: Date,
@@ -44,13 +44,13 @@ const teacherSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Branch'
     },
-    teacherId: {
-        type: String,
-        unique: true,
-        required: [true, 'Teacher ID is required.']
-    },
     photo: {
         type: String,
+    },
+    natureOfAppointment: {
+        type: String,
+        enum: ['permanent', 'visiting'],
+        required: [true, 'Nature of Appointment is required.']
     },
 }, {
     timestamps: true,
