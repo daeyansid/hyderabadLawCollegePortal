@@ -108,7 +108,7 @@ app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
 
 
 app.use("/api/feeMeta", feeMeta);
-app.use("/api/feeDetail", feeDetails);
+app.use("/api/feeDetails", feeDetails);
 
 
 

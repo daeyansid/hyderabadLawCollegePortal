@@ -13,6 +13,12 @@ router.get('/get-all', authMiddleware, feeDetailsController.getAllFeeDetails);
 // Get fee details by student ID
 router.get('/student/:studentId', authMiddleware, feeDetailsController.getFeeDetailsByStudentId);
 
+// Get fee details by class ID
+router.get('/class/:classId', authMiddleware, feeDetailsController.getFeeDetailsByClassId);
+
+// Get fee detail by ID
+router.get('/get-by-id/:id', authMiddleware, feeDetailsController.getFeeDetailById);
+
 // Update fee details
 router.put('/update/:id', authMiddleware, uploadChallan.single('challanPicture'), feeDetailsController.updateFeeDetails);
 

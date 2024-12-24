@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, message, Image } from 'antd';
+import { Table, Button, Space, message, Image, Tag, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAllFeeDetails, deleteFeeDetails } from '../../../../api/feeDetails';
 import AddFeeDetail from './AddFeeDetail';
 import UpdateFeeDetail from './UpdateFeeDetail';
+
+const { Text } = Typography;
 
 const FeeDetail = () => {
     const [feeDetails, setFeeDetails] = useState([]);
@@ -11,6 +13,7 @@ const FeeDetail = () => {
     const [showAddModal, setShowAddModal] = useState(false);
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [selectedFee, setSelectedFee] = useState(null);
+    const [selectedFeeId, setSelectedFeeId] = useState(null);
 
     const fetchFeeDetails = async () => {
         setLoading(true);
@@ -40,56 +43,98 @@ const FeeDetail = () => {
     const columns = [
         {
             title: 'Student Name',
-            dataIndex: ['studentId', 'name'],
-            key: 'studentName'
+            dataIndex: ['studentId', 'fullName'],
+            key: 'studentName',
+            sorter: (a, b) => a.studentId.fullName.localeCompare(b.studentId.fullName),
         },
         {
-            title: 'Admission Fee Confirmed',
+            title: 'Roll Number',
+            dataIndex: ['studentId', 'rollNumber'],
+            key: 'rollNumber',
+        },
+        {
+            title: 'Semester',
+            dataIndex: ['classId', 'className'],
+            key: 'semester',
+        },
+        {
+            title: 'Semester Fee',
+            dataIndex: ['semesterFeesTotal', 'semesterFee'],
+            key: 'semesterFee',
+            render: (fee) => `Rs. ${fee.toLocaleString()}`,
+        },
+        {
+            title: 'Admission Fee',
+            dataIndex: ['totalAdmissionFee', 'admissionFee'],
+            key: 'admissionFee',
+            render: (fee) => `Rs. ${fee.toLocaleString()}`,
+        },
+        {
+            title: 'Admission Status',
             dataIndex: 'admissionConfirmationFee',
-            key: 'admissionConfirmationFee',
-            render: (confirmed) => confirmed ? 'Yes' : 'No'
+            key: 'admissionStatus',
+            render: (status) => (
+                <Tag color={status ? 'success' : 'error'}>
+                    {status ? 'Confirmed' : 'Pending'}
+                </Tag>
+            ),
         },
         {
-            title: 'Semester Fees Paid',
+            title: 'Paid Amount',
             dataIndex: 'semesterFeesPaid',
             key: 'semesterFeesPaid',
-            render: (amount) => `Rs. ${amount.toLocaleString()}`
+            render: (amount) => `Rs. ${amount.toLocaleString()}`,
         },
         {
-            title: 'Total Dues',
-            dataIndex: 'totalDues',
-            key: 'totalDues',
-            render: (amount) => `Rs. ${amount.toLocaleString()}`
+            title: 'Discount',
+            dataIndex: 'discount',
+            key: 'discount',
+            render: (amount) => `Rs. ${amount.toLocaleString()}`,
+        },
+        {
+            title: 'Late Fee',
+            dataIndex: 'lateFeeSurcharged',
+            key: 'lateFee',
+            render: (amount) => `Rs. ${amount.toLocaleString()}`,
+        },
+        {
+            title: 'Other Penalties',
+            dataIndex: 'otherPenalties',
+            key: 'otherPenalties',
+            render: (amount) => `Rs. ${amount.toLocaleString()}`,
         },
         {
             title: 'Challan',
             dataIndex: 'challanPicture',
-            key: 'challanPicture',
-            render: (image) => image ? (
-                <Image 
-                    src={`${process.env.REACT_APP_API_URL}/${image}`}
-                    alt="Challan"
-                    width={50}
-                    preview={true}
-                />
-            ) : 'No challan'
+            key: 'challan',
+            render: (image) =>
+                image ? (
+                    <Image
+                        src={`${process.env.REACT_APP_API_URL}/${image}`}
+                        alt="Challan"
+                        width={50}
+                        preview={true}
+                    />
+                ) : (
+                    'No challan'
+                ),
         },
         {
             title: 'Actions',
             key: 'actions',
             render: (_, record) => (
                 <Space>
-                    <Button 
+                    <Button
                         type="primary"
                         icon={<EditOutlined />}
                         onClick={() => {
-                            setSelectedFee(record);
+                            setSelectedFeeId(record._id);
                             setShowUpdateModal(true);
                         }}
                     >
                         Edit
                     </Button>
-                    <Button 
+                    <Button
                         danger
                         icon={<DeleteOutlined />}
                         onClick={() => handleDelete(record._id)}
@@ -97,14 +142,44 @@ const FeeDetail = () => {
                         Delete
                     </Button>
                 </Space>
-            )
-        }
+            ),
+        },
     ];
+
+    const tableSummary = (pageData) => {
+        const totalPaid = pageData.reduce((sum, record) => sum + record.semesterFeesPaid, 0);
+        const totalDiscount = pageData.reduce((sum, record) => sum + record.discount, 0);
+        const totalLateFee = pageData.reduce((sum, record) => sum + record.lateFeeSurcharged, 0);
+        const totalPenalties = pageData.reduce((sum, record) => sum + record.otherPenalties, 0);
+
+        return (
+            <Table.Summary fixed>
+                <Table.Summary.Row>
+                    <Table.Summary.Cell index={0} colSpan={6}>
+                        Total
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={6}>
+                        <Text type="success">Rs. {totalPaid.toLocaleString()}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={7}>
+                        <Text type="warning">Rs. {totalDiscount.toLocaleString()}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={8}>
+                        <Text type="danger">Rs. {totalLateFee.toLocaleString()}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={9}>
+                        <Text type="danger">Rs. {totalPenalties.toLocaleString()}</Text>
+                    </Table.Summary.Cell>
+                    <Table.Summary.Cell index={10} colSpan={2} />
+                </Table.Summary.Row>
+            </Table.Summary>
+        );
+    };
 
     return (
         <div>
             <div style={{ marginBottom: 16 }}>
-                <Button 
+                <Button
                     type="primary"
                     icon={<PlusOutlined />}
                     onClick={() => setShowAddModal(true)}
@@ -113,14 +188,21 @@ const FeeDetail = () => {
                 </Button>
             </div>
 
-            <Table 
+            <Table
                 columns={columns}
                 dataSource={feeDetails}
                 loading={loading}
                 rowKey="_id"
+                summary={tableSummary}
+                scroll={{ x: true }}
+                pagination={{
+                    defaultPageSize: 10,
+                    showSizeChanger: true,
+                    showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} records`,
+                }}
             />
 
-            <AddFeeDetail 
+            <AddFeeDetail
                 visible={showAddModal}
                 onCancel={() => setShowAddModal(false)}
                 onSuccess={() => {
@@ -129,18 +211,18 @@ const FeeDetail = () => {
                 }}
             />
 
-            <UpdateFeeDetail 
+            <UpdateFeeDetail
                 visible={showUpdateModal}
                 onCancel={() => {
                     setShowUpdateModal(false);
-                    setSelectedFee(null);
+                    setSelectedFeeId(null);
                 }}
                 onSuccess={() => {
                     setShowUpdateModal(false);
-                    setSelectedFee(null);
+                    setSelectedFeeId(null);
                     fetchFeeDetails();
                 }}
-                feeData={selectedFee}
+                selectedId={selectedFeeId}
             />
         </div>
     );

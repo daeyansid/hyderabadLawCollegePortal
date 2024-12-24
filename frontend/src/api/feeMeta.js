@@ -34,6 +34,18 @@ export const getFeeMetaById = async (id) => {
     }
 };
 
+// Get current active fee structure
+export const getCurrentFeeMeta = async () => {
+    try {
+        const response = await axiosInstance.get('/feeMeta/get-all');
+        // Return the first fee structure since we only allow one
+        return response.data?.data?.[0] || null;
+    } catch (error) {
+        console.error('Error fetching current fee metadata:', error);
+        throw error;
+    }
+};
+
 // Update a fee metadata entry
 export const updateFeeMeta = async (id, feeData) => {
     try {

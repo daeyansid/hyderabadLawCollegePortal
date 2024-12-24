@@ -8,6 +8,7 @@ export const createFeeDetails = async (formData) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
+        console.log(response);
         return response.data;
     } catch (error) {
         console.error('Error creating fee details:', error);
@@ -33,6 +34,28 @@ export const getFeeDetailsByStudentId = async (studentId) => {
         return response.data;
     } catch (error) {
         console.error('Error fetching student fee details:', error);
+        throw error;
+    }
+};
+
+// Get fee details by class ID
+export const getFeeDetailsByClassId = async (classId) => {
+    try {
+        const response = await axiosInstance.get(`/feeDetails/class/${classId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching class fee details:', error);
+        throw error;
+    }
+};
+
+// Get fee detail by ID with populated data
+export const getFeeDetailById = async (id) => {
+    try {
+        const response = await axiosInstance.get(`/feeDetails/get-by-id/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching fee detail:', error);
         throw error;
     }
 };

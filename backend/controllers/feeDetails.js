@@ -1,30 +1,59 @@
 const FeeDetails = require('../models/FeeDetails');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
-// Create new fee details
 exports.createFeeDetails = async (req, res) => {
+    console.log(req.body);
     try {
+        const {
+            admissionConfirmationFee,
+            totalAdmissionFee,
+            semesterFeesTotal,
+            studentId,
+            classId,
+            discount,
+            semesterFeesPaid,
+            lateFeeSurcharged,
+            otherPenalties
+        } = req.body;
+
         const newFeeDetails = new FeeDetails({
-            ...req.body,
+            admissionConfirmationFee: Boolean(admissionConfirmationFee),
+            totalAdmissionFee,
+            semesterFeesTotal,
+            studentId,
+            classId,
+            discount: Number(discount),
+            semesterFeesPaid: Number(semesterFeesPaid),
+            lateFeeSurcharged: Number(lateFeeSurcharged),
+            otherPenalties: Number(otherPenalties),
             challanPicture: req.file ? req.file.path : null
         });
 
         const savedFeeDetails = await newFeeDetails.save();
-        sendSuccessResponse(res, 201, 'Fee details created successfully', savedFeeDetails);
+        
+        // Populate the saved document with referenced data
+        const populatedFeeDetails = await FeeDetails.findById(savedFeeDetails._id)
+            .populate('totalAdmissionFee')
+            .populate('semesterFeesTotal')
+            .populate('studentId')
+            .populate('classId');
+
+        sendSuccessResponse(res, 201, 'Fee details created successfully', populatedFeeDetails);
     } catch (err) {
         console.error(err.message);
         sendErrorResponse(res, 500, 'Server error', err);
     }
 };
 
-// Get all fee details
 exports.getAllFeeDetails = async (req, res) => {
     try {
         const feeDetails = await FeeDetails.find()
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
             .populate('studentId')
+            .populate('classId')
             .sort({ createdAt: -1 });
+
         sendSuccessResponse(res, 200, 'Fee details retrieved successfully', feeDetails);
     } catch (err) {
         console.error(err.message);
@@ -32,13 +61,13 @@ exports.getAllFeeDetails = async (req, res) => {
     }
 };
 
-// Get fee details by student ID
 exports.getFeeDetailsByStudentId = async (req, res) => {
     try {
         const feeDetails = await FeeDetails.find({ studentId: req.params.studentId })
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
-            .populate('studentId');
+            .populate('studentId')
+            .populate('classId');
         
         if (!feeDetails.length) {
             return sendErrorResponse(res, 404, 'Fee details not found for this student');
@@ -50,22 +79,33 @@ exports.getFeeDetailsByStudentId = async (req, res) => {
     }
 };
 
-// Update fee details
 exports.updateFeeDetails = async (req, res) => {
     try {
-        const updateData = { ...req.body };
+        const updateData = {
+            ...req.body,
+            updatedAt: Date.now()
+        };
+
         if (req.file) {
             updateData.challanPicture = req.file.path;
         }
-        updateData.updatedAt = Date.now();
+
+        // Convert string values to appropriate types
+        if (updateData.discount) updateData.discount = Number(updateData.discount);
+        if (updateData.semesterFeesPaid) updateData.semesterFeesPaid = Number(updateData.semesterFeesPaid);
+        if (updateData.lateFeeSurcharged) updateData.lateFeeSurcharged = Number(updateData.lateFeeSurcharged);
+        if (updateData.otherPenalties) updateData.otherPenalties = Number(updateData.otherPenalties);
+        if (updateData.admissionConfirmationFee) updateData.admissionConfirmationFee = Boolean(updateData.admissionConfirmationFee);
 
         const feeDetails = await FeeDetails.findByIdAndUpdate(
             req.params.id,
             updateData,
             { new: true }
-        ).populate('totalAdmissionFee')
-         .populate('semesterFeesTotal')
-         .populate('studentId');
+        )
+        .populate('totalAdmissionFee')
+        .populate('semesterFeesTotal')
+        .populate('studentId')
+        .populate('classId');
 
         if (!feeDetails) {
             return sendErrorResponse(res, 404, 'Fee details not found');
@@ -77,7 +117,6 @@ exports.updateFeeDetails = async (req, res) => {
     }
 };
 
-// Delete fee details
 exports.deleteFeeDetails = async (req, res) => {
     try {
         const feeDetails = await FeeDetails.findById(req.params.id);
@@ -87,6 +126,45 @@ exports.deleteFeeDetails = async (req, res) => {
 
         await FeeDetails.findByIdAndDelete(req.params.id);
         sendSuccessResponse(res, 200, 'Fee details deleted successfully');
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};
+
+// Get fee details by classId
+exports.getFeeDetailsByClassId = async (req, res) => {
+    try {
+        const feeDetails = await FeeDetails.find({ classId: req.params.classId })
+            .populate('totalAdmissionFee')
+            .populate('semesterFeesTotal')
+            .populate('studentId')
+            .populate('classId');
+
+        if (!feeDetails.length) {
+            return sendErrorResponse(res, 404, 'No fee details found for this class');
+        }
+        sendSuccessResponse(res, 200, 'Fee details retrieved successfully', feeDetails);
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};
+
+// Get fee detail by ID
+exports.getFeeDetailById = async (req, res) => {
+    try {
+        const feeDetail = await FeeDetails.findById(req.params.id)
+            .populate('totalAdmissionFee')
+            .populate('semesterFeesTotal')
+            .populate('studentId')
+            .populate('classId');
+
+        if (!feeDetail) {
+            return sendErrorResponse(res, 404, 'Fee detail not found');
+        }
+
+        sendSuccessResponse(res, 200, 'Fee detail retrieved successfully', feeDetail);
     } catch (err) {
         console.error(err.message);
         sendErrorResponse(res, 500, 'Server error', err);
