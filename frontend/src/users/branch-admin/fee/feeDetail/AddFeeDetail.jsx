@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Select, Switch, Upload, message, Button, Card, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { createFeeDetails } from '../../../../api/feeDetails';
+import { createFeeDetails, checkFeeDetailExists } from '../../../../api/feeDetails';
 import { fetchClasses } from '../../../../api/classApi';
 import { fetchStudentsBySemester } from '../../../../api/studentApi';
 import { getCurrentFeeMeta } from '../../../../api/feeMeta';
@@ -60,6 +60,28 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
             message.error('Failed to fetch students for selected semester');
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleStudentSelect = async (studentId) => {
+        try {
+            const semesterId = form.getFieldValue('semester');
+            if (!semesterId) {
+                message.error('Please select a semester first');
+                form.setFieldValue('studentId', undefined);
+                return;
+            }
+
+            const response = await checkFeeDetailExists(studentId, semesterId);
+            if (response.data.exists) {
+                message.warning('Fee details already exist for this student in this semester');
+                form.setFieldValue('studentId', undefined);
+                return;
+            }
+        } catch (error) {
+            console.error('Error checking fee details:', error);
+            message.error('Failed to verify student fee details');
+            form.setFieldValue('studentId', undefined);
         }
     };
 
@@ -199,6 +221,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                         loading={loading}
                         showSearch
                         optionFilterProp="children"
+                        onChange={handleStudentSelect}
                     >
                         {students.map(student => (
                             <Select.Option key={student._id} value={student._id}>

@@ -19,6 +19,9 @@ router.get('/class/:classId', authMiddleware, feeDetailsController.getFeeDetails
 // Get fee detail by ID
 router.get('/get-by-id/:id', authMiddleware, feeDetailsController.getFeeDetailById);
 
+// Check if fee detail exists
+router.get('/check-exists', authMiddleware, feeDetailsController.checkFeeDetailExists);
+
 // Update fee details
 router.put('/update/:id', authMiddleware, uploadChallan.single('challanPicture'), feeDetailsController.updateFeeDetails);
 

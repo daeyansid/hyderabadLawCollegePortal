@@ -170,3 +170,24 @@ exports.getFeeDetailById = async (req, res) => {
         sendErrorResponse(res, 500, 'Server error', err);
     }
 };
+
+// Check if fee detail exists
+exports.checkFeeDetailExists = async (req, res) => {
+    try {
+        const { studentId, classId } = req.query;
+        
+        const existingFeeDetail = await FeeDetails.findOne({
+            studentId,
+            classId
+        });
+
+        if (existingFeeDetail) {
+            return sendSuccessResponse(res, 200, 'Fee detail already exists for this student in this semester', { exists: true, feeDetail: existingFeeDetail });
+        }
+
+        sendSuccessResponse(res, 200, 'No existing fee detail found', { exists: false });
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};

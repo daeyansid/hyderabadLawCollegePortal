@@ -16,6 +16,19 @@ export const createFeeDetails = async (formData) => {
     }
 };
 
+// Check if fee detail exists for student and class
+export const checkFeeDetailExists = async (studentId, classId) => {
+    try {
+        const response = await axiosInstance.get(`/feeDetails/check-exists`, {
+            params: { studentId, classId }
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error checking fee detail existence:', error);
+        throw error;
+    }
+};
+
 // Get all fee details
 export const getAllFeeDetails = async () => {
     try {
