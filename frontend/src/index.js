@@ -41,6 +41,7 @@ import GuardianStudentAttendancePageSingle from "./users/guardian/attendanceSing
 import GuardianStudentDiaryPage from "./users/guardian/Diary/GuardianStudentDiaryPage.jsx";
 import SuperAdminBatch from "./users/branch-admin/SuperAdminBranch.jsx";
 import SuperAdminUser from "./users/branch-admin/SuperAdminUser.jsx";
+import FeeMeta from "./users/branch-admin/fee/feeMeta/FeeMeta.jsx";
 
 
 const adminName = localStorage.getItem("adminName");
@@ -104,4 +105,5 @@ export {
   GuardianStudentAttendancePageSingle,
   GuardianStudentDiaryPage,
   StudentAttendanceSinglePage,
+  FeeMeta
 };
