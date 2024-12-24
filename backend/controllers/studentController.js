@@ -462,6 +462,26 @@ exports.getStudentsByClass = async (req, res) => {
   }
 };
 
+// Get students by semester ID
+exports.getStudentsBySemester = async (req, res) => {
+    try {
+        const { semesterId } = req.params;
+        if (!semesterId) {
+          return sendErrorResponse(res, 400, 'Semester ID is required');
+        }
+        
+        const students = await Student.find({ 
+          classId: semesterId
+        })
+        .populate('userId')
+        .populate('classId');
+
+        sendSuccessResponse(res, 200, 'Students fetched successfully', students);
+    } catch (error) {
+        console.error('Error fetching students by semester:', error);
+        sendErrorResponse(res, 500, 'Server Error', error);
+    }
+};
 
 // Fetch students by batch year
 // exports.getStudentsByBatchYear = async (req, res) => {

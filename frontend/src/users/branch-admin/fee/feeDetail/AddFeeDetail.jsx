@@ -3,7 +3,7 @@ import { Modal, Form, Input, Select, Switch, Upload, message, Button } from 'ant
 import { UploadOutlined } from '@ant-design/icons';
 import { createFeeDetails } from '../../../../api/feeDetails';
 import { fetchClasses } from '../../../../api/classApi';
-import { fetchStudents } from '../../../../api/studentApi';
+import { fetchStudents, fetchStudentsBySemester } from '../../../../api/studentApi';
 
 const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
     const [form] = Form.useForm();
@@ -28,20 +28,29 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
         }
     };
 
-    const loadStudents = async () => {
+    // const loadStudents = async () => {
+    //     try {
+    //         const response = await fetchStudents();
+    //         setStudents(response.data || []);
+    //     } catch (error) {
+    //         message.error('Failed to load students');
+    //     }
+    // };
+
+    const handleSemesterChange = async (semesterId) => {
         try {
-            const response = await fetchStudents();
-            setStudents(response.data || []);
+            setLoading(true);
+            const response = await fetchStudentsBySemester(semesterId);
+            console.log("response of sem",response);
+            setStudents(response || []);
+            // Clear selected student when semester changes
+            form.setFieldValue('studentId', undefined);
         } catch (error) {
-            message.error('Failed to load students');
+            message.error('Failed to fetch students for selected semester');
+        } finally {
+            setLoading(false);
         }
     };
-
-    useEffect(() => {
-        if (visible) {
-            loadStudents();
-        }
-    }, [visible]);
 
     const handleSubmit = async () => {
         try {
@@ -94,7 +103,9 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     <Select 
                         placeholder="Select semester"
                         loading={!semesters.length}
+                        onChange={handleSemesterChange}
                     >
+                        <option value="">Select Semester</option>
                         {semesters.map(semester => (
                             <Select.Option key={semester._id} value={semester._id}>
                                 {semester.className}
@@ -110,13 +121,13 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                 >
                     <Select 
                         placeholder="Select student"
-                        loading={!students.length}
+                        loading={loading}
                         showSearch
                         optionFilterProp="children"
                     >
                         {students.map(student => (
                             <Select.Option key={student._id} value={student._id}>
-                                {student.name} - {student.enrollmentNumber}
+                                {student.fullName} - {student.rollNumber} on Semester {student.className}
                             </Select.Option>
                         ))}
                     </Select>

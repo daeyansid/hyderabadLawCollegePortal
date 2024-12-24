@@ -22,10 +22,10 @@ router.delete('/delete/:studentId', authMiddleware, studentController.deleteStud
 // get students by class
 router.post('/class/:classId', authMiddleware, studentController.getStudentsByClass);
 
+// Get students by semester
+router.get('/by-semester/:semesterId', authMiddleware, studentController.getStudentsBySemester);
 
 // router.get('/fetch-by-batch-year', studentController.getStudentsByBatchYearAndBranch);
 // router.get('/fetch-by-batch-year', studentController.getStudentsByBatchYear);
-
-
 
 module.exports = router;

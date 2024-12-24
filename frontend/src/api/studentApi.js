@@ -162,3 +162,14 @@ export const fetchStudentsByBatchYear = async (batchYear) => {
         throw error;
     }
 };
+
+// Fetch students by semester ID
+export const fetchStudentsBySemester = async (semesterId) => {
+    try {
+        const response = await axiosInstance.get(`/student/by-semester/${semesterId}`);
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching students by semester:', error);
+        throw error;
+    }
+};
