@@ -80,9 +80,16 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
             formValues.classId = formValues.semester;
             delete formValues.semester;
 
+            // Convert admissionConfirmationFee to boolean
+            formValues.admissionConfirmationFee = Boolean(formValues.admissionConfirmationFee);
+
             // Append modified form data
             Object.keys(formValues).forEach(key => {
-                formData.append(key, formValues[key]);
+                if (key === 'admissionConfirmationFee') {
+                    formData.append(key, formValues[key] ? 'true' : 'false');
+                } else {
+                    formData.append(key, formValues[key]);
+                }
             });
     
             // Log formData keys and values
@@ -205,8 +212,12 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     name="admissionConfirmationFee"
                     label="Admission Fee Confirmed"
                     valuePropName="checked"
+                    initialValue={false}
                 >
-                    <Switch />
+                    <Switch 
+                        checkedChildren="Yes" 
+                        unCheckedChildren="No" 
+                    />
                 </Form.Item>
 
                 <Form.Item

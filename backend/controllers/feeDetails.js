@@ -17,7 +17,7 @@ exports.createFeeDetails = async (req, res) => {
         } = req.body;
 
         const newFeeDetails = new FeeDetails({
-            admissionConfirmationFee: Boolean(admissionConfirmationFee),
+            admissionConfirmationFee: admissionConfirmationFee,
             totalAdmissionFee,
             semesterFeesTotal,
             studentId,
@@ -95,7 +95,7 @@ exports.updateFeeDetails = async (req, res) => {
         if (updateData.semesterFeesPaid) updateData.semesterFeesPaid = Number(updateData.semesterFeesPaid);
         if (updateData.lateFeeSurcharged) updateData.lateFeeSurcharged = Number(updateData.lateFeeSurcharged);
         if (updateData.otherPenalties) updateData.otherPenalties = Number(updateData.otherPenalties);
-        if (updateData.admissionConfirmationFee) updateData.admissionConfirmationFee = Boolean(updateData.admissionConfirmationFee);
+        if (updateData.admissionConfirmationFee) updateData.admissionConfirmationFee = updateData.admissionConfirmationFee;
 
         const feeDetails = await FeeDetails.findByIdAndUpdate(
             req.params.id,

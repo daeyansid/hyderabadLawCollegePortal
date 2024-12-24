@@ -62,27 +62,30 @@ const UpdateFeeDetail = ({ visible, onCancel, onSuccess, selectedId }) => {
 
     const handleSubmit = async () => {
         try {
-            // Validate form fields and get their values
             const values = await form.validateFields();
-            console.log('Form Values:', values);
-    
             const formData = new FormData();
-    
+            
+            // Process form values
+            const formValues = { ...values };
+            formValues.classId = formValues.semester;
+            delete formValues.semester;
+
+            // Convert admissionConfirmationFee to boolean
+            formValues.admissionConfirmationFee = Boolean(formValues.admissionConfirmationFee);
+
+            Object.keys(formValues).forEach(key => {
+                if (key === 'admissionConfirmationFee') {
+                    formData.append(key, formValues[key] ? 'true' : 'false');
+                } else {
+                    formData.append(key, formValues[key]);
+                }
+            });
+
             // Append the file to formData if it exists
             if (fileList[0]?.originFileObj) {
                 console.log('File:', fileList[0].originFileObj);
                 formData.append('challanPicture', fileList[0].originFileObj);
             }
-    
-            // Process form values and append them to formData
-            const formValues = { ...values };
-            formValues.classId = formValues.semester; // Map semester to classId
-            delete formValues.semester; // Remove the original semester key
-            console.log('Processed Form Values:', formValues);
-    
-            Object.keys(formValues).forEach(key => {
-                formData.append(key, formValues[key]);
-            });
     
             // Log the formData contents for verification
             console.log('FormData Entries:');
@@ -99,7 +102,6 @@ const UpdateFeeDetail = ({ visible, onCancel, onSuccess, selectedId }) => {
             message.error('Failed to update fee details');
         }
     };
-    
 
     const handleSemesterFeePaidChange = (value) => {
         if (feeData?.semesterFeesTotal?.semesterFee && value) {
@@ -208,7 +210,10 @@ const UpdateFeeDetail = ({ visible, onCancel, onSuccess, selectedId }) => {
                             label="Admission Fee Confirmed"
                             valuePropName="checked"
                         >
-                            <Switch />
+                            <Switch 
+                                checkedChildren="Yes" 
+                                unCheckedChildren="No"
+                            />
                         </Form.Item>
 
                         <Form.Item
