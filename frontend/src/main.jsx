@@ -47,7 +47,8 @@ import {
   GuardianStudentsPageAttendanceSingle,
   GuardianStudentAttendancePageSingle,
   GuardianStudentDiaryPage,
-  StudentAttendanceSinglePage
+  StudentAttendanceSinglePage,
+  FeeMeta
 } from './index';
 import './index.css';
 
@@ -101,6 +102,9 @@ function MainApp() {
             <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:classIdParam" element={<ClassSlotAssignmentsList />} />
             {/* notice */}
             <Route path="notice" element={<DiaryDataTable />} />
+            {/* Fee */}
+            <Route path="fee-meta" element={<FeeMeta />} />
+            {/* Attendance */}
           </Route>
 
           {/* Teacher Routes */}

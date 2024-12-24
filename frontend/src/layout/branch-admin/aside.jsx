@@ -163,6 +163,17 @@ export default function Aside() {
                             </Link>
                         </li>
 
+
+                        <li>
+                            <Link
+                                to="/branch-admin/fee-meta"
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            >
+                                <img src={umbrella} alt="Overview" />
+                                <span className="ms-3 text-custom-blue">Fee Meta</span>
+                            </Link>
+                        </li>
+
                         {/* Attendance Management */}
                         <li>
                             <button
@@ -201,14 +212,7 @@ export default function Aside() {
                         </li>
 
                         {/* Fee Management */}
-                        <li>
-                            <div
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-no-drop"
-                            >
-                                <img src={dollarSign} alt="Fee Management" />
-                                <span className="ms-3 text-custom-blue">Fee Management</span>
-                            </div>
-                        </li>
+                        
                     </ul>
 
                     {/* User Info and Logout */}

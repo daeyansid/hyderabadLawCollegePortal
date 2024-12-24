@@ -9,7 +9,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.post('/create', authMiddleware, diaryController.createDiary);
 
 // Get all diary entries
-router.get('/get-all', authMiddleware, diaryController.getAllDiaries);
+router.get('/get-all', diaryController.getAllDiaries);
 
 // Get a diary entry by ID
 router.get('/get/:id', authMiddleware, diaryController.getDiaryById);
