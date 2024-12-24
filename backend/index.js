@@ -36,6 +36,7 @@ const studentAttendanceSingleRoutes = require("./routes/studentAttendanceSingleR
 const studentDashboardRoutes = require("./routes/studentDashboardRoutes.js");
 const branchAdminDashboardRoutes = require("./routes/branchAdminDashboardRoutes.js");
 
+const feeMeta = require("./routes/feeMeta.js");
 
 
 const path = require("path");
@@ -103,6 +104,11 @@ app.use("/api/student-attendance", studentAttendanceRoutes);
 app.use("/api/student-attendance-single", studentAttendanceSingleRoutes);
 app.use("/api/student-dashboard", studentDashboardRoutes);
 app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
+
+
+app.use("/api/feeMeta", feeMeta);
+
+
 
 /**
  * --------SERVE REACT--------
