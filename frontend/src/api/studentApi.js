@@ -108,7 +108,6 @@ export const deleteStudent = async (studentId) => {
     }
 };
 
-
 // Fetch a guardian by CNIC
 export const fetchGuardianByCnic = async (cnic) => {
     try {
