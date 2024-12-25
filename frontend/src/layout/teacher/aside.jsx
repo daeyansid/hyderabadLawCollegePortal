@@ -99,7 +99,7 @@ export default function Aside({ isSidebarOpen }) {
                         )}
                     </li>
 
-                    {/* Dairy Management */}
+                    {/* Notice Management */}
                     {dairy && (
                         <li>
                             <Link
@@ -107,7 +107,7 @@ export default function Aside({ isSidebarOpen }) {
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
                                 <img src={connection} alt="Dairy" />
-                                <span className="ml-3 text-custom-blue">Dairy Management</span>
+                                <span className="ml-3 text-custom-blue">Notice Management</span>
                             </Link>
                         </li>
                     )}
@@ -120,28 +120,6 @@ export default function Aside({ isSidebarOpen }) {
                         >
                             <img src={connection} alt="Assigned Classes" />
                             <span className="ml-3 text-custom-blue">Assigned Classes</span>
-                        </Link>
-                    </li>
-
-                    {/* Pay slip */}
-                    <li>
-                        <Link
-                            to="/teacher/pay-slip"
-                            className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
-                        >
-                            <img src={connection} alt="Pay Slip" />
-                            <span className="ml-3 text-custom-blue">Pay Slip</span>
-                        </Link>
-                    </li>
-
-                    {/* Leave Management */}
-                    <li>
-                        <Link
-                            to="/teacher/Leave"
-                            className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
-                        >
-                            <img src={connection} alt="Leave Management" />
-                            <span className="ml-3 text-custom-blue">Leave Management</span>
                         </Link>
                     </li>
                 </ul>
