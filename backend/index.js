@@ -36,6 +36,8 @@ const studentAttendanceSingleRoutes = require("./routes/studentAttendanceSingleR
 const studentDashboardRoutes = require("./routes/studentDashboardRoutes.js");
 const branchAdminDashboardRoutes = require("./routes/branchAdminDashboardRoutes.js");
 
+const testData = require("./routes/studentTestRoute.js");
+
 const feeMeta = require("./routes/feeMeta.js");
 const feeDetails = require("./routes/feeDetails.js");
 
@@ -109,6 +111,8 @@ app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
 
 app.use("/api/feeMeta", feeMeta);
 app.use("/api/feeDetails", feeDetails);
+
+app.use("/api/student-test", testData);
 
 
 

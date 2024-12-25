@@ -49,7 +49,9 @@ import {
   GuardianStudentDiaryPage,
   StudentAttendanceSinglePage,
   FeeMeta,
-  FeeDetail
+  FeeDetail,
+  TestManagement,
+  TestMarksSheet
 } from './index';
 import './index.css';
 
@@ -107,6 +109,10 @@ function MainApp() {
             <Route path="fee-meta" element={<FeeMeta />} />
 
             <Route path="fee-mna" element={<FeeDetail />} />
+
+            <Route path="test-management" element={<TestManagement />} />
+
+            <Route path="test-marks-sheet" element={<TestMarksSheet />} />
             {/* Attendance */}
           </Route>
 
