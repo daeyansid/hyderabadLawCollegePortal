@@ -47,23 +47,35 @@ export const getCurrentFeeMeta = async () => {
 };
 
 // Update a fee metadata entry
-export const updateFeeMeta = async (id, feeData) => {
-    try {
-        const response = await axiosInstance.put(`/feeMeta/update/${id}`, feeData);
-        return response.data;
-    } catch (error) {
-        console.error('Error updating fee metadata:', error);
-        throw error;
-    }
-};
+// export const updateFeeMeta = async (id, feeData) => {
+//     try {
+//         const response = await axiosInstance.put(`/feeMeta/update/${id}`, feeData);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error updating fee metadata:', error);
+//         throw error;
+//     }
+// };
 
 // Delete a fee metadata entry
 export const deleteFeeMeta = async (id) => {
     try {
-        const response = await axiosInstance.delete(`/feeMeta/delete/${id}`);
+        const response = await axiosInstance.put(`/feeMeta/delete/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error deleting fee metadata:', error);
         throw error;
     }
 };
+
+
+
+// export const deleteFeeMeta = async (id) => {
+//     try {
+//         const response = await axiosInstance.delete(`/feeMeta/delete/${id}`);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error deleting fee metadata:', error);
+//         throw error;
+//     }
+// };

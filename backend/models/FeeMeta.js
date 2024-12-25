@@ -23,6 +23,11 @@ const FeeSchema = new mongoose.Schema({
             message: 'Admission Fee must be a positive integer greater than 0'
         }
     },
+    IsDelete: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

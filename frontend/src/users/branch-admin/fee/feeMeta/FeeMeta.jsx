@@ -3,7 +3,7 @@ import { Table, Button, Space, Modal, message } from 'antd';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAllFeeMeta, deleteFeeMeta } from '../../../../api/feeMeta';
 import FeeMetaAdd from './FeeMetaAdd';
-import FeeMetaUpdate from './FeeMetaUpdate';
+// import FeeMetaUpdate from './FeeMetaUpdate';
 
 const FeeMeta = () => {
     const [feeList, setFeeList] = useState([]);
@@ -57,7 +57,7 @@ const FeeMeta = () => {
             key: 'actions',
             render: (_, record) => (
                 <Space>
-                    <Button 
+                    {/* <Button 
                         type="primary" 
                         icon={<EditOutlined />}
                         onClick={() => {
@@ -66,7 +66,7 @@ const FeeMeta = () => {
                         }}
                     >
                         Edit
-                    </Button>
+                    </Button> */}
                     <Button 
                         danger 
                         icon={<DeleteOutlined />}
@@ -116,7 +116,7 @@ const FeeMeta = () => {
                 }}
             />
 
-            <FeeMetaUpdate 
+            {/* <FeeMetaUpdate 
                 visible={showUpdateModal}
                 onCancel={() => {
                     setShowUpdateModal(false);
@@ -128,7 +128,7 @@ const FeeMeta = () => {
                     fetchFeeList();
                 }}
                 feeData={selectedFee}
-            />
+            /> */}
         </div>
     );
 };

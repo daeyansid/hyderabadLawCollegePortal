@@ -13,9 +13,9 @@ router.get('/get-all', authMiddleware, feeMetaController.getAllFees);
 router.get('/:id', authMiddleware, feeMetaController.getFeeById);
 
 // Update fee structure
-router.put('/update/:id', authMiddleware, feeMetaController.updateFee);
+// router.put('/update/:id', authMiddleware, feeMetaController.updateFee);
 
 // Delete fee structure
-router.delete('/delete/:id', authMiddleware, feeMetaController.deleteFee);
+router.put('/delete/:id', authMiddleware, feeMetaController.deleteFee);
 
 module.exports = router;
