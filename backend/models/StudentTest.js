@@ -16,6 +16,11 @@ const StudentPerformanceSchema = new mongoose.Schema({
         ref: 'subject',
         required: true
     },
+    IsDelete: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
     totalMarks: {
         type: Number,
         default: 40

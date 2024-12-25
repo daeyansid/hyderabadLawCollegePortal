@@ -77,7 +77,7 @@ exports.createStudentTest = async (req, res) => {
 // Get all student tests
 exports.getAllStudentTests = async (req, res) => {
     try {
-        const studentTests = await StudentTest.find()
+        const studentTests = await StudentTest.find({ IsDelete: false })
             .populate('studentId')
             .populate('classId')
             .populate('subjectId');
@@ -98,7 +98,7 @@ exports.getAllStudentTests = async (req, res) => {
 exports.getStudentTest = async (req, res) => {
     try {
         const id = req.params.id.replace('&id=', '');
-        const studentTest = await StudentTest.findById(id)
+        const studentTest = await StudentTest.findOne({ _id: id, IsDelete: false })
             .populate('studentId')
             .populate('classId');
 
@@ -177,7 +177,13 @@ exports.updateStudentTest = async (req, res) => {
 // Delete student test
 exports.deleteStudentTest = async (req, res) => {
     try {
-        const studentTest = await StudentTest.findByIdAndDelete(req.params.id);
+        const id = req.params.id.replace('&id=', '');
+
+        const studentTest = await StudentTest.findByIdAndUpdate(
+            id,
+            { IsDelete: true },
+            { new: true }
+        );
 
         if (!studentTest) {
             return res.status(404).json({
@@ -188,12 +194,14 @@ exports.deleteStudentTest = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: 'Student test deleted successfully'
+            message: 'Student test marked as deleted successfully',
+            data: studentTest
         });
     } catch (error) {
-        res.status(400).json({
+        res.status(500).json({
             success: false,
-            message: error.message
+            message: 'An error occurred while deleting the student test',
+            error: error.message
         });
     }
 };

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, Card } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Card, Tag, Typography } from 'antd';
+import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import { getAllTests, deleteTest } from '../../../api/testManagment';
 import AddTestManagment from './AddTestManagment';
+
+const { Title } = Typography;
 
 const TestManagement = () => {
     const [tests, setTests] = useState([]);
@@ -28,7 +30,17 @@ const TestManagement = () => {
     }, []);
 
     const handleEdit = (record) => {
-        setEditingTest(record);
+        // Make sure you're passing the complete record with populated references
+        console.log('Editing record:', record); // Add this for debugging
+        setEditingTest({
+            _id: record._id,
+            studentId: record.studentId,
+            classId: record.classId,
+            subjectId: record.subjectId,
+            midTermPaperMarks: record.midTermPaperMarks,
+            assignmentPresentationMarks: record.assignmentPresentationMarks,
+            attendanceMarks: record.attendanceMarks
+        });
         setIsModalVisible(true);
     };
 
@@ -41,40 +53,75 @@ const TestManagement = () => {
         }
     };
 
+    const getGradeColor = (marks) => {
+        if (marks >= 35) return 'green';
+        if (marks >= 25) return 'blue';
+        if (marks >= 20) return 'orange';
+        return 'red';
+    };
+
     const columns = [
         {
             title: 'Student Name',
             dataIndex: ['studentId', 'fullName'],
-            key: 'studentName'
+            key: 'studentName',
+            render: (text) => <span style={{ color: '#1890ff', fontWeight: 500 }}>{text}</span>
         },
         {
-            title: 'Class',
+            title: 'Semester',
             dataIndex: ['classId', 'className'],
-            key: 'className'
+            key: 'className',
+            render: (text) => <Tag color="purple">{text}</Tag>
+        },
+        {
+            title: 'Subject',
+            dataIndex: ['subjectId', 'subjectName'],
+            key: 'subjectName',
+            render: (text) => <Tag color="cyan">{text}</Tag>
         },
         {
             title: 'Mid Term Paper',
             dataIndex: 'midTermPaperMarks',
-            key: 'midTermPaperMarks'
+            key: 'midTermPaperMarks',
+            render: (marks) => (
+                <Tag color={marks >= 15 ? 'green' : marks >= 10 ? 'orange' : 'red'}>
+                    {marks}/20
+                </Tag>
+            )
         },
         {
             title: 'Assignment',
             dataIndex: 'assignmentPresentationMarks',
-            key: 'assignmentPresentationMarks'
+            key: 'assignmentPresentationMarks',
+            render: (marks) => (
+                <Tag color={marks >= 7 ? 'green' : marks >= 5 ? 'orange' : 'red'}>
+                    {marks}/10
+                </Tag>
+            )
         },
         {
             title: 'Attendance',
             dataIndex: 'attendanceMarks',
-            key: 'attendanceMarks'
+            key: 'attendanceMarks',
+            render: (marks) => (
+                <Tag color={marks >= 7 ? 'green' : marks >= 5 ? 'orange' : 'red'}>
+                    {marks}/10
+                </Tag>
+            )
         },
         {
             title: 'Total Marks',
             key: 'totalMarks',
-            render: (_, record) => (
-                record.midTermPaperMarks + 
-                record.assignmentPresentationMarks + 
-                record.attendanceMarks
-            )
+            render: (_, record) => {
+                const total = record.midTermPaperMarks + 
+                            record.assignmentPresentationMarks + 
+                            record.attendanceMarks;
+                return (
+                    <Tag color={getGradeColor(total)} style={{ fontWeight: 'bold' }}>
+                        {total}/40
+                    </Tag>
+                );
+            }
         },
         {
             title: 'Actions',
@@ -85,6 +132,7 @@ const TestManagement = () => {
                         type="primary" 
                         icon={<EditOutlined />}
                         onClick={() => handleEdit(record)}
+                        style={{ background: '#4096ff' }}
                     >
                         Edit
                     </Button>
@@ -102,14 +150,26 @@ const TestManagement = () => {
     ];
 
     return (
-        <Card title="Test Management">
+        <Card 
+            title={<Title level={3} style={{ color: '#1890ff', margin: 0 }}>Test Management</Title>}
+            style={{ 
+                borderRadius: '8px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+            }}
+        >
             <Button 
                 type="primary" 
+                icon={<PlusOutlined />}
                 onClick={() => {
                     setEditingTest(null);
                     setIsModalVisible(true);
                 }}
-                style={{ marginBottom: 16 }}
+                style={{ 
+                    marginBottom: 16,
+                    background: '#52c41a',
+                    borderColor: '#52c41a',
+                    borderRadius: '6px'
+                }}
             >
                 Add New Test Record
             </Button>
@@ -119,6 +179,14 @@ const TestManagement = () => {
                 dataSource={tests} 
                 loading={loading}
                 rowKey="_id"
+                style={{
+                    backgroundColor: '#fff',
+                    borderRadius: '8px'
+                }}
+                pagination={{
+                    style: { marginTop: '16px' },
+                    pageSize: 10
+                }}
             />
 
             <AddTestManagment
