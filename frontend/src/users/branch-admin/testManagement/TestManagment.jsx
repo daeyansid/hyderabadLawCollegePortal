@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, Card, Tag, Typography } from 'antd';
-import { EditOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { Table, Button, Space, Card, Tag, Typography, Select, Row, Col } from 'antd';
+import { EditOutlined, DeleteOutlined, PlusOutlined, FilterOutlined } from '@ant-design/icons';
 import { getAllTests, deleteTest } from '../../../api/testManagment';
+import { fetchClasses } from '../../../api/classApi';
 import AddTestManagment from './AddTestManagment';
 
 const { Title } = Typography;
+const { Option } = Select;
 
 const TestManagement = () => {
     const [tests, setTests] = useState([]);
     const [loading, setLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [editingTest, setEditingTest] = useState(null);
+    const [classes, setClasses] = useState([]);
+    const [selectedClass, setSelectedClass] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(null);
+    const [filteredTests, setFilteredTests] = useState([]);
+
+    const years = Array.from(new Array(5), (val, index) => new Date().getFullYear() - index);
 
     const fetchTests = async () => {
         setLoading(true);
@@ -27,11 +35,46 @@ const TestManagement = () => {
 
     useEffect(() => {
         fetchTests();
+        fetchClassesData();
     }, []);
 
+    useEffect(() => {
+        filterTests();
+    }, [tests, selectedClass, selectedYear]);
+
+    const fetchClassesData = async () => {
+        try {
+            const branchId = localStorage.getItem('branchId');
+            const response = await fetchClasses(branchId);
+            setClasses(response.data);
+        } catch (error) {
+            console.error('Error fetching classes:', error);
+        }
+    };
+
+    const filterTests = () => {
+        let filtered = [...tests];
+
+        if (selectedClass) {
+            filtered = filtered.filter(test => test.classId._id === selectedClass);
+        }
+
+        if (selectedYear) {
+            filtered = filtered.filter(test => {
+                const testYear = new Date(test.createdAt).getFullYear();
+                return testYear === selectedYear;
+            });
+        }
+
+        setFilteredTests(filtered);
+    };
+
+    const handleReset = () => {
+        setSelectedClass(null);
+        setSelectedYear(null);
+    };
+
     const handleEdit = (record) => {
-        // Make sure you're passing the complete record with populated references
-        console.log('Editing record:', record); // Add this for debugging
         setEditingTest({
             _id: record._id,
             studentId: record.studentId,
@@ -157,26 +200,68 @@ const TestManagement = () => {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
         >
-            <Button 
-                type="primary" 
-                icon={<PlusOutlined />}
-                onClick={() => {
-                    setEditingTest(null);
-                    setIsModalVisible(true);
-                }}
-                style={{ 
-                    marginBottom: 16,
-                    background: '#52c41a',
-                    borderColor: '#52c41a',
-                    borderRadius: '6px'
-                }}
-            >
-                Add New Test Record
-            </Button>
+            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                <Col span={6}>
+                    <Select
+                        placeholder="Filter by Class"
+                        style={{ width: '100%' }}
+                        value={selectedClass}
+                        onChange={setSelectedClass}
+                        allowClear
+                    >
+                        {classes.map(cls => (
+                            <Option key={cls._id} value={cls._id}>
+                                {cls.className}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
+                <Col span={6}>
+                    <Select
+                        placeholder="Filter by Year"
+                        style={{ width: '100%' }}
+                        value={selectedYear}
+                        onChange={setSelectedYear}
+                        allowClear
+                    >
+                        {years.map(year => (
+                            <Option key={year} value={year}>
+                                {year}
+                            </Option>
+                        ))}
+                    </Select>
+                </Col>
+                <Col span={6}>
+                    <Button 
+                        icon={<FilterOutlined />} 
+                        onClick={handleReset}
+                        style={{ marginRight: 8 }}
+                    >
+                        Reset Filters
+                    </Button>
+                </Col>
+                <Col span={6} style={{ textAlign: 'right' }}>
+                    <Button 
+                        type="primary" 
+                        icon={<PlusOutlined />}
+                        onClick={() => {
+                            setEditingTest(null);
+                            setIsModalVisible(true);
+                        }}
+                        style={{ 
+                            background: '#52c41a',
+                            borderColor: '#52c41a',
+                            borderRadius: '6px'
+                        }}
+                    >
+                        Add New Test Record
+                    </Button>
+                </Col>
+            </Row>
             
             <Table 
                 columns={columns} 
-                dataSource={tests} 
+                dataSource={filteredTests} 
                 loading={loading}
                 rowKey="_id"
                 style={{
