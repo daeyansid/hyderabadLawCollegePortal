@@ -51,7 +51,8 @@ import {
   FeeMeta,
   FeeDetail,
   TestManagement,
-  TestMarksSheet
+  TestMarksSheet,
+  TeacherNotice
 } from './index';
 import './index.css';
 
@@ -105,6 +106,7 @@ function MainApp() {
             <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:classIdParam" element={<ClassSlotAssignmentsList />} />
             {/* notice */}
             <Route path="notice" element={<DiaryDataTable />} />
+            <Route path="notice-teacher" element={<TeacherNotice />} />
             {/* Fee */}
             <Route path="fee-meta" element={<FeeMeta />} />
 

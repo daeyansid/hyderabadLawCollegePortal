@@ -41,6 +41,8 @@ const testData = require("./routes/studentTestRoute.js");
 const feeMeta = require("./routes/feeMeta.js");
 const feeDetails = require("./routes/feeDetails.js");
 
+const teacherNotice = require("./routes/teacherNoticeRoute.js");
+
 
 const path = require("path");
 
@@ -114,7 +116,7 @@ app.use("/api/feeDetails", feeDetails);
 
 app.use("/api/student-test", testData);
 
-
+app.use("/api/teacher-notice", teacherNotice);
 
 /**
  * --------SERVE REACT--------
