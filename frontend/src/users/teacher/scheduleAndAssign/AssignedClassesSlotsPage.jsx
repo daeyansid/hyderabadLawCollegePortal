@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate
+import { useNavigate, useParams } from 'react-router-dom';
 import { getAssignmentsSingleByTeacherAndDay } from '../../../api/classSlotAssignmentsSingleApi';
 import DataTable from 'react-data-table-component';
-import { AiOutlineArrowLeft } from 'react-icons/ai'; // Import an arrow icon from react-icons
+import { AiOutlineArrowLeft } from 'react-icons/ai';
 
 const AssignedClassesSlotsPage = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
     const { branchDayId } = useParams();
     const [assignments, setAssignments] = useState([]);
     const [filteredAssignments, setFilteredAssignments] = useState([]);
@@ -27,8 +27,6 @@ const AssignedClassesSlotsPage = () => {
 
             const data = await getAssignmentsSingleByTeacherAndDay(branchDayId, teacherId);
 
-            console.log("Data received from API:", data); // Debugging log
-
             // Ensure data is an array
             if (Array.isArray(data) && data.length > 0) {
                 setDayName(data[0].branchClassDaysId.day);
@@ -42,7 +40,6 @@ const AssignedClassesSlotsPage = () => {
 
                 setAssignments(sortedData);
                 setFilteredAssignments(sortedData);
-                console.log("Sorted and filtered assignments:", sortedData); // Debugging log
                 setError(null);
             } else {
                 setError('No assignments found for this day.');
@@ -85,7 +82,6 @@ const AssignedClassesSlotsPage = () => {
             const slot = `${assignment.branchDailyTimeSlotsId.slot}`.toLowerCase();
             const slotType = assignment.slotType?.toLowerCase() || '';
             const className = assignment.classId?.className?.toLowerCase() || '';
-            const sectionName = assignment.sectionId?.sectionName?.toLowerCase() || '';
             const subjectName = assignment.subjectId?.subjectName?.toLowerCase() || '';
             const teacherName = assignment.teacherId?.fullName?.toLowerCase() || '';
             const classType = assignment.classType?.toLowerCase() || '';
@@ -94,7 +90,6 @@ const AssignedClassesSlotsPage = () => {
                 slot.includes(value) ||
                 slotType.includes(value) ||
                 className.includes(value) ||
-                sectionName.includes(value) ||
                 subjectName.includes(value) ||
                 teacherName.includes(value) ||
                 classType.includes(value)
@@ -112,14 +107,8 @@ const AssignedClassesSlotsPage = () => {
             wrap: true,
         },
         {
-            name: 'Class',
+            name: 'Semester',
             selector: (row) => row.classId?.className || 'N/A',
-            sortable: true,
-            wrap: true,
-        },
-        {
-            name: 'Section',
-            selector: (row) => row.sectionId?.sectionName || 'N/A',
             sortable: true,
             wrap: true,
         },
@@ -128,21 +117,6 @@ const AssignedClassesSlotsPage = () => {
             selector: (row) => row.subjectId?.subjectName || 'N/A',
             sortable: true,
             wrap: true,
-        },
-        {
-            name: 'Class Type',
-            selector: (row) => row.classType || 'N/A',
-            sortable: true,
-            wrap: true,
-            cell: (row) => (
-                <span
-                    className={`px-2 py-1 rounded-full ${
-                        row.classType === 'Main Class' ? 'bg-blue-500 text-white' : 'bg-green-500 text-white'
-                    }`}
-                >
-                    {row.classType}
-                </span>
-            ),
         },
         {
             name: 'Slot Type',
@@ -217,7 +191,7 @@ const AssignedClassesSlotsPage = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search by slot, class, section, subject, etc..."
+                    placeholder="Search by slot, Semester, subject, etc..."
                     value={searchText}
                     onChange={handleSearch}
                     className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"

@@ -186,37 +186,37 @@ exports.login = async (req, res) => {
                         responseData.branchAdmin = null;
                     }
                 }
-                // else if (user.userRole === 'teacher') {
-                //     // Find the BranchAdmin document
-                //     const branchAdmin = await Teacher.findOne({ userId: user.id }).populate('userId');
-                //     if (branchAdmin) {
-                //         responseData.branchAdmin = branchAdmin;
+                else if (user.userRole === 'teacher') {
+                    // Find the BranchAdmin document
+                    const branchAdmin = await Teacher.findOne({ userId: user.id }).populate('userId');
+                    if (branchAdmin) {
+                        responseData.branchAdmin = branchAdmin;
 
-                //         // Find the Branch document using the assignedTo field
-                //         const branch = await Branch.findOne({ _id: branchAdmin.branchId });
-                //         if (branch) {
-                //             responseData.branch = branch;
+                        // Find the Branch document using the assignedTo field
+                        const branch = await Branch.findOne({ _id: branchAdmin.branchId });
+                        if (branch) {
+                            responseData.branch = branch;
 
-                //             // Find the BranchSetting document using the branchSettings field
-                //             const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
-                //             if (branchSetting) {
-                //                 responseData.branchSetting = branchSetting;
-                //             }
+                            // Find the BranchSetting document using the branchSettings field
+                            const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
+                            if (branchSetting) {
+                                responseData.branchSetting = branchSetting;
+                            }
 
-                //             // Add additional fields to response
-                //             responseData.branchId = branch._id;
-                //         } else {
-                //             responseData.branchId = null;
-                //         }
+                            // Add additional fields to response
+                            responseData.branchId = branch._id;
+                        } else {
+                            responseData.branchId = null;
+                        }
 
-                //         responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
-                //         responseData.fullName = branchAdmin.fullName || null;
-                //         responseData.sectionId =  null;
-                //         responseData.classId =  null;
-                //     } else {
-                //         responseData.branchAdmin = null;
-                //     }
-                // }
+                        responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
+                        responseData.fullName = branchAdmin.fullName || null;
+                        responseData.sectionId =  null;
+                        responseData.classId =  null;
+                    } else {
+                        responseData.branchAdmin = null;
+                    }
+                }
                 // else if (user.userRole === 'student') {
                 //     // Find the BranchAdmin document
                 //     const branchAdmin = await Student.findOne({ userId: user.id }).populate('userId');

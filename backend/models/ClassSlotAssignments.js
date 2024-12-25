@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 // Define the possible class types
-const CLASS_TYPES = ['Main Class', 'Subject Class'];
+const CLASS_TYPES = ['Main Class'];
 
 // Define the possible slot types
 const SLOT_TYPES = ['Class Slot', 'Break Slot'];

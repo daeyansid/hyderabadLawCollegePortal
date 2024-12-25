@@ -45,6 +45,8 @@ import FeeMeta from "./users/branch-admin/fee/feeMeta/FeeMeta.jsx";
 import FeeDetail from "./users/branch-admin/fee/feeDetail/FeeDetail.jsx";
 import TestManagement from "./users/branch-admin/testManagement/TestManagment.jsx";
 import TestMarksSheet from "./users/branch-admin/testManagement/TestMarksSheet.jsx";
+import TeacherNotice from "./users/branch-admin/teacherNotice/TeacherNotice.jsx";
+import TeacherSideNotice from "./users/teacher/TeacherNotice.jsx";
 
 
 const adminName = localStorage.getItem("adminName");
@@ -112,4 +114,6 @@ export {
   FeeDetail,
   TestManagement,
   TestMarksSheet,
+  TeacherNotice,
+  TeacherSideNotice
 };

@@ -51,7 +51,9 @@ import {
   FeeMeta,
   FeeDetail,
   TestManagement,
-  TestMarksSheet
+  TestMarksSheet,
+  TeacherNotice,
+  TeacherSideNotice
 } from './index';
 import './index.css';
 
@@ -105,6 +107,7 @@ function MainApp() {
             <Route path="scheduleAndAssign/ClassSlotAssignmentsList/:branchClassDaysIdParam/:classIdParam" element={<ClassSlotAssignmentsList />} />
             {/* notice */}
             <Route path="notice" element={<DiaryDataTable />} />
+            <Route path="notice-teacher" element={<TeacherNotice />} />
             {/* Fee */}
             <Route path="fee-meta" element={<FeeMeta />} />
 
@@ -127,13 +130,20 @@ function MainApp() {
             }
           >
             <Route path="dashboard" element={<TeacherDashboard />} />
-            <Route path="dairy" element={<DiaryDataTable />} />
+            {/* <Route path="dairy" element={<DiaryDataTable />} /> */}
+            <Route path="teacher-notice" element={<TeacherSideNotice />} />
+
+
             <Route path="assigned-classes" element={<TeacherAssignClassDays />} />
             <Route path="assigned-classes/slots/:branchDayId" element={<AssignedClassesSlotsPage />} />
+            
+            
             {/* for attendance for subject wise*/}
             <Route path="assigned-classes-attendance" element={<ViewDayAttendance />} />
             <Route path="assigned-classes-attendance/slots/:branchDayId" element={<ViewSlotsAttendance />} />
             <Route path="attendance/take/:branchDayId" element={<TakeViewAttendance />} />
+            
+            
             {/* for attendance for Single wise*/}
             <Route path="assigned-classes-attendance-single" element={<ViewDayAttendanceSingle />} />
             <Route path="assigned-classes-attendance-single/slots/:branchDayId" element={<ViewSlotsAttendanceSingle />} />

@@ -1,5 +1,4 @@
 // controllers/classSlotAssignmentsSingleController.js
-
 const ClassSlotAssignments = require('../models/ClassSlotAssignments');
 
 exports.getAssignmentsByTeacherAndDay = async (req, res) => {
@@ -18,7 +17,6 @@ exports.getAssignmentsByTeacherAndDay = async (req, res) => {
             .populate('branchClassDaysId')
             .populate('branchDailyTimeSlotsId')
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId');
 
