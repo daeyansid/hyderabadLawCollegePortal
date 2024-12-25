@@ -70,3 +70,20 @@ exports.deleteNotice = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+// Add this new method
+exports.getNoticesByTeacherId = async (req, res) => {
+    try {
+        const teacherId = req.params.teacherId;
+        const notices = await TeacherNotice.find({
+            $or: [
+                { assignToAll: true },
+                { assignedTeachers: teacherId }
+            ]
+        }).populate('assignedTeachers').sort({ date: -1 });
+        
+        res.status(200).json(notices);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

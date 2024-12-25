@@ -5,7 +5,8 @@ const {
     getAllNotices,
     getNotice,
     updateNotice,
-    deleteNotice
+    deleteNotice,
+    getNoticesByTeacherId
 } = require('../controllers/teacherNotice');
 
 const authMiddleware = require('../middleware/authMiddleware');
@@ -24,5 +25,8 @@ router.put('/update:id', authMiddleware, updateNotice);
 
 // Delete notice
 router.delete('/delete:id', authMiddleware, deleteNotice);
+
+// Get notices by teacher ID
+router.get('/get-by-teacher/:teacherId', authMiddleware, getNoticesByTeacherId);
 
 module.exports = router;

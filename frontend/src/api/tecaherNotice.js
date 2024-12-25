@@ -35,6 +35,20 @@ export const getAllTeacherNotices = async () => {
     }
 };
 
+export const getTeacherNoticesByTeacherId = async (teacherId) => {
+    try {
+        const response = await axiosInstance.get(`/teacher-notice/get-by-teacher/${teacherId}`);
+        return Array.isArray(response.data) ? response.data : [];
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Error fetching notices',
+        });
+        return [];
+    }
+};
+
 export const updateTeacherNotice = async (id, noticeData) => {
     try {
         const response = await axiosInstance.put(`/teacher-notice/update&id=${id}`, noticeData);

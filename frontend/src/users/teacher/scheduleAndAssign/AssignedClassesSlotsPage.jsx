@@ -107,7 +107,7 @@ const AssignedClassesSlotsPage = () => {
             wrap: true,
         },
         {
-            name: 'Class',
+            name: 'Semester',
             selector: (row) => row.classId?.className || 'N/A',
             sortable: true,
             wrap: true,

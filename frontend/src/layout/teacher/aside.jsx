@@ -103,7 +103,7 @@ export default function Aside({ isSidebarOpen }) {
                     {dairy && (
                         <li>
                             <Link
-                                to="/teacher/dairy"
+                                to="/teacher/teacher-notice"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
                                 <img src={connection} alt="Dairy" />
