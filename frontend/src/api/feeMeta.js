@@ -34,24 +34,48 @@ export const getFeeMetaById = async (id) => {
     }
 };
 
-// Update a fee metadata entry
-export const updateFeeMeta = async (id, feeData) => {
+// Get current active fee structure
+export const getCurrentFeeMeta = async () => {
     try {
-        const response = await axiosInstance.put(`/feeMeta/update/${id}`, feeData);
-        return response.data;
+        const response = await axiosInstance.get('/feeMeta/get-all');
+        // Return the first fee structure since we only allow one
+        return response.data?.data?.[0] || null;
     } catch (error) {
-        console.error('Error updating fee metadata:', error);
+        console.error('Error fetching current fee metadata:', error);
         throw error;
     }
 };
 
+// Update a fee metadata entry
+// export const updateFeeMeta = async (id, feeData) => {
+//     try {
+//         const response = await axiosInstance.put(`/feeMeta/update/${id}`, feeData);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error updating fee metadata:', error);
+//         throw error;
+//     }
+// };
+
 // Delete a fee metadata entry
 export const deleteFeeMeta = async (id) => {
     try {
-        const response = await axiosInstance.delete(`/feeMeta/delete/${id}`);
+        const response = await axiosInstance.put(`/feeMeta/delete/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error deleting fee metadata:', error);
         throw error;
     }
 };
+
+
+
+// export const deleteFeeMeta = async (id) => {
+//     try {
+//         const response = await axiosInstance.delete(`/feeMeta/delete/${id}`);
+//         return response.data;
+//     } catch (error) {
+//         console.error('Error deleting fee metadata:', error);
+//         throw error;
+//     }
+// };

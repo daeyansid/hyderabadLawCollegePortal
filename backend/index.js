@@ -37,6 +37,7 @@ const studentDashboardRoutes = require("./routes/studentDashboardRoutes.js");
 const branchAdminDashboardRoutes = require("./routes/branchAdminDashboardRoutes.js");
 
 const feeMeta = require("./routes/feeMeta.js");
+const feeDetails = require("./routes/feeDetails.js");
 
 
 const path = require("path");
@@ -107,6 +108,7 @@ app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
 
 
 app.use("/api/feeMeta", feeMeta);
+app.use("/api/feeDetails", feeDetails);
 
 
 

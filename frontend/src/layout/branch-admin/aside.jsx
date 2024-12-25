@@ -174,6 +174,16 @@ export default function Aside() {
                             </Link>
                         </li>
 
+                        <li>
+                            <Link
+                                to="/branch-admin/fee-mna"
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            >
+                                <img src={umbrella} alt="Overview" />
+                                <span className="ms-3 text-custom-blue">Fee Manan</span>
+                            </Link>
+                        </li>
+
                         {/* Attendance Management */}
                         <li>
                             <button

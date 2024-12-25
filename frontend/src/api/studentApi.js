@@ -108,7 +108,6 @@ export const deleteStudent = async (studentId) => {
     }
 };
 
-
 // Fetch a guardian by CNIC
 export const fetchGuardianByCnic = async (cnic) => {
     try {
@@ -160,6 +159,17 @@ export const fetchStudentsByBatchYear = async (batchYear) => {
             title: 'Error',
             text: 'Unable to fetch students by batch year and branch. Please try again later.',
         });
+        throw error;
+    }
+};
+
+// Fetch students by semester ID
+export const fetchStudentsBySemester = async (semesterId) => {
+    try {
+        const response = await axiosInstance.get(`/student/by-semester/${semesterId}`);
+        return response.data.data;
+    } catch (error) {
+        console.error('Error fetching students by semester:', error);
         throw error;
     }
 };
