@@ -43,6 +43,7 @@ import SuperAdminBatch from "./users/branch-admin/SuperAdminBranch.jsx";
 import SuperAdminUser from "./users/branch-admin/SuperAdminUser.jsx";
 import FeeMeta from "./users/branch-admin/fee/feeMeta/FeeMeta.jsx";
 import FeeDetail from "./users/branch-admin/fee/feeDetail/FeeDetail.jsx";
+import TestManagement from "./users/branch-admin/testManagement/TestManagment.jsx";
 
 
 const adminName = localStorage.getItem("adminName");
@@ -107,5 +108,6 @@ export {
   GuardianStudentDiaryPage,
   StudentAttendanceSinglePage,
   FeeMeta,
-  FeeDetail
+  FeeDetail,
+  TestManagement,
 };
