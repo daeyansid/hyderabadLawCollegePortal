@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import userIcon from '../../assets/user.svg';
-import overview from '../../assets/Icon (from Tabler.io).svg';
-import connection from '../../assets/connection.svg';
 import { useAuth } from '../../AuthProvider';
+import { 
+    FaChalkboardTeacher, 
+    FaUserGraduate,
+    FaBullhorn,
+    FaCalendarCheck,
+    FaClipboardList,
+    FaSignOutAlt,
+    FaUserCircle
+} from 'react-icons/fa';
 
 export default function Aside({ isSidebarOpen }) {
     const [isAttendanceManagementOpen, setIsAttendanceManagementOpen] = useState(false);
@@ -51,7 +58,7 @@ export default function Aside({ isSidebarOpen }) {
                             to="/teacher/dashboard"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                         >
-                            <img src={overview} alt="Overview" />
+                            <FaChalkboardTeacher className="w-5 h-5 text-indigo-600" />
                             <span className="ml-3 text-custom-blue">Overview</span>
                         </Link>
                     </li>
@@ -62,8 +69,12 @@ export default function Aside({ isSidebarOpen }) {
                             onClick={toggleAttendanceManagement}
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                         >
-                            <img src={userIcon} alt="Attendance Management" />
+                            <FaCalendarCheck className="w-5 h-5 text-green-600" />
                             <span className="ml-3 text-custom-blue">Attendance Management</span>
+                            <svg className={`w-3 h-3 transform ${isAttendanceManagementOpen ? 'rotate-180' : ''}`} 
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
                         </button>
 
                         {isAttendanceManagementOpen && (
@@ -72,24 +83,28 @@ export default function Aside({ isSidebarOpen }) {
                                     {machineAttendance ? (
                                         <>
                                             <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                                <Link to="/teacher/assigned-classes-attendance">
+                                                <Link to="/teacher/assigned-classes-attendance" className="flex items-center">
+                                                    <FaClipboardList className="w-4 h-4 text-blue-500 mr-2" />
                                                     Student Subject Attendance
                                                 </Link>
                                             </li>
                                             <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-no-drop p-3">
-                                                <Link to="#">
+                                                <Link to="#" className="flex items-center">
+                                                    <FaUserCircle className="w-4 h-4 text-gray-400 mr-2" />
                                                     Student Machine Attendance
                                                 </Link>
                                             </li>
                                             <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                                <Link to="/teacher/assigned-classes-attendance-single">
+                                                <Link to="/teacher/assigned-classes-attendance-single" className="flex items-center">
+                                                    <FaClipboardList className="w-4 h-4 text-purple-500 mr-2" />
                                                     Class Wise Attendance
                                                 </Link>
                                             </li>
                                         </>
                                     ) : (
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/teacher/assigned-classes-attendance-single">
+                                            <Link to="/teacher/assigned-classes-attendance-single" className="flex items-center">
+                                                <FaClipboardList className="w-4 h-4 text-purple-500 mr-2" />
                                                 Class Wise Attendance
                                             </Link>
                                         </li>
@@ -106,7 +121,7 @@ export default function Aside({ isSidebarOpen }) {
                                 to="/teacher/teacher-notice"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={connection} alt="Dairy" />
+                                <FaBullhorn className="w-5 h-5 text-yellow-600" />
                                 <span className="ml-3 text-custom-blue">Notice Management</span>
                             </Link>
                         </li>
@@ -118,7 +133,7 @@ export default function Aside({ isSidebarOpen }) {
                             to="/teacher/assigned-classes"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                         >
-                            <img src={connection} alt="Assigned Classes" />
+                            <FaUserGraduate className="w-5 h-5 text-purple-600" />
                             <span className="ml-3 text-custom-blue">Assigned Classes</span>
                         </Link>
                     </li>
@@ -128,7 +143,7 @@ export default function Aside({ isSidebarOpen }) {
                 <div className="mt-4 border-t border-gray-200 pt-4">
                     <div className="flex items-center justify-between space-x-4">
                         <div className="flex items-center space-x-4">
-                            <img className="w-10 h-10 rounded-full" src={userIcon} alt="User Image" />
+                            <FaUserCircle className="w-10 h-10 text-gray-400" />
                             <div className="flex flex-col">
                                 <span className="text-sm font-medium text-gray-900">{adminName}</span>
                                 <span className="text-xs text-gray-500">{adminEmail}</span>
@@ -139,7 +154,7 @@ export default function Aside({ isSidebarOpen }) {
                             className="text-red-500 hover:text-red-600 flex items-center"
                             aria-label="Logout"
                         >
-                            <i className="fa-solid fa-right-from-bracket text-xl"></i>
+                            <FaSignOutAlt className="w-5 h-5" />
                         </button>
                     </div>
                 </div>

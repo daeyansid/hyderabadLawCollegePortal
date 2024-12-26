@@ -104,7 +104,7 @@ const StudentDiaryPage = () => {
             {/* Heading */}
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-3xl font-bold text-indigo-700">
-                    Your Diary Entries
+                    Your Notice Entries
                 </h2>
             </div>
 

@@ -47,7 +47,7 @@ exports.createFeeDetails = async (req, res) => {
 
 exports.getAllFeeDetails = async (req, res) => {
     try {
-        const feeDetails = await FeeDetails.find()
+        const feeDetails = await FeeDetails.find({ IsDelete: false })
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
             .populate('studentId')
@@ -63,7 +63,9 @@ exports.getAllFeeDetails = async (req, res) => {
 
 exports.getFeeDetailsByStudentId = async (req, res) => {
     try {
-        const feeDetails = await FeeDetails.find({ studentId: req.params.studentId })
+        const feeDetails = await FeeDetails.find({ 
+            studentId: req.params.studentId,
+        })
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
             .populate('studentId')
@@ -124,8 +126,13 @@ exports.deleteFeeDetails = async (req, res) => {
             return sendErrorResponse(res, 404, 'Fee details not found');
         }
 
-        await FeeDetails.findByIdAndDelete(req.params.id);
-        sendSuccessResponse(res, 200, 'Fee details deleted successfully');
+        const updatedFeeDetails = await FeeDetails.findByIdAndUpdate(
+            req.params.id,
+            { IsDelete: true },
+            { new: true }
+        );
+
+        sendSuccessResponse(res, 200, 'Fee details deleted successfully', updatedFeeDetails);
     } catch (err) {
         console.error(err.message);
         sendErrorResponse(res, 500, 'Server error', err);
@@ -135,7 +142,10 @@ exports.deleteFeeDetails = async (req, res) => {
 // Get fee details by classId
 exports.getFeeDetailsByClassId = async (req, res) => {
     try {
-        const feeDetails = await FeeDetails.find({ classId: req.params.classId })
+        const feeDetails = await FeeDetails.find({ 
+            classId: req.params.classId,
+            IsDelete: false 
+        })
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
             .populate('studentId')
@@ -154,7 +164,10 @@ exports.getFeeDetailsByClassId = async (req, res) => {
 // Get fee detail by ID
 exports.getFeeDetailById = async (req, res) => {
     try {
-        const feeDetail = await FeeDetails.findById(req.params.id)
+        const feeDetail = await FeeDetails.findOne({
+            _id: req.params.id,
+            IsDelete: false
+        })
             .populate('totalAdmissionFee')
             .populate('semesterFeesTotal')
             .populate('studentId')
@@ -178,7 +191,8 @@ exports.checkFeeDetailExists = async (req, res) => {
         
         const existingFeeDetail = await FeeDetails.findOne({
             studentId,
-            classId
+            classId,
+            IsDelete: false
         });
 
         if (existingFeeDetail) {

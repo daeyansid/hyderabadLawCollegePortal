@@ -2,23 +2,40 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import userIcon from '../../assets/user.svg';
-import usersIcon from '../../assets/users.svg';
-import umbrella from '../../assets/umbrella.svg';
-import overview from '../../assets/Icon (from Tabler.io).svg';
-import dollarSign from '../../assets/dollar-sign.svg';
-import aperture from '../../assets/aperture.svg';
-import clock from '../../assets/clock.svg';
 import { useAuth } from '../../AuthProvider';
-import { adminName, adminEmail, machineAttendance as importedMachineAttendance, dairy as importedDairy } from '../..';
+import {
+    FaChalkboardTeacher,
+    FaBuilding,
+    FaUserTie,
+    FaUserGraduate,
+    FaChalkboard,
+    FaCalendarAlt,
+    FaBullhorn,
+    FaMoneyBillWave,
+    FaClipboardList,
+    FaUserClock,
+    FaSignOutAlt,
+    FaUserCircle,
+    FaUniversity,
+    FaUsers,
+    FaBook,
+    FaUserCheck,
+    FaClock,
+    FaRegMoneyBillAlt,
+    FaClipboardCheck,
+    FaFileAlt
+} from 'react-icons/fa';
 
 export default function Aside() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isUserManagementOpen, setIsUserManagementOpen] = useState(false);
+    const [isNoticeManagementOpen, setIsNoticeManagementOpen] = useState(false);
     const [IsBranchAdminManagementOpen, setIsBranchAdminManagementOpen] = useState(false);
     const [isClassSectionOpen, setIsClassSectionOpen] = useState(false);
     const [isLeaveManagementOpen, setIsLeaveManagementOpen] = useState(false);
     const [isAssignOpen, setIsAssignOpen] = useState(false);
+    const [isFeeOpen, setIsFeeOpen] = useState(false);
+    const [isTestOpen, setIsTestOpen] = useState(false);
     const [isAttendanceManagementOpen, setIsAttendanceManagementOpen] = useState(false);
     const [machineAttendance, setMachineAttendance] = useState(false);
     const [dairy, setDairy] = useState(false);
@@ -42,9 +59,9 @@ export default function Aside() {
 
     // Convert imported strings to booleans
     useEffect(() => {
-        setMachineAttendance(importedMachineAttendance === 'true');
-        setDairy(importedDairy === 'true');
-    }, [importedMachineAttendance, importedDairy]);
+        setMachineAttendance(machineAttendance === 'true');
+        setDairy(dairy === 'true');
+    }, [machineAttendance, dairy]);
 
     return (
         <>
@@ -54,7 +71,7 @@ export default function Aside() {
                 className="fixed top-4 left-4 z-50 p-2 text-custom-blue md:hidden"
                 aria-label="Toggle sidebar"
             >
-                <i className="fa-solid fa-bars w-6 h-6"></i>
+                <FaBuilding className="w-6 h-6" />
             </button>
 
             {/* Sidebar */}
@@ -70,7 +87,7 @@ export default function Aside() {
                                 to="/branch-admin/dashboard"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={overview} alt="Overview" />
+                                <FaChalkboardTeacher className="w-5 h-5 text-indigo-600" />
                                 <span className="ms-3 text-custom-blue">Overview</span>
                             </Link>
                         </li>
@@ -81,17 +98,27 @@ export default function Aside() {
                                 onClick={() => toggleMenu(setIsBranchAdminManagementOpen)}
                                 className="whitespace-nowrap flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={userIcon} alt="User Management" />
+                                <FaUniversity className="w-5 h-5 text-purple-600" />
                                 <span className="ms-3 text-custom-blue">Branch & Admin</span>
+                                <svg className={`w-3 h-3 transform ${IsBranchAdminManagementOpen ? 'rotate-180' : ''}`} 
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
                             </button>
                             {IsBranchAdminManagementOpen && (
                                 <div className="flex flex-col items-start pl-6 md:pl-8">
                                     <ul>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/branch">Branch</Link>
+                                            <Link to="/branch-admin/branch">
+                                                <FaBuilding className="w-4 h-4 text-purple-500" />
+                                                <span className="ml-2">Branch</span>
+                                            </Link>
                                         </li>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user">Admin</Link>
+                                            <Link to="/branch-admin/user">
+                                                <FaUserTie className="w-4 h-4 text-purple-500" />
+                                                <span className="ml-2">Admin</span>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -104,17 +131,27 @@ export default function Aside() {
                                 onClick={() => toggleMenu(setIsUserManagementOpen)}
                                 className="whitespace-nowrap flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={userIcon} alt="User Management" />
+                                <FaUsers className="w-5 h-5 text-blue-600" />
                                 <span className="ms-3 text-custom-blue">User Management</span>
+                                <svg className={`w-3 h-3 transform ${isUserManagementOpen ? 'rotate-180' : ''}`} 
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
                             </button>
                             {isUserManagementOpen && (
                                 <div className="flex flex-col items-start pl-6 md:pl-8">
                                     <ul>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/teacher">Teacher</Link>
+                                            <Link to="/branch-admin/user-management/teacher">
+                                                <FaChalkboardTeacher className="w-4 h-4 text-blue-500" />
+                                                <span className="ml-2">Teacher</span>
+                                            </Link>
                                         </li>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/user-management/student">Student</Link>
+                                            <Link to="/branch-admin/user-management/student">
+                                                <FaUserGraduate className="w-4 h-4 text-blue-500" />
+                                                <span className="ml-2">Student</span>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -127,7 +164,7 @@ export default function Aside() {
                                 to="/branch-admin/class-section"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={aperture} alt="Classes And Sections" />
+                                <FaChalkboard className="w-5 h-5 text-green-600" />
                                 <span className="ms-3 text-custom-blue">Classes And Sections</span>
                             </Link>
                         </li>
@@ -138,68 +175,121 @@ export default function Aside() {
                                 onClick={() => toggleMenu(setIsAssignOpen)}
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={clock} alt="Scheduling and Assign" />
+                                <FaClock className="w-5 h-5 text-yellow-600" />
                                 <span className="ms-3 text-custom-blue">Scheduling and Assign</span>
                             </button>
                             {isAssignOpen && (
                                 <div className="flex flex-col items-start pl-6 md:pl-8">
                                     <ul>
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/scheduleAndAssign/teacherAssign">Assign Class</Link>
+                                            <Link to="/branch-admin/scheduleAndAssign/teacherAssign">
+                                                <FaChalkboardTeacher className="w-4 h-4 text-yellow-500" />
+                                                <span className="ml-2">Assign Class</span>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>
                             )}
                         </li>
 
-                        {/* Leave Management */}
+                        {/* Notice Management */}
                         <li>
-                            <Link
-                                to="/branch-admin/notice"
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            <button
+                                onClick={() => toggleMenu(setIsNoticeManagementOpen)}
+                                className="whitespace-nowrap flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={umbrella} alt="Overview" />
+                                <FaBullhorn className="w-5 h-5 text-red-600" />
                                 <span className="ms-3 text-custom-blue">Notice</span>
-                            </Link>
+                                <svg className={`w-3 h-3 transform ${isNoticeManagementOpen ? 'rotate-180' : ''}`} 
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
+                            </button>
+                            {isNoticeManagementOpen && (
+                                <div className="flex flex-col items-start pl-6 md:pl-8">
+                                    <ul>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/notice-teacher">
+                                            <FaBullhorn className="w-5 h-5 text-red-600" />
+                                                <span className="ml-2">Teacher Notice</span>
+                                            </Link>
+                                        </li>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/notice">
+                                            <FaBullhorn className="w-5 h-5 text-red-600" />
+                                                <span className="ml-2">Student Notice</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
                         </li>
 
+                        {/* Fee Management */}
                         <li>
-                            <Link
-                                to="/branch-admin/notice-teacher"
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            <button
+                                onClick={() => toggleMenu(setIsFeeOpen)}
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={umbrella} alt="Overview" />
-                                <span className="ms-3 text-custom-blue">Notice Teacher</span>
-                            </Link>
+                                <FaRegMoneyBillAlt className="w-5 h-5 text-green-600" />
+                                <span className="ms-3 text-custom-blue">Fees</span>
+                            </button>
+                            {isFeeOpen && (
+                                <div className="flex flex-col items-start pl-6 md:pl-8">
+                                    <ul>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/fee-meta">
+                                            <FaMoneyBillWave className="w-5 h-5 text-green-600" />
+                                                <span className="ml-2">Semester Fee Details</span>
+                                            </Link>
+                                        </li>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/fee-management">
+                                            <FaRegMoneyBillAlt className="w-5 h-5 text-green-600" />
+                                                <span className="ml-2">Fee Management</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
                         </li>
 
 
+                    {/* test management */}
                         <li>
-                            <Link
-                                to="/branch-admin/fee-meta"
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            <button
+                                onClick={() => toggleMenu(setIsTestOpen)}
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={umbrella} alt="Overview" />
-                                <span className="ms-3 text-custom-blue">Fee Meta</span>
-                            </Link>
+                                <FaClipboardCheck className="w-5 h-5 text-blue-600" />
+                                <span className="ms-3 text-custom-blue">Test Management</span>
+                            </button>
+                            {isTestOpen && (
+                                <div className="flex flex-col items-start pl-6 md:pl-8">
+                                    <ul>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/test-management">
+                                            <FaClipboardList className="w-5 h-5 text-blue-600" />
+                                            <span className="ms-3 text-custom-blue">Test Management</span>
+                                            </Link>
+                                        </li>
+                                        <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
+                                            <Link to="/branch-admin/test-marks-sheet">
+                                            <FaClipboardCheck className="w-5 h-5 text-blue-600" />
+                                            <span className="ms-3 text-custom-blue">Test Marks Sheet</span>
+                                            </Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
                         </li>
 
-                        <li>
-                            <Link
-                                to="/branch-admin/fee-mna"
-                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
-                            >
-                                <img src={umbrella} alt="Overview" />
-                                <span className="ms-3 text-custom-blue">Fee Manan</span>
-                            </Link>
-                        </li>
-
-                        <li>
+                        {/* <li>
                             <Link
                                 to="/branch-admin/test-management"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={umbrella} alt="Overview" />
+                                <FaClipboardList className="w-5 h-5 text-blue-600" />
                                 <span className="ms-3 text-custom-blue">Test Management</span>
                             </Link>
                         </li>
@@ -209,10 +299,10 @@ export default function Aside() {
                                 to="/branch-admin/test-marks-sheet"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={umbrella} alt="Overview" />
+                                <FaClipboardCheck className="w-5 h-5 text-blue-600" />
                                 <span className="ms-3 text-custom-blue">Test Marks Sheet</span>
                             </Link>
-                        </li>
+                        </li> */}
 
                         {/* Attendance Management */}
                         <li>
@@ -220,30 +310,46 @@ export default function Aside() {
                                 onClick={() => toggleMenu(setIsAttendanceManagementOpen)}
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                             >
-                                <img src={usersIcon} alt="Attendance Management" />
+                                <FaUserCheck className="w-5 h-5 text-teal-600" />
                                 <span className="ms-3 text-custom-blue whitespace-nowrap">Attendance Management</span>
+                                <svg className={`w-3 h-3 transform ${isAttendanceManagementOpen ? 'rotate-180' : ''}`} 
+                                    fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                </svg>
                             </button>
                             {isAttendanceManagementOpen && (
                                 <div className="flex flex-col items-start pl-6 md:pl-8">
                                     <ul>
                                         {/* Staff Attendance - Always Shows */}
                                         <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                            <Link to="/branch-admin/attendance/staff">Staff Attendance</Link>
+                                            <Link to="/branch-admin/attendance/staff">
+                                                <FaUserClock className="w-4 h-4 text-teal-500" />
+                                                <span className="ml-2">Staff Attendance</span>
+                                            </Link>
                                         </li>
 
                                         {/* Conditional Submenus */}
                                         {machineAttendance ? (
                                             <>
                                                 <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                                    <Link to="/branch-admin/attendance/student-subject-wise">Student Class Attendance</Link>
+                                                    <Link to="/branch-admin/attendance/student-subject-wise">
+                                                        <FaUserClock className="w-4 h-4 text-teal-500" />
+                                                        <span className="ml-2">Student Class Attendance</span>
+                                                    </Link>
                                                 </li>
                                                 <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-no-drop p-3">
-                                                    <Link to="/branch-admin/attendance/student-machine-wise">Student Machine Attendance</Link>
+                                                    <Link to="/branch-admin/attendance/student-machine-wise">
+                                                        <FaUserClock className="w-4 h-4 text-teal-500" />
+                                                        <span className="ml-2">Student Machine Attendance</span>
+                                                    </Link>
                                                 </li>
                                             </>
                                         ) : (
                                             <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                                <Link to="/branch-admin/attendance/class-wise">Class Wise Attendance</Link>
+                                                <Link to="/branch-admin/attendance/class-wise">
+                                                    <FaUserClock className="w-4 h-4 text-teal-500" />
+                                                    <span className="ml-2">Class Wise Attendance</span>
+                                                </Link>
                                             </li>
                                         )}
                                     </ul>
@@ -259,10 +365,10 @@ export default function Aside() {
                     <div className="mt-4 border-t border-gray-200 pt-4">
                         <div className="flex items-center justify-between space-x-4">
                             <div className="flex items-center space-x-4">
-                                <img className="w-10 h-10 rounded-full" src={userIcon} alt="User Image" />
+                                <FaUserCircle className="w-10 h-10 text-gray-400" />
                                 <div className="flex flex-col">
-                                    <span className="text-sm font-medium text-gray-900">{adminName}</span>
-                                    <span className="text-xs text-gray-500">{adminEmail}</span>
+                                    <span className="text-sm font-medium text-gray-900">sdsdsds</span>
+                                    <span className="text-xs text-gray-500">jjjkjkjk</span>
                                 </div>
                             </div>
                             <button
@@ -270,7 +376,7 @@ export default function Aside() {
                                 className="text-red-500 hover:text-red-600 flex items-center"
                                 aria-label="Logout"
                             >
-                                <i className="fa-solid fa-right-from-bracket text-xl"></i>
+                                <FaSignOutAlt className="w-5 h-5" />
                             </button>
                         </div>
                     </div>

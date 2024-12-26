@@ -10,19 +10,19 @@ const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
  * Get all Slots for Student for a specific day
  */
 exports.getAllSlotsForDayStudent = async (req, res) => {
-    const { branchClassDaysId, sectionId, branchId } = req.query;
+    const { branchClassDaysId,  classId, branchId } = req.query;
 
     // Validate inputs
-    if (!branchClassDaysId || !sectionId || !branchId) {
-        return sendErrorResponse(res, 400, 'Branch Class Days ID, Section ID, and Branch ID are required.');
+    if (!branchClassDaysId || ! classId || !branchId) {
+        return sendErrorResponse(res, 400, 'Branch Class Days ID, and Branch ID are required.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchClassDaysId)) {
         return sendErrorResponse(res, 400, 'Invalid Branch Class Days ID format.');
     }
 
-    if (!mongoose.Types.ObjectId.isValid(sectionId)) {
-        return sendErrorResponse(res, 400, 'Invalid Section ID format.');
+    if (!mongoose.Types.ObjectId.isValid(classId)) {
+        return sendErrorResponse(res, 400, 'Invalid Class ID format.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchId)) {
@@ -41,17 +41,16 @@ exports.getAllSlotsForDayStudent = async (req, res) => {
             return sendErrorResponse(res, 400, 'Branch Class Day does not belong to the specified Branch.');
         }
 
-        // Fetch Class Slot Assignments filtered by branchClassDaysId and sectionId
+        // Fetch Class Slot Assignments filtered by branchClassDaysId and  classId
         const assignments = await ClassSlotAssignments.find({
             branchClassDaysId: branchClassDaysId,
-            sectionId: sectionId,
+            classId: classId,
         })
             .populate({
                 path: 'branchDailyTimeSlotsId',
                 select: 'slot slotType',
             })
             .populate('classId')
-            .populate('sectionId')
             .populate('subjectId')
             .populate('teacherId');
 
@@ -70,9 +69,8 @@ exports.getAllSlotsForDayStudent = async (req, res) => {
             slotType: assignment.slotType, // 'Class Slot'
             slot: assignment.branchDailyTimeSlotsId?.slot,
             classId: assignment.classId,
-            sectionId: assignment.sectionId,
-            subjectId: assignment.subjectId,
             teacherId: assignment.teacherId,
+            subjectId: assignment.subjectId,
             classType: assignment.classType,
         }));
 
@@ -84,7 +82,6 @@ exports.getAllSlotsForDayStudent = async (req, res) => {
             slotType: slot.slotType, // 'Break Slot'
             slot: slot.slot,
             classId: null,
-            sectionId: null,
             subjectId: null,
             teacherId: null,
             classType: null,

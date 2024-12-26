@@ -51,7 +51,8 @@ exports.createStudentTest = async (req, res) => {
         const existingTest = await StudentTest.findOne({
             studentId: req.body.studentId,
             classId: req.body.classId,
-            subjectId: req.body.subjectId
+            subjectId: req.body.subjectId,
+            IsDelete: false
         });
 
         if (existingTest) {
@@ -115,6 +116,39 @@ exports.getStudentTest = async (req, res) => {
         });
     } catch (error) {
         res.status(400).json({
+            success: false,
+            message: error.message
+        });
+    }
+};
+
+// Get student tests by classId and studentId
+exports.getStudentTestsByClassAndStudent = async (req, res) => {
+    try {
+        const { classId, studentId } = req.query;
+
+        if (!classId || !studentId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Both classId and studentId are required'
+            });
+        }
+
+        const studentTests = await StudentTest.find({
+            classId,
+            studentId
+        })
+        .populate('studentId')
+        .populate('classId')
+        .populate('subjectId');
+
+        res.status(200).json({
+            success: true,
+            count: studentTests.length,
+            data: studentTests
+        });
+    } catch (error) {
+        res.status(500).json({
             success: false,
             message: error.message
         });
