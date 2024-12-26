@@ -217,48 +217,41 @@ exports.login = async (req, res) => {
                         responseData.branchAdmin = null;
                     }
                 }
-                // else if (user.userRole === 'student') {
-                //     // Find the BranchAdmin document
-                //     const branchAdmin = await Student.findOne({ userId: user.id }).populate('userId');
-                //     if (branchAdmin) {
-                //         responseData.branchAdmin = branchAdmin;
+                else if (user.userRole === 'student') {
+                    // Find the BranchAdmin document
+                    const branchAdmin = await Student.findOne({ userId: user.id }).populate('userId');
+                    if (branchAdmin) {
+                        responseData.branchAdmin = branchAdmin;
 
-                //         // Find the Branch document using the assignedTo field
-                //         const branch = await Branch.findOne({ _id: branchAdmin.branchId });
-                //         if (branch) {
-                //             responseData.branch = branch;
+                        // Find the Branch document using the assignedTo field
+                        const branch = await Branch.findOne({ _id: branchAdmin.branchId });
+                        if (branch) {
+                            responseData.branch = branch;
 
-                //             // Find the BranchSetting document using the branchSettings field
-                //             const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
-                //             if (branchSetting) {
-                //                 responseData.branchSetting = branchSetting;
-                //             }
+                            // Find the BranchSetting document using the branchSettings field
+                            const branchSetting = await BranchSetting.findOne({ branchId: branch._id });
+                            if (branchSetting) {
+                                responseData.branchSetting = branchSetting;
+                            }
 
-                //             // Find the sectionData
-                //             const SectionData = await Section.findOne({ _id: branchAdmin.sectionId });
-                //             if (SectionData) {
-                //                 responseData.SectionData = SectionData;
-                //                 responseData.sectionId = SectionData._id;
+                            // Find the classData
+                            const classData = await Class.findOne({ _id: branchAdmin.classId });
+                            if (classData) {
+                                responseData.classData = classData;
+                                responseData.classId = classData._id;
+                            }
 
-                //                 // Find the classData
-                //                 const classData = await Class.findOne({ _id: branchAdmin.classId });
-                //                 if (classData) {
-                //                     responseData.classData = classData;
-                //                     responseData.classId = classData._id;
-                //                 }
-                //             }
+                            responseData.branchId = branch._id;
+                        } else {
+                            responseData.branchId = null;
+                        }
 
-                //             responseData.branchId = branch._id;
-                //         } else {
-                //             responseData.branchId = null;
-                //         }
-
-                //         responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
-                //         responseData.fullName = branchAdmin.fullName || null;
-                //     } else {
-                //         responseData.branchAdmin = null;
-                //     }
-                // }
+                        responseData.userId = branchAdmin.userId ? branchAdmin.userId._id : null;
+                        responseData.fullName = branchAdmin.fullName || null;
+                    } else {
+                        responseData.branchAdmin = null;
+                    }
+                }
 
                 // Send response with success
                 res.cookie('token', token, { httpOnly: true });

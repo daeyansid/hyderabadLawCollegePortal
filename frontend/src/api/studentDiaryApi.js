@@ -6,17 +6,15 @@ import axiosInstance from '../axiosInstance';
 export const getStudentDiary = async () => {
     try {
         const classId = localStorage.getItem('classId');
-        const sectionId = localStorage.getItem('sectionId');
         const adminSelfId = localStorage.getItem('adminSelfId');
 
-        if (!classId || !sectionId || !adminSelfId) {
+        if (!classId || !adminSelfId) {
             throw new Error('Required IDs not found in localStorage.');
         }
 
         const response = await axiosInstance.get('/student-diary/get-student-diary', {
             params: {
                 classId,
-                sectionId,
                 adminSelfId,
             },
         });

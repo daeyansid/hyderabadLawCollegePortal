@@ -5,17 +5,16 @@ const mongoose = require('mongoose');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
 exports.getStudentDiary = async (req, res) => {
-    const { classId, sectionId, adminSelfId } = req.query;
+    const { classId, adminSelfId } = req.query;
 
     try {
-        if (!classId || !sectionId || !adminSelfId) {
-            return sendErrorResponse(res, 400, 'classId, sectionId, and adminSelfId are required.');
+        if (!classId || !adminSelfId) {
+            return sendErrorResponse(res, 400, 'classId, and adminSelfId are required.');
         }
 
         // Validate ObjectIds
         if (
             !mongoose.Types.ObjectId.isValid(classId) ||
-            !mongoose.Types.ObjectId.isValid(sectionId) ||
             !mongoose.Types.ObjectId.isValid(adminSelfId)
         ) {
             return sendErrorResponse(res, 400, 'Invalid IDs provided.');
@@ -28,14 +27,13 @@ exports.getStudentDiary = async (req, res) => {
 
         const diaries = await Diary.find({
             $or: [
-                { class: classId, section: sectionId },
+                { class: classId},
                 { assignedStudents: adminSelfId },
             ],
         })
             .populate('subject')
             .populate('class')
-            .populate('section')
-            .sort({ date: -1 }); // Sort by date, latest first
+            .sort({ date: -1 });
 
         if (!diaries.length) {
             return sendSuccessResponse(res, 200, 'No diary entries found.', []);

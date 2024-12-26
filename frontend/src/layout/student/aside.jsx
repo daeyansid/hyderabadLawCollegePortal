@@ -11,9 +11,7 @@ export default function Aside({ isSidebarOpen }) {
     const [dairy, setDairy] = useState(false);
 
     const navigate = useNavigate();
-    const { logout } = useAuth(); // Removed userInfo from useAuth
-
-    // Remove userInfo from useAuth and replace with values from localStorage
+    const { logout } = useAuth();
 
     useEffect(() => {
         // Retrieve values from localStorage
@@ -109,7 +107,7 @@ export default function Aside({ isSidebarOpen }) {
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
                                 <img src={connection} alt="Dairy" />
-                                <span className="ml-3 text-custom-blue">Dairy Management</span>
+                                <span className="ml-3 text-custom-blue">Notice</span>
                             </Link>
                         </li>
                     )}
