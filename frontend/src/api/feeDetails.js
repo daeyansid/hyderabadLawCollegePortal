@@ -44,9 +44,11 @@ export const getAllFeeDetails = async () => {
 export const getFeeDetailsByStudentId = async (studentId) => {
     try {
         const response = await axiosInstance.get(`/feeDetails/student/${studentId}`);
-        return response.data;
+        return response;
     } catch (error) {
-        console.error('Error fetching student fee details:', error);
+        if (error.response && error.response.status === 404) {
+            return { data: null };
+        }
         throw error;
     }
 };

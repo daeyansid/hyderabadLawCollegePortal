@@ -122,6 +122,17 @@ export default function Aside({ isSidebarOpen }) {
                             <span className="ml-3 text-custom-blue">Assigned Classes</span>
                         </Link>
                     </li>
+
+                    {/* Assigned Classes */}
+                    <li>
+                        <Link
+                            to="/student/fee"
+                            className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                        >
+                            <img src={connection} alt="Assigned Classes" />
+                            <span className="ml-3 text-custom-blue">Fee</span>
+                        </Link>
+                    </li>
                 </ul>
 
                 {/* User Info and Logout */}

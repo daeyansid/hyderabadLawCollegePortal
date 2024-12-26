@@ -15,14 +15,13 @@ const AssignedClassesSlotsPageStudent = () => {
     const [searchText, setSearchText] = useState('');
     const [error, setError] = useState(null);
 
-    const sectionId = localStorage.getItem('sectionId');
     const classId = localStorage.getItem('classId');
 
     // Fetch slots
     const fetchSlots = async () => {
         setLoading(true);
         try {
-            const data = await getAllSlotsForDayStudent(branchDayId, sectionId);
+            const data = await getAllSlotsForDayStudent(branchDayId, classId);
             console.log("data",data);
 
             // Ensure data is an array
@@ -70,7 +69,7 @@ const AssignedClassesSlotsPageStudent = () => {
 
     useEffect(() => {
         fetchSlots();
-    }, [branchDayId, sectionId]);
+    }, [branchDayId, classId]);
 
     // Handle Search
     const handleSearch = (e) => {
@@ -79,7 +78,6 @@ const AssignedClassesSlotsPageStudent = () => {
         const filtered = slots.filter((slot) => {
             const timeSlot = `${slot.slot}`.toLowerCase();
             const className = slot.classId?.name?.toLowerCase() || '';
-            const sectionName = slot.sectionId?.name?.toLowerCase() || '';
             const subjectName = slot.subjectId?.name?.toLowerCase() || '';
             const teacherName = slot.teacherId
                 ? `${slot.teacherId.firstName} ${slot.teacherId.lastName}`.toLowerCase()
@@ -88,7 +86,6 @@ const AssignedClassesSlotsPageStudent = () => {
             return (
                 timeSlot.includes(value) ||
                 className.includes(value) ||
-                sectionName.includes(value) ||
                 subjectName.includes(value) ||
                 teacherName.includes(value)
             );
@@ -105,14 +102,8 @@ const AssignedClassesSlotsPageStudent = () => {
             wrap: true,
         },
         {
-            name: 'Class',
+            name: 'Semester',
             selector: (row) => row.classId ? row.classId.className : 'Break',
-            sortable: true,
-            wrap: true,
-        },
-        {
-            name: 'Section',
-            selector: (row) => row.sectionId ? row.sectionId.sectionName : 'N/A',
             sortable: true,
             wrap: true,
         },
@@ -132,23 +123,29 @@ const AssignedClassesSlotsPageStudent = () => {
         },
     ];
 
-    // Custom styles for DataTable
+    // Updated custom styles for DataTable
     const customStyles = {
         headCells: {
             style: {
-                backgroundColor: '#f3f4f6',
-                color: '#374151',
+                backgroundColor: '#4f46e5',
+                color: '#ffffff',
                 fontSize: '14px',
                 fontWeight: '600',
                 paddingLeft: '16px',
                 paddingRight: '16px',
+                transition: 'all 0.2s ease',
             },
         },
         rows: {
             style: {
                 fontSize: '14px',
                 '&:nth-of-type(even)': {
-                    backgroundColor: '#f9fafb',
+                    backgroundColor: '#eef2ff',
+                },
+                '&:hover': {
+                    backgroundColor: '#e0e7ff',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
                 },
             },
         },
@@ -166,77 +163,87 @@ const AssignedClassesSlotsPageStudent = () => {
     };
 
     return (
-        <div className="p-6 bg-white rounded-lg shadow-md">
-            {/* Back button with arrow */}
-            <div className="flex items-center mb-4">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="flex items-center text-indigo-700 hover:text-indigo-900 font-semibold"
-                >
-                    <AiOutlineArrowLeft className="mr-2" /> Back
-                </button>
-            </div>
-
-            {/* Heading */}
-            <div className="flex justify-between items-center mb-4">
-                <h1 className="text-2xl font-semibold text-indigo-700">
-                    Assigned Classes and Slots
-                </h1>
-            </div>
-
-            {/* Search Input */}
-            <div className="mb-4">
-                <input
-                    type="text"
-                    placeholder="Search by slot, class, section, subject, teacher..."
-                    value={searchText}
-                    onChange={handleSearch}
-                    className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-            </div>
-
-            {/* Error Handling */}
-            {error && (
-                <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-md">
-                    <p>{error}</p>
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50 p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6 border border-indigo-100">
+                {/* Back button with arrow */}
+                <div className="flex items-center mb-6">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="flex items-center text-indigo-600 hover:text-indigo-800 font-semibold transition-colors duration-200"
+                    >
+                        <AiOutlineArrowLeft className="mr-2" /> Back
+                    </button>
                 </div>
-            )}
 
-            {/* DataTable for displaying slots */}
-            <DataTable
-                columns={columns}
-                data={filteredSlots}
-                pagination
-                highlightOnHover
-                customStyles={customStyles}
-                noDataComponent={!loading && 'No slots found for this day.'}
-                progressPending={loading}
-                progressComponent={
-                    <div className="flex justify-center items-center h-64">
-                        <svg
-                            className="animate-spin h-10 w-10 text-indigo-600"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <circle
-                                className="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                strokeWidth="4"
-                            ></circle>
-                            <path
-                                className="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8v8H4z"
-                            ></path>
-                        </svg>
-                        <span className="ml-2 text-indigo-600">Loading slots...</span>
+                {/* Heading */}
+                <div className="flex justify-between items-center mb-6">
+                    <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
+                        Assigned Classes and Slots
+                    </h1>
+                </div>
+
+                {/* Search Input */}
+                <div className="mb-6">
+                    <input
+                        type="text"
+                        placeholder="Search by slot, class, subject, teacher..."
+                        value={searchText}
+                        onChange={handleSearch}
+                        className="p-3 border border-indigo-200 rounded-lg w-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200 bg-indigo-50/30"
+                    />
+                </div>
+
+                {/* Error Handling */}
+                {error && (
+                    <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-lg animate-fade-in">
+                        <p>{error}</p>
                     </div>
-                }
-            />
+                )}
+
+                {/* DataTable */}
+                <div className="rounded-lg overflow-hidden border border-indigo-100">
+                    <DataTable
+                        columns={columns}
+                        data={filteredSlots}
+                        pagination
+                        highlightOnHover
+                        customStyles={customStyles}
+                        noDataComponent={
+                            !loading && (
+                                <div className="p-6 text-indigo-600">
+                                    No slots found for this day.
+                                </div>
+                            )
+                        }
+                        progressPending={loading}
+                        progressComponent={
+                            <div className="flex justify-center items-center h-64">
+                                <svg
+                                    className="animate-spin h-10 w-10 text-indigo-600"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    ></circle>
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v8H4z"
+                                    ></path>
+                                </svg>
+                                <span className="ml-2 text-indigo-600 font-semibold">Loading slots...</span>
+                            </div>
+                        }
+                    />
+                </div>
+            </div>
         </div>
     );
 };

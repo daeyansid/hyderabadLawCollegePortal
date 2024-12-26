@@ -46,7 +46,7 @@ export const deleteClassSlotAssignmentStudent = async (id) => {
     }
 };
 
-export const getAllSlotsForDayStudent = async (branchClassDaysIdParam, sectionIdParam) => {
+export const getAllSlotsForDayStudent = async (branchClassDaysIdParam, classId) => {
     try {
         // Retrieve branchId from localStorage
         const branchId = localStorage.getItem('branchId');
@@ -59,7 +59,7 @@ export const getAllSlotsForDayStudent = async (branchClassDaysIdParam, sectionId
         const response = await axiosInstance.get('/class-slot-assignments-student/get-all-slots-for-day', {
             params: {
                 branchClassDaysId: branchClassDaysIdParam,
-                sectionId: sectionIdParam,
+                classId: classId,
                 branchId,
             },
         });

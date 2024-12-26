@@ -53,7 +53,8 @@ import {
   TestManagement,
   TestMarksSheet,
   TeacherNotice,
-  TeacherSideNotice
+  TeacherSideNotice,
+  StudentFee
 } from './index';
 import './index.css';
 
@@ -165,6 +166,8 @@ function MainApp() {
             <Route path="assigned-classes" element={<StudentAssignClassDays />} />
             <Route path="assigned-classes/slots/:branchDayId" element={<AssignedClassesSlotsPageStudent />} />
             <Route path="dairy" element={<StudentDiaryPage />} />
+
+            <Route path="fee" element={<StudentFee />} />
             {/* for attendance for subject wise*/}
             <Route path="view-subjects" element={<StudentSubjectsPage />} />
             <Route path="view-attendance/:subjectId" element={<StudentAttendancePage />} />
