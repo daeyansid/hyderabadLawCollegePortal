@@ -88,10 +88,24 @@ function StudentFee() {
 
         {Array.isArray(feeDetails) && feeDetails.map((detail, index) => (
           <div key={index} className="bg-white rounded-xl shadow-lg p-6 mb-6">
-            <div className="border-b pb-4 mb-4">
+            <div className="border-b pb-4 mb-4 flex justify-between items-center">
               <h2 className="text-xl font-semibold text-indigo-600">
                 {detail.classId?.className || 'Current'} Semester
               </h2>
+              <span className={`px-3 py-1 rounded-full text-sm font-semibold ${((detail.semesterFeesTotal?.semesterFee || 0) -
+                  (detail.semesterFeesPaid || 0) -
+                  (detail.discount || 0) +
+                  (detail.lateFeeSurcharged || 0) +
+                  (detail.otherPenalties || 0)) === 0
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800'
+                }`}>
+                {((detail.semesterFeesTotal?.semesterFee || 0) -
+                  (detail.semesterFeesPaid || 0) -
+                  (detail.discount || 0) +
+                  (detail.lateFeeSurcharged || 0) +
+                  (detail.otherPenalties || 0)) === 0 ? 'PAID' : 'UNPAID'}
+              </span>
             </div>
 
             {/* Fee Meta Information */}

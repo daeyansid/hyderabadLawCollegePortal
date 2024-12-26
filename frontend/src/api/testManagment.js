@@ -36,6 +36,23 @@ export const getAllTests = async () => {
     }
 };
 
+// Get tests by classId and studentId
+export const getTestsByClassAndStudent = async (classId, studentId) => {
+    try {
+        const response = await axiosInstance.get('/student-test/get-by-class-and-student', {
+            params: { classId, studentId }
+        });
+        return response.data;
+    } catch (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Unable to fetch test records'
+        });
+        throw error;
+    }
+};
+
 // Update test
 export const updateTest = async (id, testData) => {
     try {

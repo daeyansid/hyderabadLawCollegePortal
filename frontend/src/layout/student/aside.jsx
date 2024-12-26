@@ -5,6 +5,16 @@ import overview from '../../assets/Icon (from Tabler.io).svg';
 import connection from '../../assets/connection.svg';
 import { useAuth } from '../../AuthProvider';
 
+// Add these icons from react-icons
+import { 
+    FaChalkboardTeacher, 
+    FaMoneyBillWave, 
+    FaClipboardList,
+    FaUserGraduate,
+    FaBullhorn,
+    FaCalendarCheck
+} from 'react-icons/fa';
+
 export default function Aside({ isSidebarOpen }) {
     const [isAttendanceManagementOpen, setIsAttendanceManagementOpen] = useState(false);
     const [machineAttendance, setMachineAttendance] = useState(false);
@@ -51,7 +61,7 @@ export default function Aside({ isSidebarOpen }) {
                             to="/student/dashboard"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                         >
-                            <img src={overview} alt="Overview" />
+                            <FaChalkboardTeacher className="w-5 h-5 text-indigo-600" />
                             <span className="ml-3 text-custom-blue">Overview</span>
                         </Link>
                     </li>
@@ -62,8 +72,12 @@ export default function Aside({ isSidebarOpen }) {
                             onClick={toggleAttendanceManagement}
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer w-full text-left"
                         >
-                            <img src={userIcon} alt="Attendance Management" />
+                            <FaCalendarCheck className="w-5 h-5 text-green-600" />
                             <span className="ml-3 text-custom-blue">Attendance Management</span>
+                            <svg className={`w-3 h-3 transform ${isAttendanceManagementOpen ? 'rotate-180' : ''}`} 
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                            </svg>
                         </button>
 
                         {isAttendanceManagementOpen && (
@@ -99,14 +113,14 @@ export default function Aside({ isSidebarOpen }) {
                         )}
                     </li>
 
-                    {/* Dairy Management */}
+                    {/* Notice Management */}
                     {dairy && (
                         <li>
                             <Link
                                 to="/student/dairy"
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
-                                <img src={connection} alt="Dairy" />
+                                <FaBullhorn className="w-5 h-5 text-yellow-600" />
                                 <span className="ml-3 text-custom-blue">Notice</span>
                             </Link>
                         </li>
@@ -118,19 +132,30 @@ export default function Aside({ isSidebarOpen }) {
                             to="/student/assigned-classes"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                         >
-                            <img src={connection} alt="Assigned Classes" />
+                            <FaUserGraduate className="w-5 h-5 text-purple-600" />
                             <span className="ml-3 text-custom-blue">Assigned Classes</span>
                         </Link>
                     </li>
 
-                    {/* Assigned Classes */}
+                    {/* Fee */}
                     <li>
                         <Link
                             to="/student/fee"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                         >
-                            <img src={connection} alt="Assigned Classes" />
+                            <FaMoneyBillWave className="w-5 h-5 text-emerald-600" />
                             <span className="ml-3 text-custom-blue">Fee</span>
+                        </Link>
+                    </li>
+
+                    {/* Test */}
+                    <li>
+                        <Link
+                            to="/student/test"
+                            className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                        >
+                            <FaClipboardList className="w-5 h-5 text-blue-600" />
+                            <span className="ml-3 text-custom-blue">Test</span>
                         </Link>
                     </li>
                 </ul>

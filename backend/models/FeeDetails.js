@@ -53,7 +53,10 @@ const FeeDetailsSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-
+    IsDelete: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now

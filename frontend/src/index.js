@@ -49,6 +49,7 @@ import TeacherNotice from "./users/branch-admin/teacherNotice/TeacherNotice.jsx"
 import TeacherSideNotice from "./users/teacher/TeacherNotice.jsx";
 
 import StudentFee from "./users/student/fee/StudentFee.jsx";
+import StudentTest from "./users/student/test/StudentTest.jsx";
 
 
 const adminName = localStorage.getItem("adminName");
@@ -118,5 +119,6 @@ export {
   TestMarksSheet,
   TeacherNotice,
   TeacherSideNotice,
-  StudentFee
+  StudentFee,
+  StudentTest
 };
