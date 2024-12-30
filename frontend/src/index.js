@@ -21,6 +21,7 @@ import ViewSlotsAttendance from "./users/teacher/attendance/ViewSlotsAttendance.
 import TakeViewAttendance from "./users/teacher/attendance/TakeViewAttendance.jsx";
 import ViewDayAttendanceSingle from "./users/teacher/attendanceSingle/ViewDayAttendanceSingle.jsx";
 import ViewSlotsAttendanceSingle from "./users/teacher/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
+import ClassTaken from "./users/teacher/ClassTaken.jsx";
 
 
 import SelectTeacher from "./users/branch-admin/attendanceSingle/SelectTeacher.jsx";
@@ -143,4 +144,5 @@ export {
   ViewDayAttendanceStaff,
   ViewSlotsAttendanceStaff,
   TakeViewAttendanceStaff,
+  ClassTaken
 };

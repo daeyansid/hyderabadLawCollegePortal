@@ -63,7 +63,8 @@ import {
   SelectStaff,
   ViewDayAttendanceStaff,
   ViewSlotsAttendanceStaff,
-  TakeViewAttendanceStaff
+  TakeViewAttendanceStaff,
+  ClassTaken
 } from './index';
 import './index.css';
 
@@ -157,6 +158,8 @@ function MainApp() {
             {/* <Route path="dairy" element={<DiaryDataTable />} /> */}
             <Route path="teacher-notice" element={<TeacherSideNotice />} />
 
+
+            <Route path="class-taken" element={<ClassTaken />} />
 
             <Route path="assigned-classes" element={<TeacherAssignClassDays />} />
             <Route path="assigned-classes/slots/:branchDayId" element={<AssignedClassesSlotsPage />} />
