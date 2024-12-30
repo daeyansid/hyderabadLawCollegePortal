@@ -49,7 +49,7 @@ export default function Nav() {
                     <div className="flex items-center justify-between">
                         <a href="#" className="flex items-center ms-2 md:me-24">
                             <img src={logo} className="h-12 w-12 me-3" alt="FlowBite Logo" />
-                            <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-custom-blue">Blue Jays</span>
+                            <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-custom-blue">HLC</span>
                         </a>
                     </div>
                 </div>
