@@ -53,6 +53,19 @@ export const getFeeDetailsByStudentId = async (studentId) => {
     }
 };
 
+// Get fee details link by student ID
+export const getFeeDetailLinkByStudentId = async (studentId) => {
+    try {
+        const response = await axiosInstance.get(`/feeDetails/studentLink/${studentId}`);
+        return response;
+    } catch (error) {
+        if (error.response && error.response.status === 404) {
+            return { data: null };
+        }
+        throw error;
+    }
+};
+
 // Get fee details by class ID
 export const getFeeDetailsByClassId = async (classId) => {
     try {

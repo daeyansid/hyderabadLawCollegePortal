@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Select from 'react-select';
 import {
-    checkHoliday,
     checkTeacherAttendance,
     checkAttendanceExists,
     getAttendanceRecords,
@@ -88,7 +87,9 @@ const TakeViewAttendance = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const teacherId = localStorage.getItem('adminSelfId');
-    const { classId, sectionId } = location.state || {};
+    const { classId } = location.state || {};
+    const { slotId } = location.state || {};
+    const { slotName } = location.state || {};
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isHoliday, setIsHoliday] = useState(false);
@@ -108,44 +109,48 @@ const TakeViewAttendance = () => {
 
     // Validate required IDs and show an error if missing
     useEffect(() => {
-        if (!classId || !sectionId || !teacherId) {
+        if (!classId || !teacherId) {
             MySwal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Required class, section, subject, or teacher information is missing.',
+                text: 'Required class, subject, or teacher information is missing.',
                 customClass: {
                     confirmButton: 'bg-gray-300 hover:bg-gray-400 text-white font-bold py-2 px-4 rounded-md',
                 },
                 buttonsStyling: false,
             });
         }
-    }, [classId, sectionId,  teacherId]);
+    }, [classId, teacherId]);
 
     const handleSubmit = async () => {
         setLoading(true);
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
 
+
+            setIsHoliday(false);
+            setHolidayInfo(null);
+
             // Check for holiday
-            const holidayResponse = await checkHoliday(formattedDate);
-            if (holidayResponse.data.isHoliday) {
-                setIsHoliday(true);
-                setHolidayInfo(holidayResponse.data.holiday);
-                MySwal.fire({
-                    icon: 'info',
-                    title: 'Holiday',
-                    text: `The selected date is a holiday: ${holidayResponse.data.holiday.leaveTitle}. Attendance will not be counted for this day.`,
-                    customClass: {
-                        confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md',
-                    },
-                    buttonsStyling: false,
-                });
-                setLoading(false);
-                return;
-            } else {
-                setIsHoliday(false);
-                setHolidayInfo(null);
-            }
+            // const holidayResponse = await checkHoliday(formattedDate);
+            // if (holidayResponse.data.isHoliday) {
+            //     setIsHoliday(true);
+            //     setHolidayInfo(holidayResponse.data.holiday);
+            //     MySwal.fire({
+            //         icon: 'info',
+            //         title: 'Holiday',
+            //         text: `The selected date is a holiday: ${holidayResponse.data.holiday.leaveTitle}. Attendance will not be counted for this day.`,
+            //         customClass: {
+            //             confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md',
+            //         },
+            //         buttonsStyling: false,
+            //     });
+            //     setLoading(false);
+            //     return;
+            // } else {
+            //     setIsHoliday(false);
+            //     setHolidayInfo(null);
+            // }
 
             // Check teacher attendance
             const teacherAttendanceResponse = await checkTeacherAttendance();
@@ -170,9 +175,10 @@ const TakeViewAttendance = () => {
             const attendanceExistsResponse = await checkAttendanceExists(
                 formattedDate,
                 classId,
-                sectionId,
-                teacherId
+                teacherId,
+                slotId
             );
+            console.log("attendanceExistsResponse =>",attendanceExistsResponse.data.attendanceExists);
             setAttendanceExists(attendanceExistsResponse.data.attendanceExists);
 
             if (attendanceExistsResponse.data.attendanceExists) {
@@ -180,9 +186,10 @@ const TakeViewAttendance = () => {
                 const attendanceRecordsResponse = await getAttendanceRecords(
                     formattedDate,
                     classId,
-                    sectionId,
-                    teacherId
+                    teacherId,
+                    slotId
                 );
+                console.log("attendanceRecordsResponse2 =>",attendanceRecordsResponse);
                 setAttendanceRecords(attendanceRecordsResponse.data.attendanceRecords);
 
                 // Initialize attendanceData from attendanceRecords
@@ -209,7 +216,23 @@ const TakeViewAttendance = () => {
                 });
             } else {
                 // Fetch students list
-                const studentsListResponse = await getStudentsList(classId, sectionId);
+                const studentsListResponse = await getStudentsList(classId);
+                console.log("studentsListResponse",studentsListResponse);
+
+                if (!studentsListResponse.data.students || studentsListResponse.data.students.length === 0) {
+                    MySwal.fire({
+                        icon: 'warning',
+                        title: 'No Students Found',
+                        text: 'There are no students registered in this class.',
+                        customClass: {
+                            confirmButton: 'bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md',
+                        },
+                        buttonsStyling: false,
+                    });
+                    setLoading(false);
+                    return;
+                }
+
                 setStudentsList(studentsListResponse.data.students);
                 // Initialize attendanceData
                 const initialAttendanceData = studentsListResponse.data.students.map(
@@ -299,9 +322,9 @@ const TakeViewAttendance = () => {
                 await saveAttendanceRecords(
                     formattedDate,
                     classId,
-                    sectionId,
                     teacherId,
-                    attendanceData
+                    attendanceData,
+                    slotId
                 );
 
                 MySwal.fire({
@@ -365,7 +388,15 @@ const TakeViewAttendance = () => {
                     (option) => option.value === row.attendanceStatus
                 );
 
-                return (
+                return attendanceExists ? (
+                    <div className={`px-3 py-1 rounded-full text-white text-center ${
+                        row.attendanceStatus === 'Present' ? 'bg-green-500' :
+                        row.attendanceStatus === 'Absent' ? 'bg-red-500' :
+                        row.attendanceStatus === 'Leave' ? 'bg-yellow-500' : 'bg-gray-500'
+                    }`}>
+                        {row.attendanceStatus}
+                    </div>
+                ) : (
                     <Select
                         value={selectedOption || null}
                         onChange={(option) =>
@@ -381,7 +412,7 @@ const TakeViewAttendance = () => {
             },
             sortable: true,
             width: '220px',
-        },
+        }
     ];
 
     // Custom styles for DataTable
@@ -423,7 +454,7 @@ const TakeViewAttendance = () => {
 
             {/* Page Title */}
             <h2 className="text-2xl font-semibold mb-6 text-indigo-700">
-                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'}
+                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'} Of Class Slot {slotName}
             </h2>
 
             {/* Date Picker and Submit Button */}
@@ -521,16 +552,12 @@ const TakeViewAttendance = () => {
                         striped
                         noHeader
                     />
-                    {(actionType === 'enter' || actionType === 'update') && (
+                    {!attendanceExists && actionType === 'enter' && (
                         <button
                             onClick={handleSaveAttendance}
-                            className={`mt-6 px-6 py-3 text-white rounded-md shadow-md hover:bg-opacity-90 focus:outline-none transition-colors duration-200 ${
-                                actionType === 'update'
-                                    ? 'bg-blue-600 hover:bg-blue-700'
-                                    : 'bg-green-600 hover:bg-green-700'
-                            }`}
+                            className="mt-6 px-6 py-3 text-white rounded-md shadow-md hover:bg-opacity-90 focus:outline-none transition-colors duration-200 bg-green-600 hover:bg-green-700"
                         >
-                            {actionType === 'update' ? 'Update Attendance' : 'Save Attendance'}
+                            Save Attendance
                         </button>
                     )}
                 </>

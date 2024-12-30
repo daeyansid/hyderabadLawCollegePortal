@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Form, Input, Select, Switch, Upload, message, Button, Card, Typography } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { createFeeDetails, checkFeeDetailExists } from '../../../../api/feeDetails';
+import { createFeeDetails, checkFeeDetailExists, getFeeDetailsByStudentId, getFeeDetailLinkByStudentId } from '../../../../api/feeDetails';
 import { fetchClasses } from '../../../../api/classApi';
 import { fetchStudentsBySemester } from '../../../../api/studentApi';
 import { getCurrentFeeMeta } from '../../../../api/feeMeta';
@@ -17,6 +17,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
     const [feeMeta, setFeeMeta] = useState(null);
     const [remainingFee, setRemainingFee] = useState(0);
     const [totalFees, setTotalFees] = useState(0);
+    const [studentFeeDetails, setStudentFeeDetails] = useState([]);
 
     useEffect(() => {
         if (visible) {
@@ -64,6 +65,8 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
     };
 
     const handleStudentSelect = async (studentId) => {
+        console.log("studentId In hereeeee");
+        console.log("studentId:", studentId);
         try {
             const semesterId = form.getFieldValue('semester');
             if (!semesterId) {
@@ -72,12 +75,37 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                 return;
             }
 
-            const response = await checkFeeDetailExists(studentId, semesterId);
-            if (response.data.exists) {
+            // First check if fee details exist
+            const existingFeeResponse = await checkFeeDetailExists(studentId, semesterId);
+            if (existingFeeResponse.data.exists) {
                 message.warning('Fee details already exist for this student in this semester');
                 form.setFieldValue('studentId', undefined);
                 return;
             }
+
+            // Fetch previous fee details for the student
+            const feeDetailsResponse = await getFeeDetailLinkByStudentId(studentId);
+            
+            if (feeDetailsResponse?.data?.data) {
+                const latestFeeDetail = feeDetailsResponse.data.data;
+                setStudentFeeDetails(latestFeeDetail);
+                
+                // console.log("feeDetailsResponse",feeDetailsResponse.data.data);
+                console.log("latestFeeDetail", studentFeeDetails);
+                console.log("studentFeeDetails totalAdmissionFee", studentFeeDetails.totalAdmissionFee.admissionFee);
+                console.log("studentFeeDetails semesterFeesTotal", studentFeeDetails.semesterFeesTotal.admissionFee);
+
+                // Update feeMeta with the fetched values
+                if (studentFeeDetails.totalAdmissionFee && studentFeeDetails.semesterFeesTotal) {
+                    setFeeMeta({
+                        ...feeMeta,
+                        semesterFee: studentFeeDetails.semesterFeesTotal.admissionFee || 0,
+                        admissionFee: studentFeeDetails.totalAdmissionFee.admissionFee || 0,
+                        _id: studentFeeDetails.totalAdmissionFee._id
+                    });
+                }
+            }
+
         } catch (error) {
             console.error('Error checking fee details:', error);
             message.error('Failed to verify student fee details');
@@ -89,14 +117,14 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
         try {
             const values = await form.validateFields();
             const formData = new FormData();
-            
+
             if (fileList[0]) {
                 formData.append('challanPicture', fileList[0].originFileObj);
             }
-    
+
             formData.append('totalAdmissionFee', feeMeta._id);
             formData.append('semesterFeesTotal', feeMeta._id);
-    
+
             // Change semester to classId in the form data
             const formValues = { ...values };
             formValues.classId = formValues.semester;
@@ -113,7 +141,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     formData.append(key, formValues[key]);
                 }
             });
-    
+
             // Log formData keys and values
             for (let [key, value] of formData.entries()) {
                 console.log(`${key}:`, value);
@@ -129,7 +157,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
             message.error('Failed to create fee details');
         }
     };
-    
+
 
     const handleSemesterFeePaidChange = (value) => {
         if (feeMeta && value) {
@@ -187,8 +215,8 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                 </Card>
             )}
 
-            <Form 
-                form={form} 
+            <Form
+                form={form}
                 layout="vertical"
                 onValuesChange={handleFormValueChange}
             >
@@ -197,7 +225,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     label="Semester"
                     rules={[{ required: true, message: 'Please select semester' }]}
                 >
-                    <Select 
+                    <Select
                         placeholder="Select semester"
                         loading={!semesters.length}
                         onChange={handleSemesterChange}
@@ -216,7 +244,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     label="Student"
                     rules={[{ required: true, message: 'Please select a student' }]}
                 >
-                    <Select 
+                    <Select
                         placeholder="Select student"
                         loading={loading}
                         showSearch
@@ -237,9 +265,9 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     valuePropName="checked"
                     initialValue={false}
                 >
-                    <Switch 
-                        checkedChildren="Yes" 
-                        unCheckedChildren="No" 
+                    <Switch
+                        checkedChildren="Yes"
+                        unCheckedChildren="No"
                     />
                 </Form.Item>
 
@@ -261,10 +289,10 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                         }
                     ]}
                 >
-                    <Input 
-                        type="number" 
-                        min="0" 
-                        max={feeMeta?.semesterFee} 
+                    <Input
+                        type="number"
+                        min="0"
+                        max={feeMeta?.semesterFee}
                         onChange={(e) => handleSemesterFeePaidChange(e.target.value)}
                         placeholder="Enter paid amount"
                     />
@@ -305,8 +333,8 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
             </Form>
 
             {feeMeta && (
-                <div style={{ 
-                    borderTop: '1px solid #f0f0f0', 
+                <div style={{
+                    borderTop: '1px solid #f0f0f0',
                     marginTop: 24,
                     paddingTop: 16,
                     marginBottom: -24,
@@ -316,9 +344,9 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                     marginRight: -24,
                     marginBottom: 20,
                 }}>
-                    <div style={{ 
-                        display: 'flex', 
-                        justifyContent: 'space-between', 
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
                         alignItems: 'center'
                     }}>
                         <Text strong style={{ fontSize: 16 }}>
@@ -329,9 +357,9 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                             Total Fees: Rs. {totalFees.toLocaleString()}
                         </Text>
 
-                        <Text 
-                            strong 
-                            type={remainingFee < 0 ? "danger" : "success"} 
+                        <Text
+                            strong
+                            type={remainingFee < 0 ? "danger" : "success"}
                             style={{ fontSize: 16 }}
                         >
                             Remaining Fee: Rs. {remainingFee.toLocaleString()}

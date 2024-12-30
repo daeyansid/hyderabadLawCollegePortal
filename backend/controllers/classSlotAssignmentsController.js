@@ -180,15 +180,19 @@ exports.deleteClassSlotAssignment = async (req, res) => {
 
 
 exports.getAllSlotsForDay = async (req, res) => {
-    const { branchClassDaysId, branchId } = req.query;
+    const { branchClassDaysId, branchId, classId } = req.query;
 
     // Validate inputs
-    if (!branchClassDaysId || !branchId) {
-        return sendErrorResponse(res, 400, 'Branch Class Days ID, and Branch ID are required.');
+    if (!branchClassDaysId || !branchId || !classId) {
+        return sendErrorResponse(res, 400, 'Branch Class Days, and Branch, Class are required.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchClassDaysId)) {
         return sendErrorResponse(res, 400, 'Invalid Branch Class Days ID format.');
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(classId)) {
+        return sendErrorResponse(res, 400, 'Invalid Class ID format.');
     }
 
     if (!mongoose.Types.ObjectId.isValid(branchId)) {
@@ -210,6 +214,7 @@ exports.getAllSlotsForDay = async (req, res) => {
         // Fetch Class Slot Assignments filtered by branchClassDaysId
         const assignments = await ClassSlotAssignments.find({
             branchClassDaysId: branchClassDaysId,
+            classId: classId,
         })
             .populate({
                 path: 'branchDailyTimeSlotsId',

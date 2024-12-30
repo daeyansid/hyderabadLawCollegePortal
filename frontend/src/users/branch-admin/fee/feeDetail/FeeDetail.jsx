@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Button, Space, message, Image, Tag, Typography, Card } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusOutlined, DollarOutlined } from '@ant-design/icons';
+import { Table, Button, Space, message, Image, Tag, Typography, Card, Input } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusOutlined, DollarOutlined, SearchOutlined } from '@ant-design/icons';
 import { getAllFeeDetails, deleteFeeDetails } from '../../../../api/feeDetails';
 import AddFeeDetail from './AddFeeDetail';
 import UpdateFeeDetail from './UpdateFeeDetail';
 
 const { Text, Title } = Typography;
+const { Search } = Input;
 
 const FeeDetail = () => {
     const [feeDetails, setFeeDetails] = useState([]);
@@ -14,12 +15,15 @@ const FeeDetail = () => {
     const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [selectedFee, setSelectedFee] = useState(null);
     const [selectedFeeId, setSelectedFeeId] = useState(null);
+    const [searchText, setSearchText] = useState('');
+    const [filteredFeeDetails, setFilteredFeeDetails] = useState([]);
 
     const fetchFeeDetails = async () => {
         setLoading(true);
         try {
             const response = await getAllFeeDetails();
             setFeeDetails(response.data || []);
+            setFilteredFeeDetails(response.data || []);
         } catch (error) {
             message.error('Failed to fetch fee details');
         }
@@ -45,6 +49,16 @@ const FeeDetail = () => {
         if (percentage >= 90) return '#52c41a';
         if (percentage >= 50) return '#faad14';
         return '#f5222d';
+    };
+
+    const handleSearch = (value) => {
+        setSearchText(value);
+        const filteredData = feeDetails.filter((item) =>
+            item.studentId.fullName.toLowerCase().includes(value.toLowerCase()) ||
+            item.studentId.rollNumber.toLowerCase().includes(value.toLowerCase()) ||
+            item.classId.className.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredFeeDetails(filteredData);
     };
 
     const columns = [
@@ -212,23 +226,30 @@ const FeeDetail = () => {
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
         >
-            <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={() => setShowAddModal(true)}
-                style={{ 
-                    marginBottom: 16,
-                    background: '#52c41a',
-                    borderColor: '#52c41a',
-                    borderRadius: '6px'
-                }}
-            >
-                Add New Fee Detail
-            </Button>
+            <Space style={{ marginBottom: 16 }}>
+                <Button
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    onClick={() => setShowAddModal(true)}
+                    style={{ 
+                        background: '#52c41a',
+                        borderColor: '#52c41a',
+                        borderRadius: '6px'
+                    }}
+                >
+                    Add New Fee Detail
+                </Button>
+                <Search
+                    placeholder="Search by name, roll number, or semester"
+                    onSearch={handleSearch}
+                    enterButton={<SearchOutlined />}
+                    style={{ width: 300 }}
+                />
+            </Space>
 
             <Table
                 columns={columns}
-                dataSource={feeDetails}
+                dataSource={filteredFeeDetails}
                 loading={loading}
                 rowKey="_id"
                 summary={tableSummary}

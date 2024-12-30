@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const classAttendanceSingleSchema = new Schema({
-    sectionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'section',
-        required: true,
-    },
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Student',
@@ -15,6 +10,11 @@ const classAttendanceSingleSchema = new Schema({
     teacherId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Teacher',
+        required: true,
+    },
+    slotId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ClassSlotAssignments',
         required: true,
     },
     studentRollNumber: {

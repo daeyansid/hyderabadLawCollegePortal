@@ -1,4 +1,5 @@
 const FeeDetails = require('../models/FeeDetails');
+const FeeStructureLink = require('../models/feeStructureLink');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
 exports.createFeeDetails = async (req, res) => {
@@ -16,10 +17,24 @@ exports.createFeeDetails = async (req, res) => {
             otherPenalties
         } = req.body;
 
+        // Check if FeeStructureLink exists for the student
+        let feeStructureLink = await FeeStructureLink.findOne({ studentId });
+        
+        // If no FeeStructureLink exists, create one
+        if (!feeStructureLink) {
+            feeStructureLink = new FeeStructureLink({
+                studentId,
+                totalAdmissionFee,
+                semesterFeesTotal
+            });
+            await feeStructureLink.save();
+        }
+
+        // Create new FeeDetails using the IDs from FeeStructureLink
         const newFeeDetails = new FeeDetails({
             admissionConfirmationFee: admissionConfirmationFee,
-            totalAdmissionFee,
-            semesterFeesTotal,
+            totalAdmissionFee: feeStructureLink.totalAdmissionFee,
+            semesterFeesTotal: feeStructureLink.semesterFeesTotal,
             studentId,
             classId,
             discount: Number(discount),
@@ -70,11 +85,38 @@ exports.getFeeDetailsByStudentId = async (req, res) => {
             .populate('semesterFeesTotal')
             .populate('studentId')
             .populate('classId');
-        
         if (!feeDetails.length) {
             return sendErrorResponse(res, 404, 'Fee details not found for this student');
         }
         sendSuccessResponse(res, 200, 'Fee details retrieved successfully', feeDetails);
+    } catch (err) {
+        console.error(err.message);
+        sendErrorResponse(res, 500, 'Server error', err);
+    }
+};
+
+exports.getFeeDetailsLinkByStudentId = async (req, res) => {
+    try {
+        const feeDetails = await FeeStructureLink.findOne({ 
+            studentId: req.params.studentId,
+        })
+
+        .populate('studentId')
+        .populate('totalAdmissionFee')
+        .populate('semesterFeesTotal')
+        .lean();
+        
+        if (!feeDetails) {
+            return sendErrorResponse(res, 404, 'Fee details Link not found for this student');
+        }
+
+        const formattedResponse = {
+            studentId: feeDetails.studentId,
+            totalAdmissionFee: feeDetails.totalAdmissionFee,
+            semesterFeesTotal: feeDetails.semesterFeesTotal
+        };
+
+        sendSuccessResponse(res, 200, 'Fee details link retrieved successfully', formattedResponse);
     } catch (err) {
         console.error(err.message);
         sendErrorResponse(res, 500, 'Server error', err);

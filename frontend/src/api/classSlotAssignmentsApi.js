@@ -46,7 +46,7 @@ export const deleteClassSlotAssignment = async (id) => {
     }
 };
 
-export const getAllSlotsForDay = async (branchClassDaysIdParam, sectionIdParam) => {
+export const getAllSlotsForDay = async (branchClassDaysIdParam, classIdParam) => {
     try {
         // Retrieve branchId from localStorage
         const branchId = localStorage.getItem('branchId');
@@ -55,11 +55,11 @@ export const getAllSlotsForDay = async (branchClassDaysIdParam, sectionIdParam) 
             throw { message: 'Branch ID not found in localStorage.' };
         }
 
-        // Make a GET request with branchClassDaysIdParam and sectionIdParam as query parameters
+        // Make a GET request with branchClassDaysIdParam and classIdParam as query parameters
         const response = await axiosInstance.get('/class-slot-assignments/get-all-slots-for-day', {
             params: {
                 branchClassDaysId: branchClassDaysIdParam,
-                sectionId: sectionIdParam,
+                classId: classIdParam,
                 branchId,
             },
         });

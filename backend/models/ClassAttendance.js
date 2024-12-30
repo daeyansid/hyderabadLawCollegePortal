@@ -2,11 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const classAttendanceSchema = new Schema({
-    sectionId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'section',
-        required: true,
-    },
     subjectId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'subject',

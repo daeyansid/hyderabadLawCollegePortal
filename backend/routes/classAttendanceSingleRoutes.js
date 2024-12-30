@@ -8,7 +8,7 @@ router.get('/check-attendance', authMiddleware, classAttendanceSingleController.
 router.get('/attendance-records', authMiddleware, classAttendanceSingleController.getAttendanceRecords);
 router.get('/students-list', authMiddleware, classAttendanceSingleController.getStudentsList);
 router.post('/save-attendance', authMiddleware, classAttendanceSingleController.saveAttendanceRecords);
-router.get('/check-holiday', authMiddleware, classAttendanceSingleController.checkHoliday);
+// router.get('/check-holiday', authMiddleware, classAttendanceSingleController.checkHoliday);
 router.get('/check-teacher-attendance', authMiddleware, classAttendanceSingleController.checkTeacherAttendance);
 
 module.exports = router;
