@@ -29,7 +29,7 @@ const StudentIdCard = forwardRef(({ student }, ref) => {
         <div id="topHead"></div>
         <img src={logoTop} alt="logo" id="logo-top" />
         <div id="head-text-container">
-          <p id="text-school">BLUE JAYS SCHOOL SYSTEM</p>
+          <p id="text-school">HLC SCHOOL SYSTEM</p>
           <p id="dec-school">Education is our passion</p>
         </div>
         <div id="pic-container">
@@ -157,7 +157,7 @@ const StudentIdCard = forwardRef(({ student }, ref) => {
         </div>
         <div className="h-[24%] text-center w-full flex flex-col justify-between items-center">
           <div id="foot-con-21" className="flex-1">
-            <p className="font-semibold">BLUE JAYS SCHOOL SYSTEM</p>
+            <p className="font-semibold">HLC SCHOOL SYSTEM</p>
             <p className="font-normal">Education is our passion</p>
           </div>
 

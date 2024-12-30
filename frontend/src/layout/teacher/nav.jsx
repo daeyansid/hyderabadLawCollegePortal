@@ -44,7 +44,7 @@ export default function Nav({ toggleSidebar }) {
                 <a href="#" className="flex items-center">
                     <img src={logo} className="h-10 w-10 sm:h-12 sm:w-12" alt="School Logo" />
                     <span className="ml-2 text-lg sm:text-xl font-semibold text-custom-blue whitespace-nowrap">
-                        Blue Jays
+                        HLC
                     </span>
                 </a>
 
