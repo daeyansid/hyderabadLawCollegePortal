@@ -89,6 +89,7 @@ const TakeViewAttendance = () => {
     const teacherId = localStorage.getItem('adminSelfId');
     const { classId } = location.state || {};
     const { slotId } = location.state || {};
+    const { slotName } = location.state || {};
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isHoliday, setIsHoliday] = useState(false);
@@ -387,7 +388,15 @@ const TakeViewAttendance = () => {
                     (option) => option.value === row.attendanceStatus
                 );
 
-                return (
+                return attendanceExists ? (
+                    <div className={`px-3 py-1 rounded-full text-white text-center ${
+                        row.attendanceStatus === 'Present' ? 'bg-green-500' :
+                        row.attendanceStatus === 'Absent' ? 'bg-red-500' :
+                        row.attendanceStatus === 'Leave' ? 'bg-yellow-500' : 'bg-gray-500'
+                    }`}>
+                        {row.attendanceStatus}
+                    </div>
+                ) : (
                     <Select
                         value={selectedOption || null}
                         onChange={(option) =>
@@ -403,7 +412,7 @@ const TakeViewAttendance = () => {
             },
             sortable: true,
             width: '220px',
-        },
+        }
     ];
 
     // Custom styles for DataTable
@@ -445,7 +454,7 @@ const TakeViewAttendance = () => {
 
             {/* Page Title */}
             <h2 className="text-2xl font-semibold mb-6 text-indigo-700">
-                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'} Of Class Slot {slotId}
+                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'} Of Class Slot {slotName}
             </h2>
 
             {/* Date Picker and Submit Button */}
@@ -543,16 +552,12 @@ const TakeViewAttendance = () => {
                         striped
                         noHeader
                     />
-                    {(actionType === 'enter' || actionType === 'update') && (
+                    {!attendanceExists && actionType === 'enter' && (
                         <button
                             onClick={handleSaveAttendance}
-                            className={`mt-6 px-6 py-3 text-white rounded-md shadow-md hover:bg-opacity-90 focus:outline-none transition-colors duration-200 ${
-                                actionType === 'update'
-                                    ? 'bg-blue-600 hover:bg-blue-700'
-                                    : 'bg-green-600 hover:bg-green-700'
-                            }`}
+                            className="mt-6 px-6 py-3 text-white rounded-md shadow-md hover:bg-opacity-90 focus:outline-none transition-colors duration-200 bg-green-600 hover:bg-green-700"
                         >
-                            {actionType === 'update' ? 'Update Attendance' : 'Save Attendance'}
+                            Save Attendance
                         </button>
                     )}
                 </>

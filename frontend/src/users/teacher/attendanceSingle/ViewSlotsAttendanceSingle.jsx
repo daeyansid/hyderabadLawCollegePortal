@@ -114,8 +114,9 @@ const ViewSlotsAttendance = () => {
         const classId = row.classId?._id;
         const subjectId = row.subjectId?._id;
         const slotId = row._id;
+        const slotName = row.branchDailyTimeSlotsId.slot;
 
-        if (!classId || !subjectId || !slotId) {
+        if (!classId || !subjectId || !slotId || !slotName) {
             Swal.fire({
                 icon: 'error',
                 title: 'Missing Information',
@@ -129,6 +130,7 @@ const ViewSlotsAttendance = () => {
                 classId,
                 subjectId,
                 slotId: slotId,
+                slotName: slotName,
             },
         });
     };
