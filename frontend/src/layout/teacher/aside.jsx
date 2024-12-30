@@ -132,9 +132,20 @@ export default function Aside({ isSidebarOpen }) {
                         <Link
                             to="/teacher/assigned-classes"
                             className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
-                        >
+                            >
                             <FaUserGraduate className="w-5 h-5 text-purple-600" />
                             <span className="ml-3 text-custom-blue">Assigned Classes</span>
+                        </Link>
+                    </li>
+
+                    {/* Assigned Classes */}
+                    <li>
+                        <Link
+                            to="/teacher/class-taken"
+                            className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                        >
+                            <FaUserGraduate className="w-5 h-5 text-purple-600" />
+                            <span className="ml-3 text-custom-blue">Class Taken</span>
                         </Link>
                     </li>
                 </ul>

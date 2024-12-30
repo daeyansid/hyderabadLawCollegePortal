@@ -25,7 +25,9 @@ const classSlotAssignmentsRoutes = require("./routes/classSlotAssignmentsRoutes.
 const classSlotAssignmentsSingleRoutes = require("./routes/classSlotAssignmentsSingleRoutes.js");
 const classSlotAssignmentsStudentRoutes = require("./routes/classSlotAssignmentsStudentRoutes.js");
 const classAttendanceRoutes = require("./routes/classAttendanceRoutes.js");
+
 const classAttendanceSingleRoutes = require("./routes/classAttendanceSingleRoutes.js");
+const teacherAttendance = require("./routes/teacherAttendance.js");
 
 const diaryRoutes = require("./routes/diaryRoutes.js");
 const studentDiaryRoutes = require("./routes/studentDiaryRoutes.js");
@@ -99,14 +101,19 @@ app.use("/api/class-slot-assignments-student", classSlotAssignmentsStudentRoutes
 
 
 app.use("/api/class-attendance", classAttendanceRoutes);
+
 app.use("/api/class-attendance-single", classAttendanceSingleRoutes);
+app.use("/api/teacher-attendance", teacherAttendance);
 
 
 app.use("/api/diary", diaryRoutes);
 app.use("/api/student-diary", studentDiaryRoutes);
 app.use("/api/student-subjects", studentSubjectRoutes);
+
 app.use("/api/student-attendance", studentAttendanceRoutes);
 app.use("/api/student-attendance-single", studentAttendanceSingleRoutes);
+
+
 app.use("/api/student-dashboard", studentDashboardRoutes);
 app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
 

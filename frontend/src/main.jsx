@@ -55,7 +55,16 @@ import {
   TeacherNotice,
   TeacherSideNotice,
   StudentFee,
-  StudentTest
+  StudentTest,
+  ViewDayAttendanceSingleAdmin,
+  ViewSlotsAttendanceSingleAdmin,
+  TakeViewAttendanceSingleAdmin,
+  SelectTeacher,
+  SelectStaff,
+  ViewDayAttendanceStaff,
+  ViewSlotsAttendanceStaff,
+  TakeViewAttendanceStaff,
+  ClassTaken
 } from './index';
 import './index.css';
 
@@ -118,7 +127,21 @@ function MainApp() {
             <Route path="test-management" element={<TestManagement />} />
 
             <Route path="test-marks-sheet" element={<TestMarksSheet />} />
+
             {/* Attendance */}
+            <Route path="attendance/select-teacher" element={<SelectTeacher />} />
+            <Route path="attendance/assigned-classes-attendance-single" element={<ViewDayAttendanceSingleAdmin />} />
+            <Route path="attendance/assigned-classes-attendance-single/slots/:branchDayId" element={<ViewSlotsAttendanceSingleAdmin />} />
+            <Route path="attendance/attendance-single/take/:branchDayId" element={<TakeViewAttendanceSingleAdmin />} />
+            
+
+            {/* Attendance Staff */}
+            <Route path="attendance/staff" element={<SelectStaff />} />
+            <Route path="attendance/staff/assigned-classes-attendance" element={<ViewDayAttendanceStaff />} />
+            <Route path="attendance/staff/assigned-classes-attendance/slots/:branchDayId" element={<ViewSlotsAttendanceStaff />} />
+
+            <Route path="attendance/staff/attendance/take/:branchDayId" element={<TakeViewAttendanceStaff />} />
+
           </Route>
 
           {/* Teacher Routes */}
@@ -135,6 +158,8 @@ function MainApp() {
             {/* <Route path="dairy" element={<DiaryDataTable />} /> */}
             <Route path="teacher-notice" element={<TeacherSideNotice />} />
 
+
+            <Route path="class-taken" element={<ClassTaken />} />
 
             <Route path="assigned-classes" element={<TeacherAssignClassDays />} />
             <Route path="assigned-classes/slots/:branchDayId" element={<AssignedClassesSlotsPage />} />

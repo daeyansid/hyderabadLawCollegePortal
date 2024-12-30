@@ -21,6 +21,21 @@ import ViewSlotsAttendance from "./users/teacher/attendance/ViewSlotsAttendance.
 import TakeViewAttendance from "./users/teacher/attendance/TakeViewAttendance.jsx";
 import ViewDayAttendanceSingle from "./users/teacher/attendanceSingle/ViewDayAttendanceSingle.jsx";
 import ViewSlotsAttendanceSingle from "./users/teacher/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
+import ClassTaken from "./users/teacher/ClassTaken.jsx";
+
+
+import SelectTeacher from "./users/branch-admin/attendanceSingle/SelectTeacher.jsx";
+import TakeViewAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/TakeViewAttendanceSingle.jsx";
+import ViewDayAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/ViewDayAttendanceSingle.jsx";
+import ViewSlotsAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
+
+
+import ViewDayAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewDayAttendanceStaff.jsx";
+import ViewSlotsAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewSlotsAttendanceStaff.jsx";
+import SelectStaff from "./users/branch-admin/attendanceSingle/staff/SelectStaff.jsx";
+import TakeViewAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/TakeAttendance.jsx";
+
+
 import TakeViewAttendanceSingle from "./users/teacher/attendanceSingle/TakeViewAttendanceSingle.jsx";
 import DiaryDataTable from "./users/branch-admin/dairy/DiaryDataTable.jsx";
 import StudentLayout from "./studentLayout.jsx";
@@ -120,5 +135,14 @@ export {
   TeacherNotice,
   TeacherSideNotice,
   StudentFee,
-  StudentTest
+  StudentTest,
+  TakeViewAttendanceSingleAdmin,
+  ViewDayAttendanceSingleAdmin,
+  ViewSlotsAttendanceSingleAdmin,
+  SelectTeacher,
+  SelectStaff,
+  ViewDayAttendanceStaff,
+  ViewSlotsAttendanceStaff,
+  TakeViewAttendanceStaff,
+  ClassTaken
 };

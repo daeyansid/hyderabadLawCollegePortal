@@ -346,7 +346,7 @@ export default function Aside() {
                                             </>
                                         ) : (
                                             <li className="text-custom-blue rounded-lg group hover:bg-gray-300 cursor-pointer p-3">
-                                                <Link to="/branch-admin/attendance/class-wise">
+                                                <Link to="/branch-admin/attendance/select-teacher">
                                                     <FaUserClock className="w-4 h-4 text-teal-500" />
                                                     <span className="ml-2">Class Wise Attendance</span>
                                                 </Link>
