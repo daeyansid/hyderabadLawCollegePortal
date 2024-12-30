@@ -93,7 +93,6 @@ const ViewSlotsAttendance = () => {
             const slot = `${assignment.branchDailyTimeSlotsId.slot}`.toLowerCase();
             const slotType = assignment.slotType?.toLowerCase() || '';
             const className = assignment.classId?.className?.toLowerCase() || '';
-            const sectionName = assignment.sectionId?.sectionName?.toLowerCase() || '';
             const subjectName = assignment.subjectId?.subjectName?.toLowerCase() || '';
             const teacherName = assignment.teacherId?.fullName?.toLowerCase() || '';
             const classType = assignment.classType?.toLowerCase() || '';
@@ -102,7 +101,6 @@ const ViewSlotsAttendance = () => {
                 slot.includes(value) ||
                 slotType.includes(value) ||
                 className.includes(value) ||
-                sectionName.includes(value) ||
                 subjectName.includes(value) ||
                 teacherName.includes(value) ||
                 classType.includes(value)
@@ -114,24 +112,29 @@ const ViewSlotsAttendance = () => {
     // Handle Attendance Click
     const handleAttendanceClick = (row) => {
         const classId = row.classId?._id;
-        const sectionId = row.sectionId?._id;
         const subjectId = row.subjectId?._id;
 
-        if (!classId || !sectionId || !subjectId) {
+        if (!classId || !subjectId) {
             Swal.fire({ // Optional: Use SweetAlert for better UI feedback
                 icon: 'error',
                 title: 'Missing Information',
-                text: 'Class, Section, or Subject information is missing.',
+                text: 'Class or Subject information is missing.',
             });
             return;
         }
 
         // Navigate to the new route with the necessary IDs
+        // navigate(`/teacher/attendance-single/take/${branchDayId}`, {
+        //     state: {
+        //         classId,
+        //         sectionId,
+        //         subjectId,
+        //     },
+        // });
         navigate(`/teacher/attendance-single/take/${branchDayId}`, {
             state: {
                 classId,
-                sectionId,
-                subjectId,
+                subjectId
             },
         });
     };
@@ -147,12 +150,6 @@ const ViewSlotsAttendance = () => {
         {
             name: 'Class',
             selector: (row) => row.classId?.className || 'N/A',
-            sortable: true,
-            wrap: true,
-        },
-        {
-            name: 'Section',
-            selector: (row) => row.sectionId?.sectionName || 'N/A',
             sortable: true,
             wrap: true,
         },
@@ -273,7 +270,7 @@ const ViewSlotsAttendance = () => {
             <div className="mb-4">
                 <input
                     type="text"
-                    placeholder="Search by slot, class, section, subject, etc..."
+                    placeholder="Search by slot, class or subject, etc..."
                     value={searchText}
                     onChange={handleSearch}
                     className="p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-500"
