@@ -32,6 +32,7 @@ import ViewSlotsAttendanceSingleAdmin from "./users/branch-admin/attendanceSingl
 import ViewDayAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewDayAttendanceStaff.jsx";
 import ViewSlotsAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewSlotsAttendanceStaff.jsx";
 import SelectStaff from "./users/branch-admin/attendanceSingle/staff/SelectStaff.jsx";
+import TakeViewAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/TakeAttendance.jsx";
 
 
 import TakeViewAttendanceSingle from "./users/teacher/attendanceSingle/TakeViewAttendanceSingle.jsx";
@@ -141,4 +142,5 @@ export {
   SelectStaff,
   ViewDayAttendanceStaff,
   ViewSlotsAttendanceStaff,
+  TakeViewAttendanceStaff,
 };

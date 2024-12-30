@@ -12,6 +12,11 @@ const classAttendanceSingleSchema = new Schema({
         ref: 'ClassSlotAssignments',
         required: true,
     },
+    classId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class',
+        required: true,
+    },
     date: {
         type: Date,
         required: true,
@@ -37,13 +42,8 @@ const classAttendanceSingleSchema = new Schema({
         type: Number,
         required: true,
     },
-    classId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Class',
-        required: true,
-    },
 }, {
     timestamps: true,
 });
 
-module.exports = mongoose.model('ClassAttendanceTeacher', classAttendanceSingleSchema);
+module.exports = mongoose.model('TeacherAttendance', classAttendanceSingleSchema);

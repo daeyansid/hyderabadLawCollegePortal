@@ -25,7 +25,9 @@ const classSlotAssignmentsRoutes = require("./routes/classSlotAssignmentsRoutes.
 const classSlotAssignmentsSingleRoutes = require("./routes/classSlotAssignmentsSingleRoutes.js");
 const classSlotAssignmentsStudentRoutes = require("./routes/classSlotAssignmentsStudentRoutes.js");
 const classAttendanceRoutes = require("./routes/classAttendanceRoutes.js");
+
 const classAttendanceSingleRoutes = require("./routes/classAttendanceSingleRoutes.js");
+const teacherAttendance = require("./routes/teacherAttendance.js");
 
 const diaryRoutes = require("./routes/diaryRoutes.js");
 const studentDiaryRoutes = require("./routes/studentDiaryRoutes.js");
@@ -99,7 +101,9 @@ app.use("/api/class-slot-assignments-student", classSlotAssignmentsStudentRoutes
 
 
 app.use("/api/class-attendance", classAttendanceRoutes);
+
 app.use("/api/class-attendance-single", classAttendanceSingleRoutes);
+app.use("/api/teacher-attendance", teacherAttendance);
 
 
 app.use("/api/diary", diaryRoutes);

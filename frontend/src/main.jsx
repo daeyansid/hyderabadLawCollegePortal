@@ -62,7 +62,8 @@ import {
   SelectTeacher,
   SelectStaff,
   ViewDayAttendanceStaff,
-  ViewSlotsAttendanceStaff
+  ViewSlotsAttendanceStaff,
+  TakeViewAttendanceStaff
 } from './index';
 import './index.css';
 
@@ -138,7 +139,7 @@ function MainApp() {
             <Route path="attendance/staff/assigned-classes-attendance" element={<ViewDayAttendanceStaff />} />
             <Route path="attendance/staff/assigned-classes-attendance/slots/:branchDayId" element={<ViewSlotsAttendanceStaff />} />
 
-            <Route path="attendance/attendance-single/take/:branchDayId" element={<TakeViewAttendanceSingleAdmin />} />
+            <Route path="attendance/staff/attendance/take/:branchDayId" element={<TakeViewAttendanceStaff />} />
 
           </Route>
 

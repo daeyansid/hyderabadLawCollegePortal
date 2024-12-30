@@ -127,7 +127,7 @@ const ViewSlotsAttendance = () => {
             return;
         }
 
-        navigate(`/branch-admin/attendance/staff/attendance-single/take/${branchDayId}`, {
+        navigate(`/branch-admin/attendance/staff/attendance/take/${branchDayId}`, {
             state: {
                 classId,
                 subjectId,
