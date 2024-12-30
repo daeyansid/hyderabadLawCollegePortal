@@ -21,6 +21,14 @@ import ViewSlotsAttendance from "./users/teacher/attendance/ViewSlotsAttendance.
 import TakeViewAttendance from "./users/teacher/attendance/TakeViewAttendance.jsx";
 import ViewDayAttendanceSingle from "./users/teacher/attendanceSingle/ViewDayAttendanceSingle.jsx";
 import ViewSlotsAttendanceSingle from "./users/teacher/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
+
+
+import SelectTeacher from "./users/branch-admin/attendanceSingle/SelectTeacher.jsx";
+import TakeViewAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/TakeViewAttendanceSingle.jsx";
+import ViewDayAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/ViewDayAttendanceSingle.jsx";
+import ViewSlotsAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
+
+
 import TakeViewAttendanceSingle from "./users/teacher/attendanceSingle/TakeViewAttendanceSingle.jsx";
 import DiaryDataTable from "./users/branch-admin/dairy/DiaryDataTable.jsx";
 import StudentLayout from "./studentLayout.jsx";
@@ -120,5 +128,9 @@ export {
   TeacherNotice,
   TeacherSideNotice,
   StudentFee,
-  StudentTest
+  StudentTest,
+  TakeViewAttendanceSingleAdmin,
+  ViewDayAttendanceSingleAdmin,
+  ViewSlotsAttendanceSingleAdmin,
+  SelectTeacher,
 };

@@ -55,7 +55,11 @@ import {
   TeacherNotice,
   TeacherSideNotice,
   StudentFee,
-  StudentTest
+  StudentTest,
+  ViewDayAttendanceSingleAdmin,
+  ViewSlotsAttendanceSingleAdmin,
+  TakeViewAttendanceSingleAdmin,
+  SelectTeacher
 } from './index';
 import './index.css';
 
@@ -118,7 +122,13 @@ function MainApp() {
             <Route path="test-management" element={<TestManagement />} />
 
             <Route path="test-marks-sheet" element={<TestMarksSheet />} />
+
             {/* Attendance */}
+            <Route path="attendance/select-teacher" element={<SelectTeacher />} />
+            <Route path="attendance/assigned-classes-attendance-single" element={<ViewDayAttendanceSingleAdmin />} />
+            <Route path="attendance/assigned-classes-attendance-single/slots/:branchDayId" element={<ViewSlotsAttendanceSingleAdmin />} />
+            <Route path="attendance/attendance-single/take/:branchDayId" element={<TakeViewAttendanceSingleAdmin />} />
+
           </Route>
 
           {/* Teacher Routes */}
