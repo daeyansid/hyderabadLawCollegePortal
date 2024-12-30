@@ -12,6 +12,11 @@ const classAttendanceSingleSchema = new Schema({
         ref: 'Teacher',
         required: true,
     },
+    slotId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ClassSlotAssignments',
+        required: true,
+    },
     studentRollNumber: {
         type: String,
         required: true,

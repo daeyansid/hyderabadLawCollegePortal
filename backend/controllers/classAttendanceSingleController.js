@@ -6,7 +6,7 @@ const { sendErrorResponse, sendSuccessResponse } = require('../utils/response');
 // Check if attendance exists
 exports.checkAttendanceExists = async (req, res) => {
     try {
-        const { date, classId, sectionId,teacherId } = req.query;
+        const { date, classId, teacherId, slotId } = req.query;
 
         if (!date || !classId || !teacherId) {
             return res.status(400).json({ message: 'All parameters are required.' });
@@ -16,6 +16,7 @@ exports.checkAttendanceExists = async (req, res) => {
             date: new Date(date),
             classId,
             teacherId,
+            slotId
         });
 
         res.status(200).json({ attendanceExists: attendanceCount > 0 });
@@ -28,12 +29,13 @@ exports.checkAttendanceExists = async (req, res) => {
 // Get attendance records
 exports.getAttendanceRecords = async (req, res) => {
     try {
-        const { date, classId, teacherId } = req.query;
+        const { date, classId, teacherId, slotId } = req.query;
 
         const attendanceRecords = await ClassAttendanceSingle.find({
             date: new Date(date),
             classId,
             teacherId,
+            slotId
         }).populate('studentId');
 
         res.status(200).json({ attendanceRecords });
@@ -62,7 +64,7 @@ exports.getStudentsList = async (req, res) => {
 // Save or update attendance records
 exports.saveAttendanceRecords = async (req, res) => {
     try {
-        const { date, classId, sectionId, teacherId, attendanceData } = req.body;
+        const { date, classId, teacherId, attendanceData, slotId } = req.body;
 
         const dateObj = new Date(date);
 
@@ -73,6 +75,7 @@ exports.saveAttendanceRecords = async (req, res) => {
                     date: dateObj,
                     classId,
                     teacherId,
+                    slotId,
                     studentId: record.studentId,
                 },
                 {

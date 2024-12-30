@@ -113,28 +113,22 @@ const ViewSlotsAttendance = () => {
     const handleAttendanceClick = (row) => {
         const classId = row.classId?._id;
         const subjectId = row.subjectId?._id;
+        const slotId = row._id;
 
-        if (!classId || !subjectId) {
-            Swal.fire({ // Optional: Use SweetAlert for better UI feedback
+        if (!classId || !subjectId || !slotId) {
+            Swal.fire({
                 icon: 'error',
                 title: 'Missing Information',
-                text: 'Class or Subject information is missing.',
+                text: 'Class, Slot or Subject information is missing.',
             });
             return;
         }
 
-        // Navigate to the new route with the necessary IDs
-        // navigate(`/teacher/attendance-single/take/${branchDayId}`, {
-        //     state: {
-        //         classId,
-        //         sectionId,
-        //         subjectId,
-        //     },
-        // });
         navigate(`/teacher/attendance-single/take/${branchDayId}`, {
             state: {
                 classId,
-                subjectId
+                subjectId,
+                slotId: slotId,
             },
         });
     };

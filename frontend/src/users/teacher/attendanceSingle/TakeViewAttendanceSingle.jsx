@@ -6,7 +6,6 @@ import DataTable from 'react-data-table-component';
 import { AiOutlineArrowLeft } from 'react-icons/ai';
 import Select from 'react-select';
 import {
-    checkHoliday,
     checkTeacherAttendance,
     checkAttendanceExists,
     getAttendanceRecords,
@@ -89,6 +88,7 @@ const TakeViewAttendance = () => {
     const navigate = useNavigate();
     const teacherId = localStorage.getItem('adminSelfId');
     const { classId } = location.state || {};
+    const { slotId } = location.state || {};
 
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [isHoliday, setIsHoliday] = useState(false);
@@ -174,9 +174,10 @@ const TakeViewAttendance = () => {
             const attendanceExistsResponse = await checkAttendanceExists(
                 formattedDate,
                 classId,
-                teacherId
+                teacherId,
+                slotId
             );
-            console.log("attendanceExistsResponse",attendanceExistsResponse.data.attendanceExists);
+            console.log("attendanceExistsResponse =>",attendanceExistsResponse.data.attendanceExists);
             setAttendanceExists(attendanceExistsResponse.data.attendanceExists);
 
             if (attendanceExistsResponse.data.attendanceExists) {
@@ -184,8 +185,10 @@ const TakeViewAttendance = () => {
                 const attendanceRecordsResponse = await getAttendanceRecords(
                     formattedDate,
                     classId,
-                    teacherId
+                    teacherId,
+                    slotId
                 );
+                console.log("attendanceRecordsResponse2 =>",attendanceRecordsResponse);
                 setAttendanceRecords(attendanceRecordsResponse.data.attendanceRecords);
 
                 // Initialize attendanceData from attendanceRecords
@@ -214,6 +217,21 @@ const TakeViewAttendance = () => {
                 // Fetch students list
                 const studentsListResponse = await getStudentsList(classId);
                 console.log("studentsListResponse",studentsListResponse);
+
+                if (!studentsListResponse.data.students || studentsListResponse.data.students.length === 0) {
+                    MySwal.fire({
+                        icon: 'warning',
+                        title: 'No Students Found',
+                        text: 'There are no students registered in this class.',
+                        customClass: {
+                            confirmButton: 'bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-md',
+                        },
+                        buttonsStyling: false,
+                    });
+                    setLoading(false);
+                    return;
+                }
+
                 setStudentsList(studentsListResponse.data.students);
                 // Initialize attendanceData
                 const initialAttendanceData = studentsListResponse.data.students.map(
@@ -304,7 +322,8 @@ const TakeViewAttendance = () => {
                     formattedDate,
                     classId,
                     teacherId,
-                    attendanceData
+                    attendanceData,
+                    slotId
                 );
 
                 MySwal.fire({
@@ -426,7 +445,7 @@ const TakeViewAttendance = () => {
 
             {/* Page Title */}
             <h2 className="text-2xl font-semibold mb-6 text-indigo-700">
-                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'}
+                {actionType === 'update' ? 'Update Attendance' : 'Take Attendance'} Of Class Slot {slotId}
             </h2>
 
             {/* Date Picker and Submit Button */}

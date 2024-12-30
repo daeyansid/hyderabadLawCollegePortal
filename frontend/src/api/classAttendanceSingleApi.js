@@ -13,23 +13,25 @@ export const checkTeacherAttendance = async () => {
 };
 
 // Check if attendance exists for the given date and class
-export const checkAttendanceExists = async (date, classId, teacherId) => {
+export const checkAttendanceExists = async (date, classId, teacherId, slotId) => {
     return await axiosInstance.get('/class-attendance-single/check-attendance', {
         params: {
             date,
             classId,
-            teacherId
+            teacherId,
+            slotId
         },
     });
 };
 
 // Get existing attendance records
-export const getAttendanceRecords = async (date, classId, teacherId) => {
+export const getAttendanceRecords = async (date, classId, teacherId, slotId) => {
     return await axiosInstance.get('/class-attendance-single/attendance-records', {
         params: {
             date,
             classId,
-            teacherId
+            teacherId,
+            slotId
         },
     });
 };
@@ -44,11 +46,12 @@ export const getStudentsList = async (classId) => {
 };
 
 // Save attendance records
-export const saveAttendanceRecords = async (date, classId, teacherId, attendanceData) => {
+export const saveAttendanceRecords = async (date, classId, teacherId, attendanceData, slotId) => {
     return await axiosInstance.post('/class-attendance-single/save-attendance', {
         date,
         classId,
         teacherId,
         attendanceData,
+        slotId
     });
 };
