@@ -13,6 +13,9 @@ router.get('/get-all', authMiddleware, feeDetailsController.getAllFeeDetails);
 // Get fee details by student ID
 router.get('/student/:studentId', authMiddleware, feeDetailsController.getFeeDetailsByStudentId);
 
+// Get fee details link by student ID
+router.get('/studentLink/:studentId', authMiddleware, feeDetailsController.getFeeDetailsLinkByStudentId);
+
 // Get fee details by class ID
 router.get('/class/:classId', authMiddleware, feeDetailsController.getFeeDetailsByClassId);
 
