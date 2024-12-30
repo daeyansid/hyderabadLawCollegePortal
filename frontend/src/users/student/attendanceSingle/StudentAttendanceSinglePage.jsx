@@ -233,6 +233,12 @@ const StudentAttendanceSinglePage = () => {
                                                 {record.attendanceStatus}
                                             </span>
                                         </p>
+                                        <p className="text-sm text-gray-500 mb-1">
+                                            Teacher: {record.teacherId.fullName}
+                                        </p>
+                                        <p className="text-sm text-gray-500 mb-1">
+                                            Time Slot: {record.slotId.branchDailyTimeSlotsId.slot}
+                                        </p>
                                     </div>
                                     <div className="flex items-center">
                                         <AiOutlineCalendar size={24} className="text-indigo-600" />

@@ -105,8 +105,11 @@ app.use("/api/class-attendance-single", classAttendanceSingleRoutes);
 app.use("/api/diary", diaryRoutes);
 app.use("/api/student-diary", studentDiaryRoutes);
 app.use("/api/student-subjects", studentSubjectRoutes);
+
 app.use("/api/student-attendance", studentAttendanceRoutes);
 app.use("/api/student-attendance-single", studentAttendanceSingleRoutes);
+
+
 app.use("/api/student-dashboard", studentDashboardRoutes);
 app.use("/api/branch-admin-dashboard", branchAdminDashboardRoutes);
 
