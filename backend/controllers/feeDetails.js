@@ -1,4 +1,5 @@
 const FeeDetails = require('../models/FeeDetails');
+const FeeStructureLink = require('../models/feeStructureLink');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
 exports.createFeeDetails = async (req, res) => {
@@ -16,10 +17,24 @@ exports.createFeeDetails = async (req, res) => {
             otherPenalties
         } = req.body;
 
+        // Check if FeeStructureLink exists for the student
+        let feeStructureLink = await FeeStructureLink.findOne({ studentId });
+        
+        // If no FeeStructureLink exists, create one
+        if (!feeStructureLink) {
+            feeStructureLink = new FeeStructureLink({
+                studentId,
+                totalAdmissionFee,
+                semesterFeesTotal
+            });
+            await feeStructureLink.save();
+        }
+
+        // Create new FeeDetails using the IDs from FeeStructureLink
         const newFeeDetails = new FeeDetails({
             admissionConfirmationFee: admissionConfirmationFee,
-            totalAdmissionFee,
-            semesterFeesTotal,
+            totalAdmissionFee: feeStructureLink.totalAdmissionFee,
+            semesterFeesTotal: feeStructureLink.semesterFeesTotal,
             studentId,
             classId,
             discount: Number(discount),
