@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchTeachers } from '../../../api/teacherApi';
+import { fetchTeachers } from '../../../../api/teacherApi';
 import { useNavigate } from 'react-router-dom';
 import { Card, Table, Button } from 'antd';
 
@@ -44,7 +44,7 @@ const SelectTeacher = () => {
             render: (_, record) => (
                 <Button 
                     type="primary"
-                    onClick={() => navigate('/branch-admin/attendance/assigned-classes-attendance-single', {
+                    onClick={() => navigate('/branch-admin/attendance/staff/assigned-classes-attendance', {
                         state: { teacherId: record._id, teacherName: record.fullName }
                     })}
                 >
@@ -56,7 +56,7 @@ const SelectTeacher = () => {
 
     return (
         <Card 
-            title="Select Teacher Take/View/Edit for Student Attendance"
+            title="Select Teacher for Attendance"
             loading={loading}
         >
             <Table 

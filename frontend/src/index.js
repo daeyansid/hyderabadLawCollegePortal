@@ -29,6 +29,11 @@ import ViewDayAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/
 import ViewSlotsAttendanceSingleAdmin from "./users/branch-admin/attendanceSingle/ViewSlotsAttendanceSingle.jsx";
 
 
+import ViewDayAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewDayAttendanceStaff.jsx";
+import ViewSlotsAttendanceStaff from "./users/branch-admin/attendanceSingle/staff/ViewSlotsAttendanceStaff.jsx";
+import SelectStaff from "./users/branch-admin/attendanceSingle/staff/SelectStaff.jsx";
+
+
 import TakeViewAttendanceSingle from "./users/teacher/attendanceSingle/TakeViewAttendanceSingle.jsx";
 import DiaryDataTable from "./users/branch-admin/dairy/DiaryDataTable.jsx";
 import StudentLayout from "./studentLayout.jsx";
@@ -133,4 +138,7 @@ export {
   ViewDayAttendanceSingleAdmin,
   ViewSlotsAttendanceSingleAdmin,
   SelectTeacher,
+  SelectStaff,
+  ViewDayAttendanceStaff,
+  ViewSlotsAttendanceStaff,
 };

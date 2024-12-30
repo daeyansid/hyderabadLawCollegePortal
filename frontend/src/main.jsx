@@ -59,7 +59,10 @@ import {
   ViewDayAttendanceSingleAdmin,
   ViewSlotsAttendanceSingleAdmin,
   TakeViewAttendanceSingleAdmin,
-  SelectTeacher
+  SelectTeacher,
+  SelectStaff,
+  ViewDayAttendanceStaff,
+  ViewSlotsAttendanceStaff
 } from './index';
 import './index.css';
 
@@ -127,6 +130,14 @@ function MainApp() {
             <Route path="attendance/select-teacher" element={<SelectTeacher />} />
             <Route path="attendance/assigned-classes-attendance-single" element={<ViewDayAttendanceSingleAdmin />} />
             <Route path="attendance/assigned-classes-attendance-single/slots/:branchDayId" element={<ViewSlotsAttendanceSingleAdmin />} />
+            <Route path="attendance/attendance-single/take/:branchDayId" element={<TakeViewAttendanceSingleAdmin />} />
+            
+
+            {/* Attendance Staff */}
+            <Route path="attendance/staff" element={<SelectStaff />} />
+            <Route path="attendance/staff/assigned-classes-attendance" element={<ViewDayAttendanceStaff />} />
+            <Route path="attendance/staff/assigned-classes-attendance/slots/:branchDayId" element={<ViewSlotsAttendanceStaff />} />
+
             <Route path="attendance/attendance-single/take/:branchDayId" element={<TakeViewAttendanceSingleAdmin />} />
 
           </Route>
