@@ -173,3 +173,19 @@ export const fetchStudentsBySemester = async (semesterId) => {
         throw error;
     }
 };
+
+// Fetch students by class ID
+export const fetchStudentsByClass = async (classId) => {
+    try {
+        const response = await axiosInstance.post(`/student/class/${classId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching students by class:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Unable to fetch students. Please try again later.',
+        });
+        throw error;
+    }
+};

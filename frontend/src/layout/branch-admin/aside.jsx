@@ -55,14 +55,6 @@ export default function Aside({ isSidebarOpen }) { // Receive isSidebarOpen as a
 
     return (
         <>
-            {/* Sidebar Toggle Button (optional if you want a toggle inside the sidebar) */}
-            {/* <button
-                onClick={toggleSidebar}
-                className="fixed top-4 left-4 z-50 p-2 text-custom-blue md:hidden"
-                aria-label="Toggle sidebar"
-            >
-                {/* Add an icon or text here */}
-            {/* </button> */}
 
             {/* Sidebar */}
             <aside
@@ -155,7 +147,18 @@ export default function Aside({ isSidebarOpen }) { // Receive isSidebarOpen as a
                                 className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
                             >
                                 <FaChalkboard className="w-5 h-5 text-green-600" />
-                                <span className="ms-3 text-custom-blue">Classes And Sections</span>
+                                <span className="ms-3 text-custom-blue">Semester And Subjects</span>
+                            </Link>
+                        </li>
+
+                        {/* Promotions */}
+                        <li>
+                            <Link
+                                to="/branch-admin/promotion"
+                                className="flex items-center p-2 text-custom-blue rounded-lg group hover:bg-gray-100 cursor-pointer"
+                            >
+                                <FaChalkboard className="w-5 h-5 text-green-600" />
+                                <span className="ms-3 text-custom-blue">Promotion</span>
                             </Link>
                         </li>
 

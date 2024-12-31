@@ -64,7 +64,8 @@ import {
   ViewDayAttendanceStaff,
   ViewSlotsAttendanceStaff,
   TakeViewAttendanceStaff,
-  ClassTaken
+  ClassTaken,
+  Promotion
 } from './index';
 import './index.css';
 
@@ -127,6 +128,8 @@ function MainApp() {
             <Route path="test-management" element={<TestManagement />} />
 
             <Route path="test-marks-sheet" element={<TestMarksSheet />} />
+
+            <Route path="promotion" element={<Promotion />} />
 
             {/* Attendance */}
             <Route path="attendance/select-teacher" element={<SelectTeacher />} />

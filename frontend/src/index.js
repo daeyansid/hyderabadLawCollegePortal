@@ -66,6 +66,7 @@ import TeacherSideNotice from "./users/teacher/TeacherNotice.jsx";
 import StudentFee from "./users/student/fee/StudentFee.jsx";
 import StudentTest from "./users/student/test/StudentTest.jsx";
 
+import Promotion from "./users/branch-admin/promotions/MakePromotion.jsx";
 
 const adminName = localStorage.getItem("adminName");
 const userRole = "Super Admin";
@@ -144,5 +145,6 @@ export {
   ViewDayAttendanceStaff,
   ViewSlotsAttendanceStaff,
   TakeViewAttendanceStaff,
-  ClassTaken
+  ClassTaken,
+  Promotion
 };

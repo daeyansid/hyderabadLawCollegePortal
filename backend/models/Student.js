@@ -5,7 +5,7 @@ const studentSchema = new Schema({
     // sec-1 (Student Info)
     fullName: { 
         type: String, 
-        required: [true, 'Full Name is required.'] 
+        required: [true, 'Full Name is required.']
     },
     fatherName: { 
         type: String, 
