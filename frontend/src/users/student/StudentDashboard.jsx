@@ -26,6 +26,16 @@ const StudentDashboard = () => {
         totalAbsent: 0,
         totalLeave: 0,
         attendanceOverTime: [],
+        feeStats: {
+            admissionConfirmationStatus: false,
+            totalAdmissionFee: 0,
+            semesterFeeTotal: 0,
+            semesterFeePaid: 0,
+            remainingSemesterFee: 0,
+            discount: 0,
+            lateFees: 0,
+            otherPenalties: 0
+        }
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -35,6 +45,7 @@ const StudentDashboard = () => {
             setLoading(true);
             try {
                 const data = await getStudentDashboardStats();
+                console.log("dashboarad data", data);
                 setDashboardStats(data);
                 setError(null);
             } catch (error) {
@@ -101,6 +112,37 @@ const StudentDashboard = () => {
                     <p>{error}</p>
                 </div>
             )}
+
+            {/* Fee Information Section */}
+            <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-800 mb-4">Fee Information</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="bg-white p-4 rounded-lg shadow">
+                        <h3 className="text-sm text-gray-600">Admission Status</h3>
+                        <p className={`text-lg font-semibold ${dashboardStats.feeStats.admissionConfirmationStatus ? 'text-green-600' : 'text-red-600'}`}>
+                            {dashboardStats.feeStats.admissionConfirmationStatus ? 'Confirmed' : 'Pending'}
+                        </p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow">
+                        <h3 className="text-sm text-gray-600">Semester Fee Paid</h3>
+                        <p className="text-lg font-semibold text-blue-600">
+                            Rs. {dashboardStats.feeStats.semesterFeePaid}
+                        </p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow">
+                        <h3 className="text-sm text-gray-600">Remaining Fee</h3>
+                        <p className="text-lg font-semibold text-red-600">
+                            Rs. {dashboardStats.feeStats.remainingSemesterFee}
+                        </p>
+                    </div>
+                    <div className="bg-white p-4 rounded-lg shadow">
+                        <h3 className="text-sm text-gray-600">Total Penalties</h3>
+                        <p className="text-lg font-semibold text-orange-600">
+                            Rs. {dashboardStats.feeStats.lateFees + dashboardStats.feeStats.otherPenalties}
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             {/* Grid for Analytics */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-4">
