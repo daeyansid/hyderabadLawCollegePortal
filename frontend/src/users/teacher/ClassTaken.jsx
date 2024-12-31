@@ -1,6 +1,10 @@
+// src/components/ClassTaken.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Card, Select, Row, Col, Statistic, Spin } from 'antd';
 import { getAttendanceCount } from '../../api/teacherAttendance';
+
+const { Option } = Select;
 
 const ClassTaken = () => {
     const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
@@ -48,32 +52,72 @@ const ClassTaken = () => {
         fetchStats();
     }, [selectedMonth, selectedYear]);
 
+    // Responsive styles using CSS-in-JS approach
+    const styles = {
+        cardHeader: {
+            backgroundColor: '#1890ff',
+            color: 'white',
+            padding: '16px',
+            borderRadius: '8px 8px 0 0',
+        },
+        selectContainer: {
+            marginTop: '16px',
+            marginBottom: '16px',
+        },
+        statisticCard: {
+            borderRadius: '8px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            textAlign: 'center',
+            padding: '24px',
+            backgroundColor: '#ffffff',
+        },
+    };
+
     return (
-        <Card title="My Attendance Statistics" headStyle={{ backgroundColor: '#1890ff', color: 'white' }}>
-            <Row gutter={[16, 16]}>
-                <Col span={12}>
+        <Card 
+            title={<div style={styles.cardHeader}><h2 style={{ margin: 0 }}>My Attendance Statistics</h2></div>} 
+            bordered={false} 
+            style={{ borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+        >
+            {/* Responsive Selects */}
+            <Row gutter={[16, 16]} style={styles.selectContainer}>
+                <Col xs={24} sm={12}>
                     <Select
                         style={{ width: '100%' }}
                         value={selectedMonth}
                         onChange={setSelectedMonth}
-                        options={months}
-                    />
+                        placeholder="Select Month"
+                    >
+                        {months.map(month => (
+                            <Option key={month.value} value={month.value}>
+                                {month.label}
+                            </Option>
+                        ))}
+                    </Select>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} sm={12}>
                     <Select
                         style={{ width: '100%' }}
                         value={selectedYear}
                         onChange={setSelectedYear}
-                        options={years}
-                    />
+                        placeholder="Select Year"
+                    >
+                        {years.map(year => (
+                            <Option key={year.value} value={year.value}>
+                                {year.label}
+                            </Option>
+                        ))}
+                    </Select>
                 </Col>
             </Row>
 
-            <Spin spinning={loading}>
+            {/* Loading Spinner */}
+            <Spin spinning={loading} tip="Loading statistics...">
+                {/* Responsive Statistic Cards */}
                 {stats && (
-                    <Row gutter={16} style={{ marginTop: 16 }}>
-                        <Col span={6}>
-                            <Card style={{ backgroundColor: '#f6ffed' }}>
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} sm={12} md={6}>
+                            <Card style={styles.statisticCard}>
                                 <Statistic 
                                     title="Present Days" 
                                     value={stats.Present}
@@ -81,8 +125,8 @@ const ClassTaken = () => {
                                 />
                             </Card>
                         </Col>
-                        <Col span={6}>
-                            <Card style={{ backgroundColor: '#fff2f0' }}>
+                        <Col xs={24} sm={12} md={6}>
+                            <Card style={styles.statisticCard}>
                                 <Statistic 
                                     title="Absent Days" 
                                     value={stats.Absent}
@@ -90,8 +134,8 @@ const ClassTaken = () => {
                                 />
                             </Card>
                         </Col>
-                        <Col span={6}>
-                            <Card style={{ backgroundColor: '#e6f7ff' }}>
+                        <Col xs={24} sm={12} md={6}>
+                            <Card style={styles.statisticCard}>
                                 <Statistic 
                                     title="Leave Days" 
                                     value={stats.Leave}
@@ -99,8 +143,8 @@ const ClassTaken = () => {
                                 />
                             </Card>
                         </Col>
-                        <Col span={6}>
-                            <Card style={{ backgroundColor: '#f9f0ff' }}>
+                        <Col xs={24} sm={12} md={6}>
+                            <Card style={styles.statisticCard}>
                                 <Statistic 
                                     title="Total Working Days" 
                                     value={stats.total}

@@ -1,3 +1,5 @@
+// src/pages/TeacherNotice.jsx
+
 import React, { useState, useEffect } from 'react';
 import { Table, Space, Modal, Button } from 'antd';
 import { EyeOutlined } from '@ant-design/icons';
@@ -55,16 +57,21 @@ function TeacherNotice() {
             dataIndex: 'date',
             key: 'date',
             render: (date) => new Date(date).toLocaleDateString(),
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl'], // Always show on all screen sizes
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            responsive: ['sm', 'md', 'lg', 'xl'], // Hide on extra small screens
+            ellipsis: true, // Truncate overflowing text with ellipsis
         },
         {
             title: 'Remarks',
             dataIndex: 'remarks',
             key: 'remarks',
+            responsive: ['md', 'lg', 'xl'], // Hide on small and extra small screens
+            ellipsis: true,
         },
         {
             title: 'Actions',
@@ -78,11 +85,13 @@ function TeacherNotice() {
                             setSelectedNotice(record);
                             setViewModalVisible(true);
                         }}
+                        size="small" // Smaller button for better fit on mobile
                     >
                         View
                     </Button>
                 </Space>
             ),
+            responsive: ['xs', 'sm', 'md', 'lg', 'xl'], // Always show
         },
     ];
 
@@ -92,18 +101,23 @@ function TeacherNotice() {
                 <h2 style={{ color: 'white', margin: 0 }}>My Notices</h2>
             </div>
 
-            <Table 
-                columns={columns}
-                dataSource={notices}
-                rowKey="_id"
-                loading={loading}
-                style={tableStyles}
-                rowClassName={(_, index) => index % 2 === 0 ? 'even-row' : 'odd-row'}
-            />
+            {/* Enable horizontal scrolling on small screens */}
+            <div style={{ overflowX: 'auto' }}>
+                <Table 
+                    columns={columns}
+                    dataSource={notices}
+                    rowKey="_id"
+                    loading={loading}
+                    style={tableStyles}
+                    rowClassName={(_, index) => index % 2 === 0 ? 'even-row' : 'odd-row'}
+                    pagination={{ responsive: true, pageSize: 10 }}
+                />
+            </div>
 
+            {/* Responsive Modal */}
             <Modal
                 title="Notice Details"
-                open={viewModalVisible}
+                visible={viewModalVisible}
                 onCancel={() => {
                     setViewModalVisible(false);
                     setSelectedNotice(null);
@@ -116,6 +130,10 @@ function TeacherNotice() {
                         Close
                     </Button>
                 ]}
+                // Adjust modal width based on screen size
+                width={window.innerWidth < 576 ? '100%' : '600px'}
+                bodyStyle={{ padding: '24px' }}
+                destroyOnClose
             >
                 {selectedNotice && (
                     <div>
@@ -134,68 +152,95 @@ function TeacherNotice() {
                     </div>
                 )}
             </Modal>
+
+            {/* Responsive Styles */}
+            <style>{`
+                /* Mobile-specific styles */
+                @media (max-width: 576px) {
+                    .notice-detail-item {
+                        margin-bottom: 12px;
+                        padding: 8px;
+                        background: #f8f9fa;
+                        border-radius: 4px;
+                    }
+                    .notice-detail-item h4 {
+                        font-size: 14px;
+                    }
+                    .notice-detail-item p {
+                        font-size: 14px;
+                    }
+                    .ant-table-thead > tr > th {
+                        font-size: 14px;
+                        padding: 8px;
+                    }
+                    .ant-table-tbody > tr > td {
+                        font-size: 14px;
+                        padding: 8px;
+                    }
+                    .ant-btn {
+                        font-size: 12px;
+                        padding: 4px 8px;
+                    }
+                    .ant-modal-content {
+                        padding: 16px;
+                    }
+                }
+
+                /* Common styles */
+                .notice-detail-item {
+                    margin-bottom: 16px;
+                    padding: 12px;
+                    background: #f8f9fa;
+                    border-radius: 6px;
+                    transition: all 0.3s ease;
+                }
+                .notice-detail-item:hover {
+                    background: #e6f7ff;
+                    transform: translateY(-2px);
+                }
+                .notice-detail-item h4 {
+                    margin-bottom: 4px;
+                    color: #1890ff;
+                    font-weight: 600;
+                }
+                .notice-detail-item p {
+                    margin: 0;
+                    color: #4a4a4a;
+                }
+                .even-row {
+                    background-color: #ffffff;
+                }
+                .odd-row {
+                    background-color: #f8f9fa;
+                }
+                .odd-row:hover, .even-row:hover {
+                    background-color: #e6f7ff !important;
+                }
+                .ant-table-thead > tr > th {
+                    background: #f0f5ff !important;
+                    color: #1890ff;
+                    font-weight: 600;
+                }
+                .ant-btn-primary {
+                    background: #1890ff;
+                    border-color: #1890ff;
+                    transition: all 0.3s ease;
+                }
+                .ant-btn-primary:hover {
+                    background: #40a9ff;
+                    border-color: #40a9ff;
+                    transform: translateY(-1px);
+                    box-shadow: 0 4px 12px rgba(24,144,255,0.3);
+                }
+                .ant-modal-header {
+                    background: #f0f5ff;
+                }
+                .ant-modal-title {
+                    color: #1890ff;
+                }
+            `}</style>
         </div>
     );
 }
-
-// Add styles
-const styles = `
-    .notice-detail-item {
-        margin-bottom: 16px;
-        padding: 12px;
-        background: #f8f9fa;
-        border-radius: 6px;
-        transition: all 0.3s ease;
-    }
-    .notice-detail-item:hover {
-        background: #e6f7ff;
-        transform: translateY(-2px);
-    }
-    .notice-detail-item h4 {
-        margin-bottom: 4px;
-        color: #1890ff;
-        font-weight: 600;
-    }
-    .notice-detail-item p {
-        margin: 0;
-        color: #4a4a4a;
-    }
-    .even-row {
-        background-color: #ffffff;
-    }
-    .odd-row {
-        background-color: #f8f9fa;
-    }
-    .odd-row:hover, .even-row:hover {
-        background-color: #e6f7ff !important;
-    }
-    .ant-table-thead > tr > th {
-        background: #f0f5ff !important;
-        color: #1890ff;
-        font-weight: 600;
-    }
-    .ant-btn-primary {
-        background: #1890ff;
-        border-color: #1890ff;
-        transition: all 0.3s ease;
-    }
-    .ant-btn-primary:hover {
-        background: #40a9ff;
-        border-color: #40a9ff;
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(24,144,255,0.3);
-    }
-    .ant-modal-header {
-        background: #f0f5ff;
-    }
-    .ant-modal-title {
-        color: #1890ff;
-    }
-`;
-
-// Add styles to document
-const styleSheet = document.createElement("style");
-styleSheet.innerText = styles;
-document.head.appendChild(styleSheet);
 
 export default TeacherNotice;
