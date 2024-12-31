@@ -157,7 +157,7 @@ export default function LoginForm() {
             Hyderabad Law College
           </h1>
           <p className="text-custom-shadow text-xl sm:text-2xl font-bold">
-            Education is our passion
+            A Land Mark In Leagl Education
           </p>
         </div>
         <form onSubmit={handleLogin}>
