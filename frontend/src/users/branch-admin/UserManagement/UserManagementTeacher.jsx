@@ -72,8 +72,9 @@ const UserManagementTeacher = () => {
     };
 
     const handlePrintClick = (teacher) => {
-        setSelectedTeacher(teacher);
-        setTimeout(() => handlePrint(), 0); // Delay to ensure ref updates
+        Swal.fire('Sorry!', 'This Feature is not available.', 'info');
+        // setSelectedTeacher(teacher);
+        // setTimeout(() => handlePrint(), 0); // Delay to ensure ref updates
     };
 
     const handlePrint = useReactToPrint({
@@ -124,7 +125,7 @@ const UserManagementTeacher = () => {
                     <AiFillEye className="text-blue-500 cursor-pointer" onClick={() => handleViewClick(row._id)} />
                     <AiFillEdit className="text-green-500 cursor-pointer" onClick={() => handleEditClick(row._id)} />
                     <AiFillDelete className="text-red-500 cursor-pointer" onClick={() => handleDelete(row._id)} />
-                    <AiFillPrinter className="text-purple-500 cursor-pointer" onClick={() => handlePrintClick(row)} />
+                    <AiFillPrinter className="text-purple-500 cursor-not-allowed" onClick={() => handlePrintClick(row)} />
                 </div>
             ),
             ignoreRowClick: true,

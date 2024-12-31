@@ -2,17 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import logo from '../../assets/logo.png';
 import 'font-awesome/css/font-awesome.min.css';
 import { useNavigate } from 'react-router-dom';
-import { adminName } from '../../index';
 import userIcon from '../../assets/user.svg';
 import { useAuth } from '../../AuthProvider';
 import { Link } from 'react-router-dom';
 
-export default function Nav() {
+export default function Nav({ toggleSidebar }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
-    const { logout } = useAuth();
-    const { userInfo } = useAuth();
+    const { logout, userInfo } = useAuth();
 
     const toggleDropdown = () => {
         setDropdownOpen(prev => !prev);
@@ -31,50 +29,59 @@ export default function Nav() {
         };
     }, []);
 
-
     const handleLogout = () => {
         logout();
         navigate('/login');
     };
-
 
     const goToDashboard = () => {
         navigate('/branch-admin/dashboard');
     };
 
     return (
-        <nav className="fixed top-0 z-50 w-full flex rounded-lg border-b border-gray-200">
-            <div className="bg-custom-backGround w-64 rounded-l-lg">
-                <div className="px-3 py-3 lg:px-5 lg:pl-3">
-                    <div className="flex items-center justify-between">
-                        <a href="#" className="flex items-center ms-2 md:me-24">
-                            <img src={logo} className="h-12 w-12 me-3" alt="FlowBite Logo" />
-                            <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-custom-blue">HLC</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div className="bg-custom-backGround-content flex-1 rounded-r-lg">
-                <div className="px-3 py-3 lg:px-5 lg:pl-3 flex items-center justify-end">
+        <nav className="fixed top-0 z-50 w-full flex items-center justify-between bg-custom-backGround border-b border-gray-200 p-4">
+            {/* Logo Section */}
+            <div className="flex items-center justify-between w-full lg:w-full md:w-full sm:w-64">
+                <Link to="#" className="flex items-center">
+                    <img src={logo} className="h-10 w-10 sm:h-12 sm:w-12" alt="School Logo" />
+                    <span className="ml-2 text-lg sm:text-xl font-semibold text-custom-blue whitespace-nowrap">
+                        HLC
+                    </span>
+                </Link>
+
+                {/* Hamburger and Profile Icon for Mobile Screens */}
+                <div className="flex items-center">
+                    {/* Hamburger Menu */}
                     <button
                         type="button"
-                        className="flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
+                        className="text-custom-blue p-2 lg:hidden md:hidden"
+                        aria-label="Toggle navigation"
+                        onClick={toggleSidebar}
+                    >
+                        <i className="fa-solid fa-bars w-6 h-6"></i>
+                    </button>
+
+                    {/* Profile Icon */}
+                    <button
+                        type="button"
+                        className="ml-4 flex items-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300"
                         aria-expanded={dropdownOpen}
                         onClick={toggleDropdown}
                     >
                         <span className="sr-only">Open user menu</span>
                         <img className="w-8 h-8 rounded-full bg-white" src={userIcon} alt="user photo" />
                     </button>
+
                     {dropdownOpen && (
-                        <div ref={dropdownRef} className="absolute right-0 top-14 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow-lg dark:bg-gray-700 dark:divide-gray-600 z-40">
+                        <div ref={dropdownRef} className="absolute right-0 top-14 mt-2 w-48 bg-white divide-y divide-gray-100 rounded shadow-lg z-40">
                             <div className="px-4 py-3">
-                                <p className="text-sm text-gray-900 dark:text-white">{userInfo.adminName}</p>
+                                <p className="text-sm text-gray-900">{userInfo?.adminName || 'User Name'}</p>
                             </div>
                             <ul className="py-1">
                                 <li>
                                     <button
                                         onClick={goToDashboard}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                     >
                                         Dashboard
                                     </button>
@@ -82,7 +89,7 @@ export default function Nav() {
                                 <li>
                                     <Link
                                         to="/branch-admin/scheduleAndAssign/day"
-                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                     >
                                         Settings
                                     </Link>
@@ -90,7 +97,7 @@ export default function Nav() {
                                 <li>
                                     <button
                                         onClick={handleLogout}
-                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600"
+                                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                     >
                                         Logout
                                     </button>

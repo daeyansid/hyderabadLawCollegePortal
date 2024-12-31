@@ -156,9 +156,9 @@ const TestManagement = () => {
             title: 'Total Marks',
             key: 'totalMarks',
             render: (_, record) => {
-                const total = record.midTermPaperMarks + 
-                            record.assignmentPresentationMarks + 
-                            record.attendanceMarks;
+                const total = record.midTermPaperMarks +
+                    record.assignmentPresentationMarks +
+                    record.attendanceMarks;
                 return (
                     <Tag color={getGradeColor(total)} style={{ fontWeight: 'bold' }}>
                         {total}/40
@@ -171,17 +171,17 @@ const TestManagement = () => {
             key: 'actions',
             render: (_, record) => (
                 <Space>
-                    <Button 
-                        type="primary" 
+                    <Button
+                        type="primary"
                         icon={<EditOutlined />}
                         onClick={() => handleEdit(record)}
                         style={{ background: '#4096ff' }}
                     >
                         Edit
                     </Button>
-                    <Button 
-                        type="primary" 
-                        danger 
+                    <Button
+                        type="primary"
+                        danger
                         icon={<DeleteOutlined />}
                         onClick={() => handleDelete(record._id)}
                     >
@@ -193,18 +193,19 @@ const TestManagement = () => {
     ];
 
     return (
-        <Card 
+        <Card
             title={<Title level={3} style={{ color: '#1890ff', margin: 0 }}>Test Management</Title>}
-            style={{ 
+            style={{
                 borderRadius: '8px',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
             }}
         >
-            <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
-                <Col span={6}>
+            <Row gutter={[16, 16]} className="mb-4">
+                {/* Filter by Class */}
+                <Col xs={24} sm={12} lg={6}>
                     <Select
                         placeholder="Filter by Class"
-                        style={{ width: '100%' }}
+                        className="w-full"
                         value={selectedClass}
                         onChange={setSelectedClass}
                         allowClear
@@ -216,10 +217,12 @@ const TestManagement = () => {
                         ))}
                     </Select>
                 </Col>
-                <Col span={6}>
+
+                {/* Filter by Year */}
+                <Col xs={24} sm={12} lg={6}>
                     <Select
                         placeholder="Filter by Year"
-                        style={{ width: '100%' }}
+                        className="w-full"
                         value={selectedYear}
                         onChange={setSelectedYear}
                         allowClear
@@ -231,37 +234,37 @@ const TestManagement = () => {
                         ))}
                     </Select>
                 </Col>
-                <Col span={6}>
-                    <Button 
-                        icon={<FilterOutlined />} 
+
+                {/* Reset Filters Button */}
+                <Col xs={24} sm={12} lg={6}>
+                    <Button
+                        icon={<FilterOutlined />}
                         onClick={handleReset}
-                        style={{ marginRight: 8 }}
+                        className="w-full sm:w-auto"
                     >
                         Reset Filters
                     </Button>
                 </Col>
-                <Col span={6} style={{ textAlign: 'right' }}>
-                    <Button 
-                        type="primary" 
+
+                {/* Add New Test Record Button */}
+                <Col xs={24} sm={12} lg={6} className="text-right">
+                    <Button
                         icon={<PlusOutlined />}
                         onClick={() => {
                             setEditingTest(null);
                             setIsModalVisible(true);
                         }}
-                        style={{ 
-                            background: '#52c41a',
-                            borderColor: '#52c41a',
-                            borderRadius: '6px'
-                        }}
+                        className="bg-green-500 border-green-500 text-white rounded-lg"
                     >
                         Add New Test Record
                     </Button>
                 </Col>
             </Row>
-            
-            <Table 
-                columns={columns} 
-                dataSource={filteredTests} 
+
+
+            <Table
+                columns={columns}
+                dataSource={filteredTests}
                 loading={loading}
                 rowKey="_id"
                 style={{

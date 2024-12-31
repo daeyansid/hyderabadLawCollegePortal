@@ -90,7 +90,7 @@ const SelectTeacher = () => {
     }, [teachers, selectedMonth, selectedYear]);
 
     const handleSearch = (value) => {
-        const filtered = teachers.filter(teacher => 
+        const filtered = teachers.filter(teacher =>
             teacher.fullName.toLowerCase().includes(value.toLowerCase()) ||
             teacher.userId.email.toLowerCase().includes(value.toLowerCase())
         );
@@ -137,7 +137,7 @@ const SelectTeacher = () => {
             title: 'Actions',
             key: 'actions',
             render: (_, record) => (
-                <Button 
+                <Button
                     type="primary"
                     onClick={() => navigate('/branch-admin/attendance/staff/assigned-classes-attendance', {
                         state: { teacherId: record._id, teacherName: record.fullName }
@@ -150,7 +150,7 @@ const SelectTeacher = () => {
     ];
 
     return (
-        <Card 
+        <Card
             title="Select Teacher for Attendance"
             loading={loading}
             headStyle={{ backgroundColor: '#1890ff', color: 'white' }}
@@ -183,38 +183,38 @@ const SelectTeacher = () => {
             </Row>
 
             {attendanceStats && (
-                <Row gutter={16} style={{ marginBottom: 16 }}>
-                    <Col span={6}>
+                <Row gutter={[16, 16]} style={{ marginBottom: 16 }}>
+                    <Col xs={24} sm={12} md={6} lg={6}>
                         <Card style={{ backgroundColor: '#f6ffed' }}>
-                            <Statistic 
-                                title="Present" 
+                            <Statistic
+                                title="Present"
                                 value={attendanceStats.Present}
                                 valueStyle={{ color: '#52c41a' }}
                             />
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={12} md={6} lg={6}>
                         <Card style={{ backgroundColor: '#fff2f0' }}>
-                            <Statistic 
-                                title="Absent" 
+                            <Statistic
+                                title="Absent"
                                 value={attendanceStats.Absent}
                                 valueStyle={{ color: '#ff4d4f' }}
                             />
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={12} md={6} lg={6}>
                         <Card style={{ backgroundColor: '#e6f7ff' }}>
-                            <Statistic 
-                                title="Leave" 
+                            <Statistic
+                                title="Leave"
                                 value={attendanceStats.Leave}
                                 valueStyle={{ color: '#1890ff' }}
                             />
                         </Card>
                     </Col>
-                    <Col span={6}>
+                    <Col xs={24} sm={12} md={6} lg={6}>
                         <Card style={{ backgroundColor: '#f9f0ff' }}>
-                            <Statistic 
-                                title="Total Working Days" 
+                            <Statistic
+                                title="Total Working Days"
                                 value={attendanceStats.total}
                                 valueStyle={{ color: '#722ed1' }}
                             />
@@ -223,7 +223,8 @@ const SelectTeacher = () => {
                 </Row>
             )}
 
-            <Table 
+
+            <Table
                 columns={columns}
                 dataSource={filteredTeachers}
                 rowKey="_id"

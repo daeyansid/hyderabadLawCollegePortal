@@ -74,26 +74,29 @@ function TeacherNotice() {
             dataIndex: 'date',
             key: 'date',
             render: (date) => new Date(date).toLocaleDateString(),
+            responsive: ['xs']
         },
         {
             title: 'Description',
             dataIndex: 'description',
             key: 'description',
+            responsive: ['sm'],
+            ellipsis: true,
         },
         {
             title: 'Remarks',
             dataIndex: 'remarks',
             key: 'remarks',
+            responsive: ['md'],
+            ellipsis: true,
         },
         {
             title: 'Assigned Teachers',
             dataIndex: 'assignedTeachers',
             key: 'assignedTeachers',
+            responsive: ['lg'],
             render: (teachers, record) => {
-                if (record.assignToAll) {
-                    return 'All Teachers';
-                }
-                // Show count of teachers if assignToAll is false
+                if (record.assignToAll) return 'All Teachers';
                 const teacherCount = teachers?.length || 0;
                 return `${teacherCount} Teacher${teacherCount !== 1 ? 's' : ''}`;
             },
@@ -101,8 +104,10 @@ function TeacherNotice() {
         {
             title: 'Actions',
             key: 'actions',
+            fixed: 'right',
+            width: 120,
             render: (_, record) => (
-                <Space>
+                <Space wrap size="small">
                     <Button 
                         type="default"
                         icon={<EyeOutlined />}
@@ -110,9 +115,8 @@ function TeacherNotice() {
                             setSelectedNotice(record);
                             setViewModalVisible(true);
                         }}
-                    >
-                        View
-                    </Button>
+                        size="small"
+                    />
                     <Button 
                         type="primary" 
                         icon={<EditOutlined />}
@@ -120,16 +124,14 @@ function TeacherNotice() {
                             setEditingNotice(record);
                             setModalVisible(true);
                         }}
-                    >
-                        Edit
-                    </Button>
+                        size="small"
+                    />
                     <Button 
                         danger 
                         icon={<DeleteOutlined />}
                         onClick={() => handleDelete(record._id)}
-                    >
-                        Delete
-                    </Button>
+                        size="small"
+                    />
                 </Space>
             ),
         },
@@ -164,14 +166,23 @@ function TeacherNotice() {
                 </Button>
             </div>
 
-            <Table 
-                columns={columns}
-                dataSource={notices || []} // Provide fallback empty array
-                rowKey={record => record._id || Math.random()} // Ensure unique key
-                loading={loading}
-                style={tableStyles}
-                rowClassName={(_, index) => index % 2 === 0 ? 'even-row' : 'odd-row'}
-            />
+            <div style={{ overflowX: 'auto', width: '100%' }}>
+                <Table 
+                    columns={columns}
+                    dataSource={notices || []} // Provide fallback empty array
+                    rowKey={record => record._id || Math.random()} // Ensure unique key
+                    loading={loading}
+                    style={tableStyles}
+                    rowClassName={(_, index) => index % 2 === 0 ? 'even-row' : 'odd-row'}
+                    scroll={{ x: 'max-content' }}
+                    pagination={{
+                        responsive: true,
+                        position: ['bottomCenter'],
+                        size: 'small'
+                    }}
+                    size="small"
+                />
+            </div>
 
             {/* View Modal */}
             <Modal
@@ -309,6 +320,74 @@ const styles = `
     .ant-btn-dangerous:hover {
         transform: translateY(-1px);
         box-shadow: 0 4px 12px rgba(255,77,79,0.3);
+    }
+
+    /* Mobile Responsive Styles */
+    @media screen and (max-width: 576px) {
+        .ant-table {
+            font-size: 12px;
+        }
+
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+            padding: 8px 4px !important;
+            white-space: nowrap;
+        }
+
+        .ant-btn {
+            padding: 0 8px;
+            font-size: 12px;
+        }
+
+        .ant-space {
+            gap: 4px !important;
+        }
+
+        .ant-modal {
+            max-width: calc(100vw - 32px);
+            margin: 16px;
+        }
+
+        .notice-detail-item {
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .notice-detail-item h4 {
+            font-size: 14px;
+        }
+
+        .notice-detail-item p {
+            font-size: 12px;
+        }
+    }
+
+    /* Tablet Responsive Styles */
+    @media screen and (min-width: 577px) and (max-width: 768px) {
+        .ant-table {
+            font-size: 13px;
+        }
+
+        .ant-table-thead > tr > th,
+        .ant-table-tbody > tr > td {
+            padding: 10px 8px !important;
+        }
+
+        .ant-btn {
+            padding: 4px 8px;
+        }
+    }
+
+    /* Fix horizontal scrolling */
+    .ant-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Improve touch targets on mobile */
+    .ant-btn {
+        min-height: 32px;
+        touch-action: manipulation;
     }
 `;
 

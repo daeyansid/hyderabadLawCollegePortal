@@ -57,8 +57,9 @@ const UserManagementStudent = () => {
     };
 
     const handlePrintClick = (student) => {
-        setSelectedStudent(student);
-        setTimeout(() => handlePrint(), 0); // Delay to ensure ref updates
+        Swal.fire('Sorry!', 'This Feature is not available.', 'info');
+        // setSelectedStudent(student);
+        // setTimeout(() => handlePrint(), 0); // Delay to ensure ref updates
     };
 
     const handlePrint = useReactToPrint({
@@ -136,7 +137,7 @@ const UserManagementStudent = () => {
                         onClick={() => handleDelete(row._id)}
                     />
                     <AiFillPrinter
-                        className="text-purple-500 cursor-pointer"
+                        className="text-purple-500 cursor-not-allowed"
                         size={20}
                         title="Print ID Card"
                         onClick={() => handlePrintClick(row)}
