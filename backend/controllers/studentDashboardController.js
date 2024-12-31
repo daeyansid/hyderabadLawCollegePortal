@@ -1,7 +1,8 @@
 // controllers/studentDashboardController.js
 
 const Student = require('../models/Student');
-const ClassAttendance = require('../models/ClassAttendance');
+const ClassAttendance = require('../models/ClassAttendanceSingle');
+const FeeDetails = require('../models/FeeDetails');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 const mongoose = require('mongoose');
 
@@ -106,11 +107,29 @@ exports.getDashboardStats = async (req, res) => {
             }
         });
 
+        // Fetch fee details
+        const feeDetails = await FeeDetails.findOne({ studentId: studentObjectId })
+            .populate('totalAdmissionFee')
+            .populate('semesterFeesTotal');
+
+        // Calculate fee statistics
+        const feeStats = {
+            admissionConfirmationStatus: feeDetails?.admissionConfirmationFee || false,
+            totalAdmissionFee: feeDetails?.totalAdmissionFee?.admissionFee || 0,
+            semesterFeeTotal: feeDetails?.semesterFeesTotal?.semesterFee || 0,
+            semesterFeePaid: feeDetails?.semesterFeesPaid || 0,
+            remainingSemesterFee: (feeDetails?.semesterFeesTotal?.semesterFee || 0) - (feeDetails?.semesterFeesPaid || 0),
+            discount: feeDetails?.discount || 0,
+            lateFees: feeDetails?.lateFeeSurcharged || 0,
+            otherPenalties: feeDetails?.otherPenalties || 0
+        };
+
         sendSuccessResponse(res, 200, 'Dashboard stats fetched successfully.', {
             totalPresent,
             totalAbsent,
             totalLeave,
             attendanceOverTime,
+            feeStats
         });
     } catch (error) {
         console.error('Error fetching dashboard stats:', error);
