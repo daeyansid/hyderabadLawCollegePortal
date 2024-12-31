@@ -182,14 +182,14 @@ export default function LoginForm() {
               onChange={(e) => setPassword(e.target.value)}
               disabled={loading}
             />
-            <div className="flex items-center justify-end">
+            {/* <div className="flex items-center justify-end">
               <a
                 className="cursor-no-drop mt-4 sm:mt-6 inline-block align-baseline font-bold text-sm text-hover-color hover:text-hover-color"
                 href="#"
               >
                 Forgot Password?
               </a>
-            </div>
+            </div> */}
           </div>
           <div className="flex items-center justify-center">
             <button

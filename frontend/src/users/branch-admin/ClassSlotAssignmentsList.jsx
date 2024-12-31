@@ -254,21 +254,20 @@ const ClassSlotAssignmentsList = () => {
         <div className="p-6 bg-white rounded-lg shadow-md">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-2xl font-semibold text-indigo-700">Class Timetable for {dayData || 'N/A'} of {classNameData || 'N/A'} Semester </h2>
-                <div className="flex space-x-4">
+                <div className="flex space-x-2">
                     <button
                         onClick={handleBackClick}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                        className="bg-blue-600 text-white px-3 py-1.5 text-sm rounded-md hover:bg-blue-700"
                     >
                         Back
                     </button>
                     <button
                         onClick={() => setShowAddModal(true)}
-                        className="flex items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                        className="flex items-center bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700"
                     >
-                        <AiOutlinePlus className="mr-2" size={20} />
+                        <AiOutlinePlus className="mr-1" size={16} />
                         Assign Class
                     </button>
-
                 </div>
             </div>
 

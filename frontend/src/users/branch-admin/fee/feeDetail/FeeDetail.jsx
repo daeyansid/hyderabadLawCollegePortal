@@ -239,12 +239,16 @@ const FeeDetail = () => {
                 >
                     Add New Fee Detail
                 </Button>
-                <Search
-                    placeholder="Search by name, roll number, or semester"
-                    onSearch={handleSearch}
-                    enterButton={<SearchOutlined />}
-                    style={{ width: 300 }}
-                />
+                <div className="w-full px-4 sm:px-6 lg:px-8">
+    <Search
+        placeholder="Search by name, roll number, or semester"
+        onSearch={handleSearch}
+        enterButton={<SearchOutlined />}
+        style={{ width: '100%' }}
+        className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg"
+    />
+</div>
+
             </Space>
 
             <Table
