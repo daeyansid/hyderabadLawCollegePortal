@@ -15,6 +15,7 @@ const subjectRoutes = require("./routes/subjectRoutes.js");
 const teacherRoutes = require("./routes/teacherRoutes.js");
 const studentRoute = require("./routes/studentRoutes.js");
 
+const promoteRoute = require("./routes/promoteRoute.js");
 
 const branchClassDaysRoutes = require("./routes/branchClassDaysRoutes.js");
 const branchDailyTimeSlotsRoutes = require("./routes/branchDailyTimeSlotsRoutes.js");
@@ -88,7 +89,7 @@ app.use("/api/subject", subjectRoutes);
 app.use("/api/teacher", teacherRoutes);
 app.use("/api/student", studentRoute);
 
-
+app.use("/api/promote", promoteRoute);
 
 app.use("/api/branch-class-days", branchClassDaysRoutes);
 app.use("/api/branch-daily-time-slots", branchDailyTimeSlotsRoutes);

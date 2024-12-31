@@ -454,7 +454,7 @@ exports.deleteStudent = async (req, res) => {
 exports.getStudentsByClass = async (req, res) => {
   const { classId } = req.params;
   try {
-    const students = await Student.find({ classId });
+    const students = await Student.find({ classId }).populate('classId');
     sendSuccessResponse(res, 200, "Students fetched successfully", students);
   } catch (error) {
     console.error(error);
