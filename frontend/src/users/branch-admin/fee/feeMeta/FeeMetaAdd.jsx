@@ -13,7 +13,7 @@ const FeeMetaAdd = ({ visible, onCancel, onSuccess }) => {
                 semesterFee: Number(values.semesterFee),
                 admissionFee: Number(values.admissionFee)
             };
-            console.log("formData", formData);
+            // console.log("formData", formData);
             // return;
             await createFeeMeta(formData);
             message.success('Fee structure created successfully');
