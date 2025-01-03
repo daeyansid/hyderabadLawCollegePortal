@@ -167,7 +167,7 @@ const EditClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignmen
                 slotType: 'Class Slot',
             };
 
-            console.log('Updated Assignment Data:', assignmentData);
+            // console.log('Updated Assignment Data:', assignmentData);
 
             await updateClassSlotAssignment(assignment._id, assignmentData);
             Swal.fire('Success', 'Class Slot Assignment updated successfully.', 'success');

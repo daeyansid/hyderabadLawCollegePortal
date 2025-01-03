@@ -18,7 +18,7 @@ const ViewDayAttendance = () => {
     const fetchAvailableDays = async () => {
         try {
             const response = await getAllBranchClassDays();
-            console.log(response);
+            // console.log(response);
             
             if (!Array.isArray(response)) {
                 throw new Error('Invalid data format received from API.');

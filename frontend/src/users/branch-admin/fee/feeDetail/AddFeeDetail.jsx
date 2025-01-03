@@ -65,8 +65,8 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
     };
 
     const handleStudentSelect = async (studentId) => {
-        console.log("studentId In hereeeee");
-        console.log("studentId:", studentId);
+        // console.log("studentId In hereeeee");
+        // console.log("studentId:", studentId);
         try {
             const semesterId = form.getFieldValue('semester');
             if (!semesterId) {
@@ -91,9 +91,9 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
                 setStudentFeeDetails(latestFeeDetail);
                 
                 // console.log("feeDetailsResponse",feeDetailsResponse.data.data);
-                console.log("latestFeeDetail", studentFeeDetails);
-                console.log("studentFeeDetails totalAdmissionFee", studentFeeDetails.totalAdmissionFee.admissionFee);
-                console.log("studentFeeDetails semesterFeesTotal", studentFeeDetails.semesterFeesTotal.admissionFee);
+                // console.log("latestFeeDetail", studentFeeDetails);
+                // console.log("studentFeeDetails totalAdmissionFee", studentFeeDetails.totalAdmissionFee.admissionFee);
+                // console.log("studentFeeDetails semesterFeesTotal", studentFeeDetails.semesterFeesTotal.admissionFee);
 
                 // Update feeMeta with the fetched values
                 if (studentFeeDetails.totalAdmissionFee && studentFeeDetails.semesterFeesTotal) {
@@ -144,7 +144,7 @@ const AddFeeDetail = ({ visible, onCancel, onSuccess }) => {
 
             // Log formData keys and values
             for (let [key, value] of formData.entries()) {
-                console.log(`${key}:`, value);
+                // console.log(`${key}:`, value);
             }
             // return;
             await createFeeDetails(formData);

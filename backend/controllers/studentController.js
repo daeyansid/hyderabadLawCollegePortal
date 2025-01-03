@@ -304,7 +304,7 @@ exports.updateStudent = async (req, res) => {
     }
 
     if (branchId) {
-      console.log("branchId", branchId);
+      // console.log("branchId", branchId);
       const branch = await Branch.findById(branchId);
       if (!branch) {
         return sendErrorResponse(res, 404, 'Branch not found.');
@@ -393,7 +393,7 @@ exports.updateStudent = async (req, res) => {
 
 // Delete Student
 exports.deleteStudent = async (req, res) => {
-  console.log("deleteStudent In");
+  // console.log("deleteStudent In");
 
   try {
     // Extract student ID from request parameters
@@ -423,7 +423,7 @@ exports.deleteStudent = async (req, res) => {
           console.error('Error deleting photo:', err);
           // Optionally, you can decide whether to proceed or return an error
         } else {
-          console.log('Photo deleted successfully.');
+          // console.log('Photo deleted successfully.');
         }
       });
     }

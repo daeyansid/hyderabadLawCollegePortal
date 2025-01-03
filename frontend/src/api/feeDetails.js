@@ -8,7 +8,7 @@ export const createFeeDetails = async (formData) => {
                 'Content-Type': 'multipart/form-data',
             },
         });
-        console.log(response);
+        // console.log(response);
         return response.data;
     } catch (error) {
         console.error('Error creating fee details:', error);

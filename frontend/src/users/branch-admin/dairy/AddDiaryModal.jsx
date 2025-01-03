@@ -49,7 +49,7 @@ const AddDiaryModal = ({ showModal, setShowModal, reloadDiaries }) => {
     const fetchSubjects = async (classId) => {
         setLoading((prev) => ({ ...prev, subjects: true }));
         try {
-            console.log("classId", classId);
+            // console.log("classId", classId);
             const subjectData = await getSubjectsByClass(classId);
 
             if (!subjectData || subjectData.length === 0) {
@@ -119,7 +119,7 @@ const AddDiaryModal = ({ showModal, setShowModal, reloadDiaries }) => {
             return;
         }
         try {
-            console.log("Form Data:", formData);
+            // console.log("Form Data:", formData);
             await createDiary(formData);
             Swal.fire('Success', 'notice entry created successfully.', 'success');
             handleCloseModal();

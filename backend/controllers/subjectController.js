@@ -278,7 +278,7 @@ exports.fetchSubjectByClass = async (req, res) => {
                 select: 'className description'
             });
 
-        console.log("subjects", subjects);
+        // console.log("subjects", subjects);
 
         if (!subjects || subjects.length === 0) {
             return sendErrorResponse(res, 404, 'No subjects found for this class');

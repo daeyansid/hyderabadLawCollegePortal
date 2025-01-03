@@ -27,7 +27,7 @@ const ViewSlotsAttendance = () => {
 
             const data = await getAssignmentsSingleByTeacherAndDay(branchDayId, teacherId);
 
-            console.log("Data received from API:", data); // Debugging log
+            // console.log("Data received from API:", data); // Debugging log
 
             // Ensure data is an array
             if (Array.isArray(data) && data.length > 0) {
@@ -42,7 +42,7 @@ const ViewSlotsAttendance = () => {
 
                 setAssignments(sortedData);
                 setFilteredAssignments(sortedData);
-                console.log("Sorted and filtered assignments:", sortedData); // Debugging log
+                // console.log("Sorted and filtered assignments:", sortedData); // Debugging log
                 setError(null);
             } else {
                 setError('No assignments found for this day.');

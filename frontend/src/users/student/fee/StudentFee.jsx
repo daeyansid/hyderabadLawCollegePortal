@@ -12,7 +12,7 @@ function StudentFee() {
     const fetchFeeDetails = async () => {
       try {
         const response = await getFeeDetailsByStudentId(studentId);
-        console.log(response.data);
+        // console.log(response.data);
         if (response && response.data) {
           // Ensure feeDetails is always an array
           setFeeDetails(Array.isArray(response.data.data) ? response.data.data : [response.data.data]);

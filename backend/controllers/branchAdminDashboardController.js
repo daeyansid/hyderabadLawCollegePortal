@@ -84,7 +84,7 @@ exports.getDashboardStats = async (req, res) => {
             }
         ]);
 
-        console.log("teacherAttendanceToday", teacherAttendanceToday);
+        // console.log("teacherAttendanceToday", teacherAttendanceToday);
 
         const attendanceStats = teacherAttendanceToday[0] || {
             totalPresent: 0,

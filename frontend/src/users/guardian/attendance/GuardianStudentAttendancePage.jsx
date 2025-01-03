@@ -18,7 +18,7 @@ const GuardianStudentAttendancePage = () => {
         setLoading(true);
         try {
             const data = await getAttendanceByStudentId(studentId); // Pass studentId
-            console.log('Attendance Data:', data);
+            // console.log('Attendance Data:', data);
 
             if (data) {
                 setStudent(data.student);

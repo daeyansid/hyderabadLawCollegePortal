@@ -17,7 +17,7 @@ const StudentAttendancePage = () => {
         setLoading(true);
         try {
             const data = await getAttendanceRecords(subjectId); // Pass subjectId
-            console.log('Attendance Records:', data);
+            // console.log('Attendance Records:', data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setAttendanceRecords(data);

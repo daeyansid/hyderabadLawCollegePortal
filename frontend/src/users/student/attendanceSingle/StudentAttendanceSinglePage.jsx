@@ -16,7 +16,7 @@ const StudentAttendanceSinglePage = () => {
         setLoading(true);
         try {
             const data = await getAttendanceRecords();
-            console.log('Attendance Records:', data);
+            // console.log('Attendance Records:', data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setAttendanceRecords(data);

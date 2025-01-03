@@ -32,7 +32,7 @@ const ClassSlotAssignmentsList = () => {
         // for Day name
         try {
             const dayData = await getDayById(branchClassDaysIdParam);
-            console.log("dayData", dayData);
+            // console.log("dayData", dayData);
             setDayData(dayData.day);
         } catch (err) {
             console.error(err);
@@ -44,7 +44,7 @@ const ClassSlotAssignmentsList = () => {
         // for Class name
         try {
             const classNameData = await fetchClassById(classIdParam);
-            console.log("class Data", classNameData);
+            // console.log("class Data", classNameData);
             setClassNameData(classNameData.data.className);
         } catch (err) {
             console.error(err);
@@ -78,7 +78,7 @@ const ClassSlotAssignmentsList = () => {
 
             setAssignments(sortedData);
             setFilteredAssignments(sortedData);
-            console.log(sortedData);
+            // console.log(sortedData);
             setError(null);
             setDataFetched(true);
         } catch (err) {

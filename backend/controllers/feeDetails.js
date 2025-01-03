@@ -3,7 +3,7 @@ const FeeStructureLink = require('../models/feeStructureLink');
 const { sendSuccessResponse, sendErrorResponse } = require('../utils/response');
 
 exports.createFeeDetails = async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     try {
         const {
             admissionConfirmationFee,

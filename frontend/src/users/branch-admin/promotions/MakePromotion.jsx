@@ -30,7 +30,7 @@ function MakePromotion() {
         try {
             setLoading(true);
             const response = await fetchStudentsByClass(classId);
-            console.log("response student -> ", response.data);
+            // console.log("response student -> ", response.data);
             setStudents(response.data);
         } catch (error) {
             console.error('Error loading students:', error);

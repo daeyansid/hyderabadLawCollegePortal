@@ -13,7 +13,7 @@ const ViewTeacherModal = ({ showModal, setShowModal, teacherId }) => {
             setLoading(true);
             try {
                 const data = await fetchTeacherById(teacherId);
-                console.log(data.data);
+                // console.log(data.data);
                 if (data.data) {
                     setTeacherData(data.data);
                 } else {

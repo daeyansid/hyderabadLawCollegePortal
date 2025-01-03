@@ -24,7 +24,7 @@ const StudentDiaryPage = () => {
         setLoading(true);
         try {
             const data = await getStudentDiary();
-            console.log("Diary Data:", data);
+            // console.log("Diary Data:", data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setDiaries(data);

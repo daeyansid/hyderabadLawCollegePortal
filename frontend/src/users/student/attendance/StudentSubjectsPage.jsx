@@ -16,7 +16,7 @@ const StudentSubjectsPage = () => {
         setLoading(true);
         try {
             const data = await getSubjects();
-            console.log('Subjects Data:', data);
+            // console.log('Subjects Data:', data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setSubjects(data);

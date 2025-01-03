@@ -75,7 +75,7 @@ const Dashboard = () => {
             setLoading(true);
             try {
                 const data = await getBranchAdminDashboardStats();
-                console.log("dashboard data", data); // Corrected typo in console log
+                // console.log("dashboard data", data); // Corrected typo in console log
                 setDashboardStats(data);
                 setError(null);
             } catch (error) {

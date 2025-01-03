@@ -54,7 +54,7 @@ const ClassSection = () => {
         try {
             const subjectData = await fetchSubjectsNew();
             if (subjectData) {
-                console.log('Subjects:', subjectData.data);
+                // console.log('Subjects:', subjectData.data);
                 setSubjects(subjectData.data);
             }
         } catch (error) {

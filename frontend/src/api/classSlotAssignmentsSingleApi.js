@@ -9,7 +9,7 @@ export const getAssignmentsSingleByTeacherAndDay = async (branchDayId, teacherId
         const response = await axiosInstance.get(endpoint, {
             params: { teacherId },
         });
-        console.log("response",response.data);
+        // console.log("response",response.data);
         return response.data;
     } catch (error) {
         console.error('Error fetching assignments:', error);

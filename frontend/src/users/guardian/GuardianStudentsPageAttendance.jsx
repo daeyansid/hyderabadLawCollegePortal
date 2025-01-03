@@ -16,7 +16,7 @@ const GuardianStudentsPageAttendance = () => {
         setLoading(true);
         try {
             const data = await getStudentsByGuardian();
-            console.log('Students Data:', data);
+            // console.log('Students Data:', data);
 
             if (Array.isArray(data) && data.length > 0) {
                 setStudents(data);

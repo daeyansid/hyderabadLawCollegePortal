@@ -56,7 +56,7 @@ function TakeAttendance() {
                 slotId,
                 attendanceData.date
             );
-            console.log("result", result);
+            // console.log("result", result);
             if (result.exists) {
                 setExistingAttendance(result.attendance);
                 message.info('Attendance record exists for this date. You can update it.');

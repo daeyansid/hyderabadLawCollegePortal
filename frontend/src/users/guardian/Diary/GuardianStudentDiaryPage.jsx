@@ -26,7 +26,7 @@ const GuardianStudentDiaryPage = () => {
         setLoading(true);
         try {
             const data = await getDiaryByStudentId(studentId); // Pass studentId
-            console.log('Diary Data:', data);
+            // console.log('Diary Data:', data);
 
             if (data) {
                 setStudent(data.student);
