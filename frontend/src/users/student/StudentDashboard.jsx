@@ -45,7 +45,7 @@ const StudentDashboard = () => {
             setLoading(true);
             try {
                 const data = await getStudentDashboardStats();
-                console.log("dashboarad data", data);
+                // console.log("dashboarad data", data);
                 setDashboardStats(data);
                 setError(null);
             } catch (error) {

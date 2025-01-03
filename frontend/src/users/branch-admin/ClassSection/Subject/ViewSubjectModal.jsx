@@ -10,7 +10,7 @@ const ViewSubjectModal = ({ id, onClose }) => {
             try {
                 const response = await fetchSubjectById(id);
                 if (response) {
-                    console.log(response);
+                    // console.log(response);
                     setSubject(response);
                 }
             } catch (error) {

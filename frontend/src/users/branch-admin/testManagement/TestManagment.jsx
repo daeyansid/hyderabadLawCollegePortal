@@ -24,7 +24,7 @@ const TestManagement = () => {
         setLoading(true);
         try {
             const response = await getAllTests();
-            console.log(response.data);
+            // console.log(response.data);
             setTests(response.data);
         } catch (error) {
             console.error('Error fetching tests:', error);

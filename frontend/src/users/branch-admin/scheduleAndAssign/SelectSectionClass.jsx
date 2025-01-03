@@ -23,7 +23,7 @@ const SelectSection = () => {
         // for Day name
         try {
             const dayData = await getDayById(branchClassDayIdParam);
-            console.log("dayData", dayData);
+            // console.log("dayData", dayData);
             setDayData(dayData.day);
         } catch (err) {
             console.error(err);

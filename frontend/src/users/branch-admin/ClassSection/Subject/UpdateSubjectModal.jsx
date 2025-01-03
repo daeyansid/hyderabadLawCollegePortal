@@ -16,7 +16,7 @@ const UpdateSubjectModal = ({ id, onClose, reloadData }) => {
                 setLoading(true); // Start loading
                 // Fetch subject details
                 const subjectResponse = await fetchSubjectById(id);
-                console.log('subjectResponse => :', subjectResponse.data);
+                // console.log('subjectResponse => :', subjectResponse.data);
                 setSubjectName(subjectResponse.data.subjectName);
                 setClassId({
                     value: subjectResponse.data.classId._id,

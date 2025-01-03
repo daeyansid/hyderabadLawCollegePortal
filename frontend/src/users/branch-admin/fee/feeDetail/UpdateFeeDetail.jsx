@@ -83,14 +83,14 @@ const UpdateFeeDetail = ({ visible, onCancel, onSuccess, selectedId }) => {
 
             // Append the file to formData if it exists
             if (fileList[0]?.originFileObj) {
-                console.log('File:', fileList[0].originFileObj);
+                // console.log('File:', fileList[0].originFileObj);
                 formData.append('challanPicture', fileList[0].originFileObj);
             }
     
             // Log the formData contents for verification
-            console.log('FormData Entries:');
+            // console.log('FormData Entries:');
             for (let pair of formData.entries()) {
-                console.log(`${pair[0]}: ${pair[1]}`);
+                // console.log(`${pair[0]}: ${pair[1]}`);
             }
     
             // Make the API call to update the fee details

@@ -13,7 +13,7 @@ const ViewStudent = () => {
     const loadStudentData = async () => {
       try {
         const response = await fetchStudentById(id);
-        console.log(response);
+        // console.log(response);
         setStudentData(response);
       } catch (error) {
         console.error("Error fetching student data:", error);

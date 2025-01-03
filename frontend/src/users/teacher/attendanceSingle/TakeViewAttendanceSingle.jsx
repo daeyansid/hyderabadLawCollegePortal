@@ -178,7 +178,7 @@ const TakeViewAttendance = () => {
                 teacherId,
                 slotId
             );
-            console.log("attendanceExistsResponse =>",attendanceExistsResponse.data.attendanceExists);
+            // console.log("attendanceExistsResponse =>",attendanceExistsResponse.data.attendanceExists);
             setAttendanceExists(attendanceExistsResponse.data.attendanceExists);
 
             if (attendanceExistsResponse.data.attendanceExists) {
@@ -189,7 +189,7 @@ const TakeViewAttendance = () => {
                     teacherId,
                     slotId
                 );
-                console.log("attendanceRecordsResponse2 =>",attendanceRecordsResponse);
+                // console.log("attendanceRecordsResponse2 =>",attendanceRecordsResponse);
                 setAttendanceRecords(attendanceRecordsResponse.data.attendanceRecords);
 
                 // Initialize attendanceData from attendanceRecords
@@ -217,7 +217,7 @@ const TakeViewAttendance = () => {
             } else {
                 // Fetch students list
                 const studentsListResponse = await getStudentsList(classId);
-                console.log("studentsListResponse",studentsListResponse);
+                // console.log("studentsListResponse",studentsListResponse);
 
                 if (!studentsListResponse.data.students || studentsListResponse.data.students.length === 0) {
                     MySwal.fire({

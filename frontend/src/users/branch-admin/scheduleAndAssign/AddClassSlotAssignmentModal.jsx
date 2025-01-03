@@ -85,7 +85,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
         try {
             const slotsData = await getBranchDailyTimeSlotsByDayBranch(branchClassDaysIdParam);
             const classSlots = slotsData.filter(slot => slot.slotType === 'Class Slot');
-            console.log("classSlots", classSlots);
+            // console.log("classSlots", classSlots);
             setTimeSlots(classSlots);
         } catch (error) {
             // Swal.fire('Error 2', 'Failed to load time slots.', 'error');
@@ -95,7 +95,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
     const fetchSubjects = async () => {
         try {
             const subjectsData = await getAllSubjectsByClassId(form.classId);
-            console.log("subjectsData",subjectsData);
+            // console.log("subjectsData",subjectsData);
             setSubjects(subjectsData);
         } catch (error) {
             Swal.fire('Error', error.message, 'error');
@@ -199,7 +199,7 @@ const AddClassSlotAssignmentModal = ({ showModal, setShowModal, reloadAssignment
             };
     
             // Log the assignment data before making the API call
-            console.log('Assignment Data:', assignmentData);
+            // console.log('Assignment Data:', assignmentData);
     
             await createClassSlotAssignment(assignmentData);
             Swal.fire('Success', 'Class Slot Assignment created successfully.', 'success');

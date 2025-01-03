@@ -22,7 +22,7 @@ const AssignedClassesSlotsPageStudent = () => {
         setLoading(true);
         try {
             const data = await getAllSlotsForDayStudent(branchDayId, classId);
-            console.log("data",data);
+            // console.log("data",data);
 
             // Ensure data is an array
             if (Array.isArray(data) && data.length > 0) {

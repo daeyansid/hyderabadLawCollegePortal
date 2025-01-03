@@ -25,7 +25,7 @@ function NoticeForm({ notice, onSuccess }) {
     const loadTeachers = async () => {
         try {
             const data = await fetchTeachers();
-            console.log("data" , data);
+            // console.log("data" , data);
             setTeachers(data.data);
         } catch (error) {
             message.error('Failed to load teachers');
@@ -39,7 +39,7 @@ function NoticeForm({ notice, onSuccess }) {
                 ...values,
                 date: values.date.format('YYYY-MM-DD')
             };
-            console.log("formData", formData);
+            // console.log("formData", formData);
             // return;
             if (notice) {
                 await updateTeacherNotice(notice._id, formData);

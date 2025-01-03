@@ -227,16 +227,16 @@ const AddStudent = () => {
       });
   
       // **1. Log the formData state (plain JavaScript object)**
-      console.log("Form Data State:", formData);
+      // console.log("Form Data State:", formData);
   
       // **2. Log the FormData entries**
-      console.log("FormData Entries:");
+      // console.log("FormData Entries:");
       for (let [key, value] of data.entries()) {
         // For file inputs, log the file name instead of the entire File object for clarity
         if (key === "photo" && value instanceof File) {
-          console.log(`${key}: ${value.name}`);
+          // console.log(`${key}: ${value.name}`);
         } else {
-          console.log(`${key}: ${value}`);
+          // console.log(`${key}: ${value}`);
         }
       }
   
